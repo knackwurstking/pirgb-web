@@ -108,7 +108,11 @@
 </Popover>
 
 <main>
-  <!-- TODO: render (sections/groups/scene) content here -->
+  <!-- 
+    TODO: render (sections/groups/scene) content here
+    - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
+    - column layout centered, top to bottom
+  -->
 </main>
 
 <style>
