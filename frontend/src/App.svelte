@@ -116,6 +116,7 @@
     border: 0.1rem solid;
     border-color: var(--color-border);
     */
+    transition: background-color .5s ease, color .5s ease;
     padding: 0.5rem 0;
   }
 
