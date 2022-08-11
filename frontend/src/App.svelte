@@ -106,6 +106,10 @@
   </PopoverPanel>
 </Popover>
 
+<main>
+  <!-- TODO: render (sections/groups/scene) content here -->
+</main>
+
 <style>
   .popover-panel-content {
     display: flex;
