@@ -14,9 +14,9 @@
   export let scheme = "";
 
   let items = [
-    { id: 0, name: "Sections" },
-    { id: 1, name: "Groups" },
-    { id: 2, name: "Scene" },
+    { id: 0, href: "#", name: "Sections" },
+    { id: 1, href: "#", name: "Groups" },
+    { id: 2, href: "#", name: "Scene" },
   ]
 
   let selectedItem = items[0]
@@ -79,11 +79,11 @@
     style={`
       position: absolute;
       z-index: 999;
-      background-color: var(--secondary-bg-color);
-      border-radius: var(--border-radius);
+      background-color: var(--color-bg-secondary);
+      border-radius: var(--radius);
       padding: 1rem;
       border: 0.1rem solid;
-      border-color: var(--secondary-color);
+      border-color: var(--color-border);
       width: 25rem;
       top: 4.5rem;
       left: 1.5rem;
@@ -91,7 +91,7 @@
   >
     <div class="popover-panel-content" transition:slide>
       {#each items as item, index (item.id)}
-        <a class="popover-panel-item" href="#" on:click={() => {
+        <a class="popover-panel-item" href={item.href} on:click={() => {
            selectedItem = items[index];
            close(null);
         }}>{item.name}</a>
@@ -111,13 +111,19 @@
   }
 
   .popover-panel-item {
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
+    /*
     border: 0.1rem solid;
-    border-color: var(--secondary-color);
+    border-color: var(--color-border);
+    */
+    padding: 0.5rem 0;
   }
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
-    border-color: var(--highlight-color);
+    /*
+    border-color: var(--color-base);
+    */
+    background-color: var(--color-bg-highlight);
   }
 </style>
