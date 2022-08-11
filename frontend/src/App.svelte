@@ -30,23 +30,23 @@
   {#if scheme === "light" }
     <link
       rel="stylesheet"
-      href="/schemes/light.css"
+      href="/schemes/mono-light.css"
     />
   {:else if scheme === "dark"}
     <link
       rel="stylesheet"
-      href="/schemes/dark.css"
+      href="/schemes/mono-dark.css"
     />
   {:else}
     <link
       rel="stylesheet"
-      href="/schemes/light.css"
+      href="/schemes/mono-light.css"
       media="(prefers-color-scheme: light)"
     />
 
     <link
       rel="stylesheet"
-      href="/schemes/dark.css"
+      href="/schemes/mono-dark.css"
       media="(prefers-color-scheme: dark)"
     />
   {/if}
@@ -124,9 +124,6 @@
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
-    /*
-    border-color: var(--color-base);
-    */
     background-color: var(--color-bg-highlight);
   }
 </style>
