@@ -1,12 +1,11 @@
 :root {
-  /** Background Colors */
   --primary-bg-color: #242424;
   --secondary-bg-color: #1a1a1a;
 
-  /** Base Colors */
   --primary-color: rgba(245, 245, 245, 0.87);
-  --secondary-color: gray;
   --highlight-color: rgba(255, 255, 255, 1);
+
+  --secondary-color: gray;
 
   --border-radius: 0.25rem;
 }

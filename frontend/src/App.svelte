@@ -16,7 +16,7 @@
   let items = [
     { id: 0, name: "Sections" },
     { id: 1, name: "Groups" },
-    { id: 2, name: "Scripts" },
+    { id: 2, name: "Scene" },
   ]
 
   let selectedItem = items[0]
@@ -91,7 +91,7 @@
   >
     <div class="popover-panel-content" transition:slide>
       {#each items as item, index (item.id)}
-        <a href="#" on:click={() => {
+        <a class="popover-panel-item" href="#" on:click={() => {
            selectedItem = items[index];
            close(null);
         }}>{item.name}</a>
@@ -108,5 +108,16 @@
 
   .popover-panel-content > * {
     margin: 0.5rem 0;
+  }
+
+  .popover-panel-item {
+    border-radius: var(--border-radius);
+    border: 0.1rem solid;
+    border-color: var(--secondary-color);
+  }
+
+  .popover-panel-item:hover,
+  .popover-panel-item:active {
+    border-color: var(--highlight-color);
   }
 </style>
