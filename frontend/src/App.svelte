@@ -91,10 +91,16 @@
   >
     <div class="popover-panel-content" transition:slide>
       {#each items as item, index (item.id)}
-        <a class="popover-panel-item" href={item.href} on:click={() => {
+        <a
+          class="popover-panel-item"
+          href={item.href},
+          on:click={() => {
            selectedItem = items[index];
            close(null);
-        }}>{item.name}</a>
+          }}
+        >
+          {item.name}
+        </a>
       {/each}
     </div>
   </PopoverPanel>
@@ -112,10 +118,6 @@
 
   .popover-panel-item {
     border-radius: var(--radius);
-    /*
-    border: 0.1rem solid;
-    border-color: var(--color-border);
-    */
     transition: background-color .5s ease, color .5s ease;
     padding: 0.5rem 0;
   }
