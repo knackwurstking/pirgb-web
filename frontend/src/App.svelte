@@ -80,11 +80,11 @@
     style={`
       position: absolute;
       z-index: 10;
-      background-color: var(--color-bg-secondary);
+      background-color: var(--bg-mid);
       border-radius: var(--radius);
-      padding: 1rem;
+      padding: 0 0.25rem;
       border: 0.1rem solid;
-      border-color: var(--color-border);
+      border-color: var(--bg-max);
       width: 25rem;
       top: 4.5rem;
       left: 1.5rem;
@@ -118,7 +118,7 @@
   }
 
   .popover-panel-content > * {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
   }
 
   .popover-panel-item {
@@ -129,6 +129,6 @@
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
-    background-color: var(--color-bg-highlight);
+    background-color: var(--bg-max);
   }
 </style>

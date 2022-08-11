@@ -1,11 +1,15 @@
 :root {
-  --color-highlight: #ffffff;
-  --color-bg: #2a2a2a;
-  --color-bg-secondary: #444444;
-  --color-bg-highlight: #696969;
-  --color-border: #808080;
-  --color-secondary: #aaaaaa;
-  --color-base: #d3d3d3;
+  --color-max: #aaaaaa;
+  --color-mid: #d3d3d3;
+  --color-low: #ffffff;
+
+  --bg-max: #696969;
+  --bg-mid: #444444;
+  --bg-low: #2a2a2a;
+
+  --color-special-max: var(--color-max);
+  --color-special-mid: var(--color-mid);
+  --color-special-low: var(--color-low);
 
   --radius: 0.25rem;
 }
