@@ -1,25 +1,56 @@
 <script>
-    import {
-        Popover,
-        PopoverButton,
-        PopoverPanel,
-    } from "@rgossiaux/svelte-headlessui";
+  import {
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+  } from "@rgossiaux/svelte-headlessui"
 
-    import {
-        ChevronDownIcon,
-    } from "@rgossiaux/svelte-heroicons/solid";
+  import {
+    ChevronDownIcon,
+  } from "@rgossiaux/svelte-heroicons/solid"
 
-    import { slide } from "svelte/transition";
+  import { slide } from "svelte/transition"
 
-    //let width = "40rem";
+  export let scheme = "";
 
-    let items = [
-        { id: 0, name: "Sections" },
-        { id: 1, name: "Groups" },
-        { id: 2, name: "Scripts" },
-    ];
-    let selectedItem = items[0]
+  let items = [
+    { id: 0, name: "Sections" },
+    { id: 1, name: "Groups" },
+    { id: 2, name: "Scripts" },
+  ]
+
+  let selectedItem = items[0]
+  $: {
+    if (selectedItem)
+        console.info(`Selected table: "${selectedItem.name}"`)
+  }
 </script>
+
+<svelte:head>
+  {#if scheme === "light" }
+    <link
+      rel="stylesheet"
+      href="/schemes/light.css"
+    />
+  {:else if scheme === "dark"}
+    <link
+      rel="stylesheet"
+      href="/schemes/dark.css"
+    />
+  {:else}
+    <link
+      rel="stylesheet"
+      href="/schemes/light.css"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/schemes/dark.css"
+      media="(prefers-color-scheme: dark)"
+    />
+  {/if}
+</svelte:head>
 
 <Popover
   style={`
@@ -58,10 +89,12 @@
       left: 1.5rem;
     `}
   >
-    <!-- TODO: do some slide in transition from top to bottom -->
     <div class="popover-panel-content" transition:slide>
-      {#each items as item (item.id)}
-        <a href="#" on:click={() => close()}>{item.name}</a>
+      {#each items as item, index (item.id)}
+        <a href="#" on:click={() => {
+           selectedItem = items[index];
+           close(null);
+        }}>{item.name}</a>
       {/each}
     </div>
   </PopoverPanel>
