@@ -54,9 +54,10 @@
 
 <Popover
   style={`
-     position: absolute;
-     top: 0;
-     left: 0;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
    `}
   let:close
 >
@@ -78,7 +79,7 @@
   <PopoverPanel
     style={`
       position: absolute;
-      z-index: 999;
+      z-index: 10;
       background-color: var(--color-bg-secondary);
       border-radius: var(--radius);
       padding: 1rem;
