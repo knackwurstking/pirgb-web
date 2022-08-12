@@ -38,8 +38,8 @@ type Data struct {
 	Scan        bool         `yaml:"Scan"`
 	Host        string       `yaml:"Host"`
 	Port        int          `yaml:"Port"`
-	EnableHTTP  bool         `yaml:"EnableHttp"`
-	EnableHTTPS bool         `yaml:"EnableHttps"`
+	EnableHTTP  bool         `yaml:"EnableHTTP"`
+	EnableHTTPS bool         `yaml:"EnableHTTPS"`
 	Groups      GroupsData   `yaml:"Groups"`
 	Sections    SectionsData `yaml:"Sections"`
 }
