@@ -11,6 +11,10 @@ import (
 
 func main() {
 	logrus.SetLevel(logrus.DebugLevel)
+
+	// NOTE: just testing ...
 	data, _ := json.Marshal(config.GlobalData)
 	fmt.Printf("%s\n", data)
+
+	// TODO: parse flags here ...
 }
