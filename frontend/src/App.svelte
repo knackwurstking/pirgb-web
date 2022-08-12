@@ -5,9 +5,9 @@
     PopoverPanel,
   } from "@rgossiaux/svelte-headlessui"
 
-  import {
-    ChevronDownIcon,
-  } from "@rgossiaux/svelte-heroicons/solid"
+  //import {
+  //  ChevronDownIcon,
+  //} from "@rgossiaux/svelte-heroicons/solid"
 
   import { slide } from "svelte/transition"
 
@@ -65,15 +65,17 @@
     style={`
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 10rem;
+      justify-content: center;
+      width: 9rem;
       position: absolute;
-      top: 1rem;
-      left: 2rem;
+      top: 0.5rem;
+      left: 1.8rem;
     `}
   >
     <span>{selectedItem.name}</span>
+    <!--
     <ChevronDownIcon style="width:1.5rem;"/>
+    -->
   </PopoverButton>
 
   <PopoverPanel
@@ -85,9 +87,9 @@
       padding: 0 0.25rem;
       border: 0.1rem solid;
       border-color: var(--bg-max);
-      width: 25rem;
-      top: 4.5rem;
-      left: 1.5rem;
+      width: 15rem;
+      top: 4rem;
+      left: 1rem;
     `}
   >
     <div class="popover-panel-content" transition:slide>
