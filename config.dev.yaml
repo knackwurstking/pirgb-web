@@ -1,0 +1,42 @@
+# this won't work until the `pirgb scan` feature is ready
+Scan: false
+
+# defaults to 50826 if not set
+Port: 50826
+
+# server listening for host
+Host: 0.0.0.0
+
+# starts http and/or https server
+EnableHTTP: true
+EnableHTTPS: true
+
+# sectionID defaults to 0
+Sections: 
+  # index: 0
+  - Host: pi-bed
+    Port: 50826
+  # index: 1
+  - Host: pi-lr
+    Port: 50826
+  # index: 2
+  - Host: pi-lr
+    Port: 50826
+    SectionID: 1
+  # index: 3
+  - Host: pi-bath
+    Port: 50826
+  # index: 4
+  - Host: pi-kitchen
+    Port: 50826
+
+Groups:
+  # a group name should be unique
+  - Name: All
+    Sections:
+      # only needs the index of the section - see sections
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
