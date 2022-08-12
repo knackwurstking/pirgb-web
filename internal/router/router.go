@@ -16,5 +16,5 @@ func Initialize() *chi.Mux {
 	ui("/", Mux)
 	api("/api", Mux)
 
-	return mux
+	return Mux
 }
