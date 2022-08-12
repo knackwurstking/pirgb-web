@@ -4,24 +4,17 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-type RouterConfig struct {
-	Ui  string // Ui endpoint
-	Api string // Api endpoint
+var Mux *chi.Mux
+
+func init() {
+	Mux = chi.NewRouter()
 }
 
 // Initialize router
-func Initialize(config RouterConfig) *chi.Mux {
-	mux := chi.NewRouter()
-
-	if config.Ui != "" {
-		// server public (frontend) folder
-		ui(config.Ui, mux)
-	}
-
-	if config.Api != "" {
-		// api routes
-		api(config.Api, mux)
-	}
+func Initialize() *chi.Mux {
+	// TODO: do this init stuff for each route
+	ui("/", Mux)
+	api("/api", Mux)
 
 	return mux
 }

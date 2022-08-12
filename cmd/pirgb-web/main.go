@@ -38,12 +38,7 @@ func main() {
 	server := &http.Server{
 		Addr: fmt.Sprintf("%s:%d",
 			config.GlobalData.Host, config.GlobalData.Port),
-		Handler: router.Initialize(
-			router.RouterConfig{
-				Ui:  "/",
-				Api: "/api",
-			},
-		),
+		Handler: router.Initialize(),
 	}
 
 	var wg sync.WaitGroup
