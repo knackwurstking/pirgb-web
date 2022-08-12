@@ -9,7 +9,7 @@ Host: 0.0.0.0
 
 # starts http and/or https server
 EnableHTTP: true
-EnableHTTPS: true
+EnableHTTPS: false # NOTE: missing cert
 
 # sectionID defaults to 0
 Sections: 
