@@ -9,6 +9,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+const (
+	DefaultPort = 50826
+)
+
 var (
 	// GlobalData contains parse configuration data
 	GlobalData = &Data{
@@ -34,8 +38,14 @@ type GroupsData []GroupData
 
 // GroupData group configuration (name,sections)
 type GroupData struct {
-	Name     string `yaml:"Name"`
-	Sections []int  `yaml:"Sections"`
+	Name          string   `yaml:"Name"`
+	SectionsRegEx []string `yaml:"Sections"`
+	Sections      []*SectionData
+}
+
+// Parse `Sections` and get section from `SectionsData`
+func (group *GroupData) Parse(sectionsData *SectionsData) {
+	// ...
 }
 
 // SectionsData handles sections
@@ -43,9 +53,14 @@ type SectionsData []SectionData
 
 // SectionData Section configuration (host,port,sectionID)
 type SectionData struct {
-	Host      string `yaml:"Host"`
-	Port      int    `yaml:"Port"`
-	SectionID int    `yaml:"SectionID"`
+	Host     string `yaml:"Host"`
+	Port     int    `yaml:"Port"`
+	Sections []int  `yaml:"Sections"`
+}
+
+// Scan for sections if `Sections` field is empty
+func (section *SectionData) Scan() {
+	// ...
 }
 
 // DoIt main function to get things running
@@ -61,4 +76,6 @@ func DoIt() {
 			logrus.Warnf("Load config failed: %s", err.Error())
 		}
 	}
+
+	// TODO: scan and parse sections and groups data
 }
