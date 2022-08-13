@@ -2,7 +2,7 @@
 Scan: false
 
 # defaults to 50826 if not set
-Port: 50826
+Port: 50831
 
 # server listening for host
 Host: 0.0.0.0
