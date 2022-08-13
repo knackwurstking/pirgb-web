@@ -6,6 +6,7 @@ import (
 
 func init() {
 	mux.Route("/api", func(r chi.Router) {
-		// TODO: load api endpoints here ...
+		// TODO: - sections => GET: "/api/sections"
+		// TODO: - groups   => GET: "/api/groups"
 	})
 }
