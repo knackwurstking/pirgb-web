@@ -45,7 +45,7 @@ type GroupData struct {
 
 // Parse `Sections` and get section from `SectionsData`
 func (group *GroupData) Parse(sectionsData *SectionsData) {
-	// ...
+	// TODO: ...
 }
 
 // SectionsData handles sections
@@ -60,7 +60,7 @@ type SectionData struct {
 
 // Scan for sections if `Sections` field is empty
 func (section *SectionData) Scan() {
-	// ...
+	// TODO: ...
 }
 
 // DoIt main function to get things running
@@ -77,5 +77,5 @@ func DoIt() {
 		}
 	}
 
-	// TODO: scan and parse sections and groups data
+	// TODO: scan and parse sections and groups data (using pirgb v0.2.0)
 }
