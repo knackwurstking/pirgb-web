@@ -10,10 +10,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+const (
+	port = 50831
+)
+
 var (
 	debug     bool
 	formatter = &logrus.TextFormatter{
- 		DisableQuote:              true,
+		DisableQuote:              true,
 		DisableSorting:            true,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,

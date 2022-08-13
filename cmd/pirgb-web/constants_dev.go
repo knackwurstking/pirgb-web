@@ -4,6 +4,10 @@ package main
 
 import "github.com/sirupsen/logrus"
 
+const (
+	port = 50831
+)
+
 var (
 	debug     = true
 	formatter = &logrus.TextFormatter{

@@ -14,6 +14,13 @@ import (
 
 func init() {
 	logrus.SetFormatter(formatter)
+}
+
+func main() {
+	config.DoIt()
+	if config.GlobalData.Port == 0 {
+		config.GlobalData.Port = port
+	}
 
 	// parse flags here (host, port)
 	flag.StringVar(&config.GlobalData.Host, "host", config.GlobalData.Host,
@@ -21,10 +28,7 @@ func init() {
 
 	flag.IntVar(&config.GlobalData.Port, "port", config.GlobalData.Port,
 		"port to bind the server to")
-}
 
-func main() {
-	config.DoIt()
 	flag.Parse()
 
 	if debug {
