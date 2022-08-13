@@ -12,7 +12,7 @@ EnableHTTP: true
 EnableHTTPS: true # NOTE: missing cert
 
 # sectionID defaults to 0
-Sections: 
+Sections:
   # index: 0
   - Host: pi-bed
     Port: 50826
@@ -33,10 +33,5 @@ Sections:
 Groups:
   # a group name should be unique
   - Name: All
-    Sections:
-      # only needs the index of the section - see sections
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
+    # only needs the index of the section - see sections
+    Sections: [0, 1, 2, 3, 4]
