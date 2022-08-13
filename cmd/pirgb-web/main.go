@@ -34,6 +34,9 @@ func main() {
 	}
 
 	mux := router.GetMux()
+	if config.GlobalData.EnableHTTP || config.GlobalData.EnableHTTPS {
+		router.PrintInfo()
+	}
 
 	// initialize the router and server
 	server := &http.Server{
@@ -61,6 +64,7 @@ func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	logrus.WithField("Address", server.Addr).Infof("HTTP server running ...")
+	// TODO: print info about available routes
 	if err := server.ListenAndServe(); err != nil {
 		logrus.Errorf("http: %s", err.Error())
 	}
@@ -69,6 +73,6 @@ func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
 func startServerHTTPS(server *http.Server, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	logrus.Warnf("HTTPS server not running - work in progress")
+	logrus.Warnf("HTTPS server is work in progress")
 	// TODO: need a cert first
 }
