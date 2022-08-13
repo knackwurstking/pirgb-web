@@ -3,11 +3,11 @@
 package router
 
 import (
-	"github.com/go-chi/chi/v5"
+	"net/http"
+
+	"gitlab.com/knackwurstking/pirgb-web/frontend"
 )
 
 func init() {
-	mux.Route("/", func(r chi.Router) {
-		// TODO: load ui endpoints here
-	})
+	mux.Handle("/", http.FileServer(http.FS(frontend.Dist)))
 }
