@@ -11,5 +11,5 @@ import (
 func init() {
 	Mux.Handle("/", http.FileServer(http.FS(frontend.Dist)))
 
-	info["GET /"] = "serve ui"
+	info["    GET /"] = "serve ui"
 }

@@ -28,8 +28,8 @@ func init() {
 		r.Get("/groups", getGroupsHandler)
 	})
 
-	info["GET /api/sections"] = "get all sections"
-	info["GET /api/groups"] = "get all groups"
+	info["    GET /api/sections"] = "get all sections"
+	info["    GET /api/groups"] = "get all groups"
 }
 
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
