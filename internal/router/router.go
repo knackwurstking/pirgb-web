@@ -8,13 +8,9 @@ import (
 )
 
 var (
-	mux = chi.NewRouter()
+	Mux = chi.NewRouter()
 	info = make(map[string]string)
 )
-
-func GetMux() *chi.Mux {
-	return mux
-}
 
 func PrintInfo() {
 	i := "Endpoints:\n"

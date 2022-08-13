@@ -33,16 +33,15 @@ func main() {
 		logrus.SetLevel(logrus.InfoLevel)
 	}
 
-	mux := router.GetMux()
-	if config.GlobalData.EnableHTTP || config.GlobalData.EnableHTTPS {
-		router.PrintInfo()
-	}
-
 	// initialize the router and server
 	server := &http.Server{
 		Addr: fmt.Sprintf("%s:%d",
 			config.GlobalData.Host, config.GlobalData.Port),
-		Handler: mux,
+		Handler: router.Mux,
+	}
+
+	if config.GlobalData.EnableHTTP || config.GlobalData.EnableHTTPS {
+		router.PrintInfo()
 	}
 
 	var wg sync.WaitGroup

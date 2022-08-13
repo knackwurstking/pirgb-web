@@ -5,10 +5,11 @@ import (
 )
 
 func init() {
-	mux.Route("/api", func(r chi.Router) {
+	Mux.Route("/api", func(r chi.Router) {
 		// TODO: - sections => GET: "/api/sections"
 		// TODO: - groups   => GET: "/api/groups"
 	})
+
 	info["GET /api/sections"] = "get all sections"
 	info["GET /api/groups"] = "get all groups"
 }
