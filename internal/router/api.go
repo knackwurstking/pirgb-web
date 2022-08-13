@@ -1,3 +1,4 @@
+// Package router contains all the router stuff
 package router
 
 import (

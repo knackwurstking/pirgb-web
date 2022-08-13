@@ -1,5 +1,6 @@
 //go:build !dev
 
+// Pirgb Webserver
 package main
 
 import (
@@ -12,7 +13,7 @@ import (
 var (
 	debug     bool
 	formatter = &logrus.TextFormatter{
-		DisableQuote:              true,
+ 		DisableQuote:              true,
 		DisableSorting:            true,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,

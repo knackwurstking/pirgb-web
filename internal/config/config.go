@@ -11,7 +11,7 @@ import (
 
 var (
 	// GlobalData contains parse configuration data
-	GlobalData *Data = &Data{
+	GlobalData = &Data{
 		Scan:     false,
 		Groups:   make(GroupsData, 0),
 		Sections: make(SectionsData, 0),
@@ -48,6 +48,7 @@ type SectionData struct {
 	SectionID int    `yaml:"SectionID"`
 }
 
+// DoIt main function to get things running
 func DoIt() {
 	// loading configuration first
 	file := filepath.Join(userConfigDir(), ConfigFile)

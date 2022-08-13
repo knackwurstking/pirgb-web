@@ -8,10 +8,13 @@ import (
 )
 
 var (
+	// Mux chi router to use
 	Mux = chi.NewRouter()
+
 	info = make(map[string]string)
 )
 
+// PrintInfo about router endpoints loaded
 func PrintInfo() {
 	i := "Endpoints:\n"
 
