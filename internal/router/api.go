@@ -1,6 +1,11 @@
 package router
 
-import "github.com/go-chi/chi/v5"
+import (
+	"github.com/go-chi/chi/v5"
+)
 
-func api(endpoint string, mux *chi.Mux) {
+func init() {
+	mux.Route("/api", func(r chi.Router) {
+		// TODO: load api endpoints here ...
+	})
 }

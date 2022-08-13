@@ -18,21 +18,6 @@ var (
 	}
 )
 
-func init() {
-	// loading configuration first
-	file := filepath.Join(userConfigDir(), ConfigFile)
-	data, err := ioutil.ReadFile(file)
-	if err != nil {
-		logrus.Warnf("Read config failed: %s", err.Error())
-		return
-	}
-
-	err = yaml.Unmarshal(data, GlobalData)
-	if err != nil {
-		logrus.Warnf("Load config failed: %s", err.Error())
-	}
-}
-
 // Data is the main config type
 type Data struct {
 	Scan        bool         `yaml:"Scan"`
@@ -61,4 +46,18 @@ type SectionData struct {
 	Host      string `yaml:"Host"`
 	Port      int    `yaml:"Port"`
 	SectionID int    `yaml:"SectionID"`
+}
+
+func DoIt() {
+	// loading configuration first
+	file := filepath.Join(userConfigDir(), ConfigFile)
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		logrus.Warnf("Read config failed: %s", err.Error())
+	} else {
+		err = yaml.Unmarshal(data, GlobalData)
+		if err != nil {
+			logrus.Warnf("Load config failed: %s", err.Error())
+		}
+	}
 }

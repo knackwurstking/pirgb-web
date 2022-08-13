@@ -12,12 +12,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func main() {
-
-	var debug bool
-
-	// NOTE: i don't care about the `--log-level` flag for now
-	flag.BoolVar(&debug, "debug", debug, "enable debug logs")
+func init() {
+	logrus.SetFormatter(formatter)
 
 	// parse flags here (host, port)
 	flag.StringVar(&config.GlobalData.Host, "host", config.GlobalData.Host,
@@ -25,7 +21,10 @@ func main() {
 
 	flag.IntVar(&config.GlobalData.Port, "port", config.GlobalData.Port,
 		"port to bind the server to")
+}
 
+func main() {
+	config.DoIt()
 	flag.Parse()
 
 	if debug {
@@ -34,11 +33,13 @@ func main() {
 		logrus.SetLevel(logrus.InfoLevel)
 	}
 
+	mux := router.GetMux()
+
 	// initialize the router and server
 	server := &http.Server{
 		Addr: fmt.Sprintf("%s:%d",
 			config.GlobalData.Host, config.GlobalData.Port),
-		Handler: router.Initialize(),
+		Handler: mux,
 	}
 
 	var wg sync.WaitGroup
@@ -59,6 +60,7 @@ func main() {
 func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
 	defer wg.Done()
 
+	logrus.WithField("Address", server.Addr).Infof("HTTP server running ...")
 	if err := server.ListenAndServe(); err != nil {
 		logrus.Errorf("http: %s", err.Error())
 	}
@@ -67,5 +69,6 @@ func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
 func startServerHTTPS(server *http.Server, wg *sync.WaitGroup) {
 	defer wg.Done()
 
+	logrus.Warnf("HTTPS server not running - work in progress")
 	// TODO: need a cert first
 }

@@ -2,8 +2,12 @@
 
 package router
 
-import "github.com/go-chi/chi/v5"
+import (
+	"github.com/go-chi/chi/v5"
+)
 
-func ui(endpoint string, mux *chi.Mux) {
-	// TODO: embed ui files
+func init() {
+	mux.Route("/", func(r chi.Router) {
+		// TODO: load ui endpoints here
+	})
 }
