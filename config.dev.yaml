@@ -11,7 +11,7 @@ Host: 0.0.0.0
 EnableHTTP: true
 EnableHTTPS: true # NOTE: missing cert
 
-Sections:
+Devices:
   - Host: pi-bed
     Port: 50826 # NOTE: 50826 is the default pirgb-server port (optional)
   - Host: pi-lr

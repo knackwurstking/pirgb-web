@@ -18,15 +18,15 @@ func init() {
 
 func main() {
 	config.DoIt()
-	if config.GlobalData.Port == 0 {
-		config.GlobalData.Port = port
+	if config.Global.Port == 0 {
+		config.Global.Port = port
 	}
 
 	// parse flags here (host, port)
-	flag.StringVar(&config.GlobalData.Host, "host", config.GlobalData.Host,
+	flag.StringVar(&config.Global.Host, "host", config.Global.Host,
 		"whatever ...")
 
-	flag.IntVar(&config.GlobalData.Port, "port", config.GlobalData.Port,
+	flag.IntVar(&config.Global.Port, "port", config.Global.Port,
 		"port to bind the server to")
 
 	flag.Parse()
@@ -40,22 +40,22 @@ func main() {
 	// initialize the router and server
 	server := &http.Server{
 		Addr: fmt.Sprintf("%s:%d",
-			config.GlobalData.Host, config.GlobalData.Port),
+			config.Global.Host, config.Global.Port),
 		Handler: router.Mux,
 	}
 
-	if config.GlobalData.EnableHTTP || config.GlobalData.EnableHTTPS {
+	if config.Global.EnableHTTP || config.Global.EnableHTTPS {
 		router.PrintInfo()
 	}
 
 	var wg sync.WaitGroup
 
-	if config.GlobalData.EnableHTTP {
+	if config.Global.EnableHTTP {
 		wg.Add(1)
 		go startServerHTTP(server, &wg)
 	}
 
-	if config.GlobalData.EnableHTTPS {
+	if config.Global.EnableHTTPS {
 		wg.Add(1)
 		go startServerHTTPS(server, &wg)
 	}

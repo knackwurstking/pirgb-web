@@ -35,7 +35,7 @@ func init() {
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
 	// sections => GET: "/api/sections"
 	w.Header().Add("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(config.GlobalData.Sections); err != nil {
+	if err := json.NewEncoder(w).Encode(config.Global.Devices); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -43,7 +43,7 @@ func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
 func getGroupsHandler(w http.ResponseWriter, r *http.Request) {
 	// groups   => GET: "/api/groups"
 	w.Header().Add("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(config.GlobalData.Groups); err != nil {
+	if err := json.NewEncoder(w).Encode(config.Global.Groups); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
