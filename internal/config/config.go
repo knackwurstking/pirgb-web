@@ -46,9 +46,9 @@ type GroupData struct {
 	Sections      []*SectionData
 }
 
-// Parse `Sections` and get section from `SectionsData`
+// Parse ...
 func (group *GroupData) Parse(sectionsData *SectionsData) {
-	// TODO: ...
+	// TODO: parse section (regex) and store section from SectionsData in Sections
 }
 
 // SectionsData handles sections
