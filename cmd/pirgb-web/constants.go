@@ -23,6 +23,7 @@ var (
 		EnvironmentOverrideColors: true,
 		FullTimestamp:             true,
 		TimestampFormat:           time.Now().Format(time.UnixDate),
+		PadLevelText:              true,
 	}
 )
 

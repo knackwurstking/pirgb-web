@@ -26,9 +26,9 @@ func (devices *Devices) Scan() {
 				// scan for sections ("/info" endpoint)
 				if err := device.Scan(); err != nil || len(device.Sections) == 0 {
 					if err != nil {
-						logrus.WithField("device", device).Warnln("section err: " + err.Error())
+						logrus.WithField("device", device).Warnln(err.Error())
 					} else {
-						logrus.WithField("device", device).Warnln("device has no sections")
+						logrus.WithField("device", device).Warnln("No Sections")
 					}
 				}
 			}(index, &device, &wg)

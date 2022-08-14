@@ -19,7 +19,7 @@ const (
 func userConfigDir() string {
 	dir, err := os.UserConfigDir()
 	if err != nil {
-		logrus.Warnf("Load config failed: %+v", err)
+		logrus.Warnf("Load config failed: %s", err.Error())
 		return dir
 	}
 

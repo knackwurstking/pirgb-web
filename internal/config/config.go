@@ -42,12 +42,12 @@ func DoIt() {
 
 	go func() {
 		// scan devices for sections
-		logrus.Debugln("check devices and scan for sections if needed ...")
+		logrus.Debugln("Check devices and scan for sections if needed ...")
 		Global.Devices.Scan()  // scan if sections are missing in devices
 		Global.Devices.Clean() // remove all devices without sections
 
 		// parse groups
-		logrus.Debugln("sections scan done, parse groups now ...")
+		logrus.Debugln("Scanning devices for sections done, parsing groups now ...")
 		Global.Groups.Parse(&Global.Devices)
 	}()
 }
