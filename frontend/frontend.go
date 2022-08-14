@@ -3,11 +3,20 @@
 package frontend
 
 import (
-	_ "embed"
+	"embed"
 	"io/fs"
 )
 
-// FIX: "frontend/frontend.go:11:5: go:embed cannot apply to var of type fs.FS"
-//
-//go:embed dist
-var Dist fs.FS
+var (
+	//go:embed dist
+	dist embed.FS
+	Dist fs.FS
+)
+
+func init() {
+	var err error
+	Dist, err = fs.Sub(dist, "dist")
+	if err != nil {
+		panic(err)
+	}
+}
