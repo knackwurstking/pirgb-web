@@ -67,7 +67,6 @@ func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	logrus.WithField("Address", server.Addr).Infof("HTTP server running ...")
-	// TODO: print info about available routes
 	if err := server.ListenAndServe(); err != nil {
 		logrus.Errorf("http: %s", err.Error())
 	}
