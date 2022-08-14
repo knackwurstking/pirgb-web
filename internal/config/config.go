@@ -2,7 +2,10 @@
 package config
 
 import (
+	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"net/http"
 	"path/filepath"
 
 	"github.com/sirupsen/logrus"
@@ -59,8 +62,19 @@ type SectionData struct {
 }
 
 // Scan for sections if `Sections` field is empty
-func (section *SectionData) Scan() {
-	// TODO: ...
+func (s *SectionData) Scan() error {
+	r, err := http.Get(fmt.Sprintf("http://%s:%d/info", s.Host, s.Port))
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+
+	err = json.NewDecoder(r.Body).Decode(&s.Sections)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // DoIt main function to get things running
@@ -78,4 +92,5 @@ func DoIt() {
 	}
 
 	// TODO: scan and parse sections and groups data (using pirgb v0.2.0)
+	// TODO: on error: remove section from configuration
 }
