@@ -69,7 +69,7 @@
       width: 9rem;
       position: absolute;
       top: 0.5rem;
-      left: 1.8rem;
+      left: 0.5rem;
     `}
   >
     <span>{selectedItem.name}</span>
@@ -88,8 +88,8 @@
       border: 0.1rem solid;
       border-color: var(--bg-max);
       width: 15rem;
-      top: 4rem;
-      left: 1rem;
+      top: 3.5rem;
+      left: 0.5rem;
     `}
   >
     <div class="popover-panel-content" transition:slide>
