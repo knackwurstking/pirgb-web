@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/sirupsen/logrus"
 )
@@ -38,6 +39,7 @@ func PrintInfo() {
 
 func newRouter() *chi.Mux {
 	mux := chi.NewRouter()
+	mux.Use(middleware.Logger)
 	mux.Use(cors.Handler(DefaultCORS))
 
 	return mux
