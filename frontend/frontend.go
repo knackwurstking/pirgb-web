@@ -11,7 +11,9 @@ import (
 )
 
 var (
-	//go:embed dist
+	//go:embed dist/*
+	//go:embed dist/assets/*
+	//go:embed dist/schemes/*
 	dist embed.FS
 )
 
