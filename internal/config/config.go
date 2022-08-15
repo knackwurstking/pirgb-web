@@ -55,5 +55,14 @@ func DoIt() {
 		logrus.Debugln("Check devices and scan for sections if needed ...")
 		Global.Devices.Scan()  // scan if sections are missing in devices
 		Global.Devices.Clean() // remove all devices without sections
+
+		// just print out some information
+		for _, device := range Global.Devices {
+			logrus.WithFields(logrus.Fields{
+				"Port":     device.Port,
+				"Sections": device.Sections,
+				"Groups":   device.Groups,
+			}).Debugf("available device: %s", device.Host)
+		}
 	}()
 }
