@@ -5,18 +5,21 @@ package frontend
 import (
 	"embed"
 	"io/fs"
+	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 var (
 	//go:embed dist
 	dist embed.FS
-	Dist fs.FS
 )
 
-func init() {
-	var err error
-	Dist, err = fs.Sub(dist, "dist")
+func GetFS() http.FileSystem {
+	fs, err := fs.Sub(dist, "dist")
 	if err != nil {
-		panic(err)
+		logrus.Fatalln(err.Error())
 	}
+
+	return http.FS(fs)
 }

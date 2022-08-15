@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	Mux.Handle("/", http.FileServer(http.FS(frontend.Dist)))
+	Mux.Handle("/*", http.FileServer(frontend.GetFS()))
 
-	info["    GET /"] = "serve ui"
+	Info["    GET /"] = "serve ui"
 }
