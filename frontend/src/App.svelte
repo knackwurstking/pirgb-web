@@ -34,9 +34,13 @@
 
   /** @type {import("./lib/api").Sections} */
   let sections = []
+  // TODO: load sections ... 
+  // ...
+
   //let groups = []
+
   //let scenes = []
-  // TODO: load sections ...
+
 </script>
 
 <svelte:head>
@@ -129,7 +133,15 @@
     - column layout centered, top to bottom
   -->
   {#each sections as section}
-    <!-- TODO: Create a Paper for each section (host, port, sectionID, quick on/off buttons or just a toggle switch) -->
+    <!--
+      TODO: Create a Paper for each section (host, port, sectionID, quick on/off buttons or just a toggle switch)
+     -->
+     <Paper square>
+       <PaperTitle>...</PaperTitle>
+       <PaperContent>
+         <!-- -->
+       </PaperContent>
+     </Paper>
   {/each}
 </main>
 
