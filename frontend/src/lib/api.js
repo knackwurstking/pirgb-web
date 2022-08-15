@@ -1,5 +1,10 @@
 /**
- * @typedef {{}} Section
+ * @typedef {{
+ *  Host: string,
+ *  Port: number,
+ *  SectionID: number,
+ *  Groups: string[],
+ * }} Section
  *
  * @typedef {Section[]} Sections
  *
@@ -28,8 +33,18 @@ export async function getSections() {
     /** @type {Devices | null} */
     const devices = await resp.json()
     if (devices) { // devices could be null
-      // TODO: Parse devices into sections
-      // ...
+      // Parse devices into sections
+      for (let device of devices) {
+        // Build sections data from this device for each section in sections
+        for (let section of device.Sections) {
+          sections.push({
+            Host: device.Host,
+            Port: device.Port,
+            SectionID: section,
+            Groups: device.Groups,
+          })
+        }
+      }
     }
   }
 
