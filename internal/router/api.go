@@ -12,12 +12,12 @@ import (
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
 
-		r.Get("/sections", getSectionsHandler)
+		r.Get("/devices", getSectionsHandler)
 		r.Get("/groups", getGroupsHandler)
 	})
 
-	Info["    GET /api/sections"] = "get all sections"
-	Info["    GET /api/groups"] = "get all groups"
+	Info["    GET /api/devices"] = "get all devices"
+	Info["    GET /api/groups"] = "get all groups available"
 }
 
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
