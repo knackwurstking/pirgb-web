@@ -3,7 +3,7 @@ package config
 import "github.com/sirupsen/logrus"
 
 // Groups handles groups
-type Groups []Group
+type Groups []*Group
 
 // Parse sections for all groups
 func (groups *Groups) Parse(devices *Devices) {

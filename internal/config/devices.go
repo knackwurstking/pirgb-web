@@ -10,7 +10,7 @@ import (
 )
 
 // Devices ...
-type Devices []Device
+type Devices []*Device
 
 // Scan devices for sections available, if sections already set than skip scan
 func (devices *Devices) Scan() {
@@ -31,7 +31,7 @@ func (devices *Devices) Scan() {
 						logrus.WithField("device", device).Warnln("No Sections")
 					}
 				}
-			}(index, &device, &wg)
+			}(index, device, &wg)
 		}
 	}
 
@@ -40,7 +40,7 @@ func (devices *Devices) Scan() {
 
 // Clean devices, this will remove all devices without sections
 func (devices *Devices) Clean() {
-	var newDevices []Device
+	var newDevices []*Device
 	for _, device := range *devices {
 		if len(device.Sections) == 0 {
 			continue
