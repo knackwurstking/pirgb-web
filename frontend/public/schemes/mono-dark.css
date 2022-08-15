@@ -1,15 +1,18 @@
 :root {
-  --color-max: #aaaaaa;
+  --color-max: #aaaaaa; /* max dark */
   --color-mid: #d3d3d3;
-  --color-low: #ffffff;
+  --color-low: #ffffff; /* min dark */
 
-  --bg-max: #696969;
+  /* TODO: Need to change this, --bg-max should be "max dark" not "min dark" */
+  --bg-max: #696969; /* min dark */
   --bg-mid: #444444;
-  --bg-low: #2a2a2a;
+  --bg-low: #2a2a2a; /* max dark */
 
-  --color-special-max: var(--color-max);
+  --color-special-max: var(--color-max); /* max dark */
   --color-special-mid: var(--color-mid);
-  --color-special-low: var(--color-low);
+  --color-special-low: var(--color-low); /* min dark */
 
   --radius: 0.25rem;
+
+  --border-color: var(--bg-max);
 }
