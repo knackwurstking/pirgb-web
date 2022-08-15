@@ -5,8 +5,8 @@ type Groups struct {
 	Devices *Devices `json:"-"`
 }
 
-// GetGroups for all devices
-func (g *Groups) GetGroups() []string {
+// ListGroups for all devices
+func (g *Groups) ListGroups() []string {
 	var groups []string
 
 	for _, device := range *g.Devices {
@@ -30,8 +30,19 @@ func (g *Groups) GetGroups() []string {
 	return groups
 }
 
-// TODO: list groups available: []string
-// TODO: get group: returns a new filtered list of devices []*Devices
+// GetDevices for a specific group
+func (g *Groups) GetDevices(name string) []*Device {
+	var devices []*Device
+	for _, device := range *g.Devices {
+		for _, group := range device.Groups {
+			if group == name {
+				devices = append(devices, device)
+			}
+		}
+	}
+
+	return devices
+}
 
 // NewGroups ...
 func NewGroups(devices *Devices) Groups {

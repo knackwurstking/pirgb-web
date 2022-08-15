@@ -31,7 +31,7 @@ func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
 func getGroupsHandler(w http.ResponseWriter, r *http.Request) {
 	// groups   => GET: "/api/groups"
 	w.Header().Add("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(config.Global.Groups.GetGroups()); err != nil {
+	if err := json.NewEncoder(w).Encode(config.Global.Groups.ListGroups()); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
