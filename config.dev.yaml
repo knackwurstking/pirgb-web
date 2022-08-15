@@ -1,6 +1,3 @@
-# this won't work until the `pirgb scan` feature is ready
-Scan: false
-
 # defaults to 50826 if not set
 Port: 50831
 

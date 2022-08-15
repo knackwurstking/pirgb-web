@@ -11,7 +11,6 @@ import (
 
 // Config is the main config type
 type Config struct {
-	Scan        bool    `yaml:"Scan"`
 	Host        string  `yaml:"Host"`
 	Port        int     `yaml:"Port"`
 	EnableHTTP  bool    `yaml:"EnableHTTP"`

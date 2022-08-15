@@ -22,5 +22,5 @@ type Group struct {
 // Parse sections regex
 func (g *Group) Parse(devices *Devices) {
 	// TODO: parse sections ...
-	logrus.Debugf("... Parsing group %s [work in progress]", g.Name)
+	logrus.Debugf("... Parsing group \"%s\" [work in progress]", g.Name)
 }
