@@ -31,6 +31,10 @@
     if (selectedItem)
         console.info(`Selected table: "${selectedItem.name}"`)
   }
+
+  /** @type {import("./lib/api").Sections} */
+  let sections = []
+  // TODO: load sections ...
 </script>
 
 <svelte:head>
@@ -122,7 +126,7 @@
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
     - column layout centered, top to bottom
   -->
-  {#each getSections() as section (section.id)}
+  {#each sections as section}
     <!-- TODO: Create a Paper for each section (host, port, sectionID, quick on/off buttons or just a toggle switch) -->
   {/each}
 </main>
