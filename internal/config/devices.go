@@ -53,9 +53,10 @@ func (devices *Devices) Clean() {
 
 // Device ...
 type Device struct {
-	Host     string `yaml:"Host"`
-	Port     int    `yaml:"Port"`
-	Sections []int  `yaml:"Sections"` // just the section ids
+	Host     string   `yaml:"Host"`
+	Port     int      `yaml:"Port"`
+	Sections []int    `yaml:"Sections"` // just the section ids
+	Groups   []string `yaml:"Groups"`
 }
 
 // Scan for sections if `Sections` field is empty

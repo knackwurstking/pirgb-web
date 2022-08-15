@@ -7,9 +7,5 @@ const (
 
 var (
 	// Global contains parse configuration data
-	Global = &Config{
-		Groups:     make(Groups, 0),
-		Devices:    make(Devices, 0),
-		EnableHTTP: true,
-	}
+	Global = NewConfig()
 )

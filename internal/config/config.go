@@ -15,8 +15,8 @@ type Config struct {
 	Port        int     `yaml:"Port"`
 	EnableHTTP  bool    `yaml:"EnableHTTP"`
 	EnableHTTPS bool    `yaml:"EnableHTTPS"`
-	Groups      Groups  `yaml:"Groups"`
 	Devices     Devices `yaml:"Devices"`
+	Groups      Groups  // no config
 }
 
 // Load configuration
@@ -35,6 +35,17 @@ func (config *Config) Load(path string) {
 	}
 }
 
+// NewConfig ...
+func NewConfig() *Config {
+	c := Config{
+		EnableHTTP: true,
+		Devices:    make(Devices, 0),
+	}
+	c.Groups = NewGroups(&c.Devices)
+
+	return &c
+}
+
 // DoIt main function to get things running
 func DoIt() {
 	Global.Load(userConfigDir())
@@ -44,9 +55,5 @@ func DoIt() {
 		logrus.Debugln("Check devices and scan for sections if needed ...")
 		Global.Devices.Scan()  // scan if sections are missing in devices
 		Global.Devices.Clean() // remove all devices without sections
-
-		// parse groups
-		logrus.Debugln("Scanning devices for sections done, parsing groups now ...")
-		Global.Groups.Parse(&Global.Devices)
 	}()
 }
