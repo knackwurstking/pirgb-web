@@ -28,7 +28,6 @@ func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// TODO: first finish the groups system in the config
 func getGroupsHandler(w http.ResponseWriter, r *http.Request) {
 	// groups   => GET: "/api/groups"
 	w.Header().Add("Content-Type", "application/json")
