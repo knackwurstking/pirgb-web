@@ -1,9 +1,16 @@
-<script>
+<script lang="js">
   import {
     Popover,
     PopoverButton,
     PopoverPanel,
   } from "@rgossiaux/svelte-headlessui"
+
+  import Paper, {
+      Title as PaperTitle,
+      Content as PaperContent,
+  } from "@smui/paper"
+
+  import { getSections } from "./lib/api"
 
   //import {
   //  ChevronDownIcon,
@@ -115,9 +122,12 @@
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
     - column layout centered, top to bottom
   -->
+  {#each getSections() as section (section.id)}
+    <!-- TODO: Create a Paper for each section (host, port, sectionID, quick on/off buttons or just a toggle switch) -->
+  {/each}
 </main>
 
-<style>
+<style lang="css">
   .popover-panel-content {
     display: flex;
     flex-direction: column;
