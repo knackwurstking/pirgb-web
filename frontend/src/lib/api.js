@@ -20,15 +20,17 @@ export async function getSections() {
   /** @type {Sections} */
   let sections = []
 
-  // TODO: get devices from the api and parse sections
+  // Get devices from the api and parse sections
   const resp = await fetch("/api/devices")
 
-  // check response
+  // Check response
   if (resp.ok) {
-    /** @type {Devices} */
+    /** @type {Devices | null} */
     const devices = await resp.json()
-    // TODO: parse devices into sections
-    // ...
+    if (devices) { // devices could be null
+      // TODO: Parse devices into sections
+      // ...
+    }
   }
 
   return sections
