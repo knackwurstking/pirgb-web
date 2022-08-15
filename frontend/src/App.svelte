@@ -93,7 +93,7 @@
       border-radius: var(--radius);
       padding: 0 0.25rem;
       border: 0.1rem solid;
-      border-color: var(--border-color, --bg-max);
+      border-color: var(--border-color, --bg-low);
       width: 15rem;
       top: 3.5rem;
       left: 0.5rem;
@@ -145,6 +145,6 @@
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
-    background-color: var(--bg-max);
+    background-color: var(--bg-low);
   }
 </style>

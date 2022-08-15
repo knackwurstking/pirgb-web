@@ -3,10 +3,9 @@
   --color-mid: #2a2a2a;
   --color-low: #000000; /* min light */
 
-  /* TODO: Need to change this, --bg-max should be "max light" not "min light" */
-  --bg-max: #999999; /* min light */
+  --bg-max: #d9d9d9d9; /* max light */
   --bg-mid: #aaaaaa;
-  --bg-low: #d9d9d9d9; /* max light */
+  --bg-low: #999999; /* min light */
 
   --color-special-max: var(--color-max); /* max light */
   --color-special-mid: var(--color-mid);
@@ -14,5 +13,5 @@
 
   --radius: 0.25rem;
 
-  --border-color: var(--bg-max);
+  --border-color: var(--bg-low);
 }

@@ -11,7 +11,7 @@
 
   color-scheme: light dark;
   color: var(--color-mid);
-  background-color: var(--bg-low);
+  background-color: var(--bg-max);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -57,7 +57,7 @@ h1 {
 button {
   border-radius: var(--radius);
   border: 0.1rem solid;
-  border-color: var(--border-color, --bg-max);
+  border-color: var(--border-color, --bg-low);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -79,5 +79,5 @@ button:focus-visible {
 
 *, *::after, *::before {
   box-sizing: border-box;
-  border-color: var(--border-color, --bg-max);
+  border-color: var(--border-color, --bg-low);
 }

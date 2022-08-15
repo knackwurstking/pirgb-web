@@ -3,10 +3,9 @@
   --color-mid: #d3d3d3;
   --color-low: #ffffff; /* min dark */
 
-  /* TODO: Need to change this, --bg-max should be "max dark" not "min dark" */
-  --bg-max: #696969; /* min dark */
+  --bg-max: #2a2a2a; /* max dark */
   --bg-mid: #444444;
-  --bg-low: #2a2a2a; /* max dark */
+  --bg-low: #696969; /* min dark */
 
   --color-special-max: var(--color-max); /* max dark */
   --color-special-mid: var(--color-mid);
@@ -14,5 +13,5 @@
 
   --radius: 0.25rem;
 
-  --border-color: var(--bg-max);
+  --border-color: var(--bg-low);
 }
