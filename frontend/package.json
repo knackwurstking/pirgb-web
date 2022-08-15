@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@rgossiaux/svelte-headlessui": "^1.0.2",
-    "@rgossiaux/svelte-heroicons": "^0.1.2"
+    "@rgossiaux/svelte-heroicons": "^0.1.2",
+    "@smui/paper": "^6.0.0"
   }
 }
