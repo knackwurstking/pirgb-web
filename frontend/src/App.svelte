@@ -23,7 +23,7 @@
   let items = [
     { id: 0, href: "#", name: "Sections" },
     { id: 1, href: "#", name: "Groups" },
-    { id: 2, href: "#", name: "Scene" },
+    { id: 2, href: "#", name: "Scenes" },
   ]
 
   let selectedItem = items[0]
@@ -34,6 +34,8 @@
 
   /** @type {import("./lib/api").Sections} */
   let sections = []
+  //let groups = []
+  //let scenes = []
   // TODO: load sections ...
 </script>
 
