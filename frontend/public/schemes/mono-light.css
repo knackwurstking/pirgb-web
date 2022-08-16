@@ -11,7 +11,6 @@
   --color-special-mid: var(--color-mid);
   --color-special-low: var(--color-low); /* min light */
 
-  --radius: 0.25rem;
-
+  --border-radius: 0.25rem;
   --border-color: var(--bg-low);
 }
