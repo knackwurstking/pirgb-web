@@ -4,8 +4,10 @@ all: clean build
 clean:
 	go clean -v
 
+build_frontend:
+	@cd frontend && yarn && yarn run build
+
 build:
-	cd frontend; yarn; cd ..
 	go build -v ./cmd/pirgb-web
 
 dev: 
