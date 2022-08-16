@@ -3,6 +3,7 @@
     Popover,
     PopoverButton,
     PopoverPanel,
+    Transition
   } from "@rgossiaux/svelte-headlessui"
 
   import * as api from "./lib/api"
@@ -128,20 +129,20 @@
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
     - column layout centered, top to bottom
   -->
-  {#if selectedItem.name.toLowerCase() === "sections"}
-    <div class="container sections">
-      <!-- TODO: Transition out: up direction, Transition in: from the button -->
-      {#each sections as section}
-         <fieldset class="section">
-           <legend class="title">{section.Host}</legend>
-           <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
+  <Transition
+    show={selectedItem.name.toLowerCase() === "sections"}
+  >
+    <!-- TODO: Transition out: up direction, Transition in: from the button -->
+    {#each sections as section}
+       <fieldset class="section">
+         <legend class="title">{section.Host}</legend>
+         <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
-           <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
+         <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
 
-         </fieldset>
-      {/each}
-    </div>
-  {/if}
+       </fieldset>
+    {/each}
+  </Transition>
 </main>
 
 <style lang="css">
@@ -163,11 +164,6 @@
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--bg-low);
-  }
-
-  div.container {
-    height: 100%;
-    overflow: auto;
   }
 
   fieldset {
