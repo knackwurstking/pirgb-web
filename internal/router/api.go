@@ -14,10 +14,11 @@ func init() {
 
 		r.Get("/devices", getSectionsHandler)
 		r.Get("/groups", getGroupsHandler)
+		// TODO: Add device control stuff (set and get pwm, just redirect stuff to the servers?)
 	})
 
-	Info["    GET /api/devices"] = "get all devices"
-	Info["    GET /api/groups"] = "get all groups available"
+	Info = append(Info, NewEndpointInfo("GET", "/api/devices", "get devices"))
+	Info = append(Info, NewEndpointInfo("GET", "/api/groups", "get available groups"))
 }
 
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {

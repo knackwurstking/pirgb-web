@@ -45,7 +45,7 @@ func main() {
 	}
 
 	if config.Global.EnableHTTP || config.Global.EnableHTTPS {
-		router.PrintInfo()
+		router.Info.Print()
 	}
 
 	var wg sync.WaitGroup

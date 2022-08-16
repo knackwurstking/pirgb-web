@@ -23,18 +23,33 @@ var (
 		AllowCredentials: false,
 		//MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}
-	Info = make(map[string]string)
+	Info = make(Endpoints, 0)
 )
 
-// PrintInfo about router endpoints loaded
-func PrintInfo() {
+type Endpoints []EndpointInfo
+
+func (Endpoints) Print() {
 	i := "Endpoints:\n"
 
-	for e, d := range Info {
-		i += fmt.Sprintf("%-30s - %s\n", e, d)
+	for _, info := range Info {
+		i += fmt.Sprintf("    %7s %-23s %s\n", info.Method, info.Endpoint, info.Description)
 	}
 
 	logrus.Infoln(i)
+}
+
+type EndpointInfo struct {
+	Method      string
+	Endpoint    string
+	Description string
+}
+
+func NewEndpointInfo(method, endpoint, desc string) EndpointInfo {
+	return EndpointInfo{
+		Method:      method,
+		Endpoint:    endpoint,
+		Description: desc,
+	}
 }
 
 func newRouter() *chi.Mux {
