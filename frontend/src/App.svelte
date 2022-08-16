@@ -67,7 +67,7 @@
 
 <Popover
   style={`
-    position: absolute;
+    position: fixed;
     z-index: 999;
     top: 0;
     left: 0;
@@ -123,22 +123,24 @@
 </Popover>
 
 <main>
-  <!-- TODO: Make this a scrollable container, so that the popover don't move from his place -->
   <!-- 
-    TODO: render (sections/groups/scene) content here
+    TODO: render (sections/groups/scene) content here ...
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
     - column layout centered, top to bottom
   -->
   {#if selectedItem.name.toLowerCase() === "sections"}
-    {#each sections as section}
-       <fieldset class="section">
-         <legend class="title">{section.Host}</legend>
-         <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
-         <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
-       </fieldset>
+    <div class="container sections">
+      <!-- TODO: Transition out: up direction, Transition in: from the button -->
+      {#each sections as section}
+         <fieldset class="section">
+           <legend class="title">{section.Host}</legend>
+           <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
-       <!-- TODO: add some separator (if item not the last index in sections) -->
-    {/each}
+           <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
+
+         </fieldset>
+      {/each}
+    </div>
   {/if}
 </main>
 
@@ -161,6 +163,11 @@
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--bg-low);
+  }
+
+  div.container {
+    height: 100%;
+    overflow: auto;
   }
 
   fieldset {
