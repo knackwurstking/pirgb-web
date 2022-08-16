@@ -1,5 +1,5 @@
 
-all: clean build
+all: clean build_frontend build
 
 clean:
 	go clean -v
