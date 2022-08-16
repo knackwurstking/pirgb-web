@@ -152,9 +152,7 @@
          <button
            class="off"
            on:click={() => {
-             api.setPWM(section.Host, section.SectionID, {
-               pulse: 0,
-             })
+             api.setPWM(section.Host, section.SectionID, { pulse: 0 })
            }}
          >
            OFF
