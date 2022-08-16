@@ -37,7 +37,6 @@
   //let groups = []
 
   //let scenes = []
-
 </script>
 
 <svelte:head>
@@ -138,7 +137,20 @@
          <legend class="title">{section.Host}</legend>
          <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
-         <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
+         <!-- TODO: Actions: Pulse / RGBW -->
+
+         <button
+           class="on"
+           on:click={() => api.setPWM(section.Host, section.SectionID, { pulse: 100 })}
+         >
+           ON
+         </button>
+         <button
+           class="off"
+           on:click={() => api.setPWM(section.Host, section.SectionID, { pulse: 0 })}
+         >
+           OFF
+         </button>
 
        </fieldset>
     {/each}
@@ -168,5 +180,9 @@
 
   fieldset {
     margin: 1rem 0;
+  }
+
+  fieldset button {
+    margin: 0.5rem;
   }
 </style>
