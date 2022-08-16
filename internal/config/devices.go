@@ -13,7 +13,7 @@ import (
 type Devices []*Device
 
 // Scan devices for sections available, if sections already set than skip scan
-func (devices *Devices) Scan() {
+func (*Devices) Scan() {
 	var wg sync.WaitGroup
 
 	// scan and parse sections and groups data (using pirgb v0.2.0)
@@ -38,6 +38,16 @@ func (devices *Devices) Scan() {
 	wg.Wait()
 }
 
+func (devices *Devices) Get(host string) *Device {
+	for _, device := range *devices {
+		if device.Host == host {
+			return device
+		}
+	}
+
+	return nil
+}
+
 // Clean devices, this will remove all devices without sections
 func (devices *Devices) Clean() {
 	var newDevices []*Device
@@ -60,17 +70,17 @@ type Device struct {
 }
 
 // Scan for sections if `Sections` field is empty
-func (s *Device) Scan() error {
-	if s.Port == 0 {
-		s.Port = DefaultPort
+func (d *Device) Scan() error {
+	if d.Port == 0 {
+		d.Port = DefaultPort
 	}
-	r, err := http.Get(fmt.Sprintf("http://%s:%d/info", s.Host, s.Port))
+	r, err := http.Get(fmt.Sprintf("http://%s:%d/info", d.Host, d.Port))
 	if err != nil {
 		return err
 	}
 	defer r.Body.Close()
 
-	err = json.NewDecoder(r.Body).Decode(&s.Sections)
+	err = json.NewDecoder(r.Body).Decode(&d.Sections)
 	if err != nil {
 		return err
 	}

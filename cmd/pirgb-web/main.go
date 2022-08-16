@@ -4,12 +4,17 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"os"
 	"sync"
 
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/router"
 
 	"github.com/sirupsen/logrus"
+)
+
+var (
+	infoFlag bool
 )
 
 func init() {
@@ -29,12 +34,20 @@ func main() {
 	flag.IntVar(&config.Global.Port, "port", config.Global.Port,
 		"port to bind the server to")
 
+	flag.BoolVar(&infoFlag, "info", infoFlag,
+		"print the routing table (and exit)")
+
 	flag.Parse()
 
 	if debug {
 		logrus.SetLevel(logrus.DebugLevel)
 	} else {
 		logrus.SetLevel(logrus.InfoLevel)
+	}
+
+	if infoFlag {
+		router.Info.Print()
+		os.Exit(0)
 	}
 
 	// initialize the router and server

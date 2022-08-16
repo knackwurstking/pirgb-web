@@ -32,7 +32,7 @@ func (Endpoints) Print() {
 	i := "Endpoints:\n"
 
 	for _, info := range Info {
-		i += fmt.Sprintf("    %7s %-23s %s\n", info.Method, info.Endpoint, info.Description)
+		i += fmt.Sprintf("%7s %-40s %s\n", info.Method, info.Endpoint, info.Description)
 	}
 
 	logrus.Infoln(i)

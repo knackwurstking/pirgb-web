@@ -3,6 +3,7 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -14,17 +15,31 @@ func init() {
 
 		r.Route("/devices", func(r chi.Router) {
 			r.Get("/", getSectionsHandler)
-			// TODO: Add device control stuff (set and get pwm)
-			/* NOTE: ...
-			- "/devices/:host/:sectionID" - redirect this request
-			*/
+
+			// Redirect request to pirgb-server (device)
+			r.Post("/:host/pwm/:sectionID", func(w http.ResponseWriter, r *http.Request) {
+				device := config.Global.Devices.Get(chi.URLParam(r, "host"))
+				if device == nil {
+					http.Error(w, "device not found", http.StatusBadRequest)
+					return
+				}
+
+				url := fmt.Sprintf(
+					"http://%s:%d/pwm/%s",
+					device.Host, device.Port,
+					chi.URLParam(r, "sectionID"),
+				)
+
+				http.Redirect(w, r, url, http.StatusSeeOther)
+			})
 		})
 
 		r.Get("/groups", getGroupsHandler)
-
 	})
 
 	Info = append(Info, NewEndpointInfo("GET", "/api/devices", "get devices"))
+	Info = append(Info, NewEndpointInfo("POST", "/api/devices/:host/pwm/:sectionID",
+		"redirects the request to the pirgb-server device"))
 	Info = append(Info, NewEndpointInfo("GET", "/api/groups", "get available groups"))
 }
 
