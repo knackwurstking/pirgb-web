@@ -17,6 +17,7 @@ const (
 )
 
 func userConfigDir() string {
+	// TODO: handle user "root"
 	dir, err := os.UserConfigDir()
 	if err != nil {
 		logrus.Warnf("Load config failed: %s", err.Error())
