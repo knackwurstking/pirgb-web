@@ -13,7 +13,7 @@ var (
 	formatter = &logrus.TextFormatter{
 		DisableQuote:              true,
 		DisableTimestamp:          true,
-		DisableSorting:            true,
+		DisableSorting:            false,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,
 		PadLevelText:              true,

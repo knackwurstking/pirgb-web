@@ -18,7 +18,7 @@ var (
 	debug     bool
 	formatter = &logrus.TextFormatter{
 		DisableQuote:              true,
-		DisableSorting:            true,
+		DisableSorting:            false,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,
 		FullTimestamp:             true,
