@@ -5,12 +5,7 @@
     PopoverPanel,
   } from "@rgossiaux/svelte-headlessui"
 
-  import Paper, {
-      Title as PaperTitle,
-      Content as PaperContent,
-  } from "@smui/paper"
-
-    import { getSections } from "./lib/api"
+  import * as api from "./lib/api"
 
   //import {
   //  ChevronDownIcon,
@@ -20,6 +15,7 @@
 
   export let scheme = "";
 
+  /** @type {{ id: number, href: string, name: string }[]} */
   let items = [
     { id: 0, href: "#", name: "Sections" },
     { id: 1, href: "#", name: "Groups" },
@@ -30,12 +26,12 @@
   $: {
     if (selectedItem)
         console.info(`Selected table: "${selectedItem.name}"`)
+        // load sections ... 
+        api.getSections().then((res) => (sections = res))
   }
 
   /** @type {import("./lib/api").Sections} */
   let sections = []
-  // TODO: load sections ... 
-  // ...
 
   //let groups = []
 
@@ -100,7 +96,7 @@
       position: absolute;
       z-index: 10;
       background-color: var(--bg-mid);
-      border-radius: var(--radius);
+      border-radius: var(--border-radius);
       padding: 0 0.25rem;
       border: 0.1rem solid;
       border-color: var(--border-color, --bg-low);
@@ -132,17 +128,17 @@
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
     - column layout centered, top to bottom
   -->
-  {#each sections as section}
-    <!--
-      TODO: Create a Paper for each section (host, port, sectionID, quick on/off buttons or just a toggle switch)
-     -->
-     <Paper square>
-       <PaperTitle>...</PaperTitle>
-       <PaperContent>
-         <!-- -->
-       </PaperContent>
-     </Paper>
-  {/each}
+  {#if selectedItem.name.toLowerCase() === "sections"}
+    {#each sections as section}
+       <fieldset class="section">
+         <legend class="title">{section.Host}</legend>
+         <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
+         <!-- TODO: Actions: ON / OFF / Pulse / RGBW -->
+       </fieldset>
+
+       <!-- TODO: add some separator (if item not the last index in sections) -->
+    {/each}
+  {/if}
 </main>
 
 <style lang="css">
@@ -156,7 +152,7 @@
   }
 
   .popover-panel-item {
-    border-radius: var(--radius);
+    border-radius: var(--border-radius);
     transition: background-color .5s ease, color .5s ease;
     padding: 0.5rem 0;
   }
