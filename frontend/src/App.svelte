@@ -141,13 +141,21 @@
 
          <button
            class="on"
-           on:click={() => api.setPWM(section.Host, section.SectionID, { pulse: 100 })}
+           on:click={() => {
+             api.setPWM(section.Host, section.SectionID, {
+               pulse: 100, rgbw: [255,255,255,255],
+             })
+           }}
          >
            ON
          </button>
          <button
            class="off"
-           on:click={() => api.setPWM(section.Host, section.SectionID, { pulse: 0 })}
+           on:click={() => {
+             api.setPWM(section.Host, section.SectionID, {
+               pulse: 0,
+             })
+           }}
          >
            OFF
          </button>
