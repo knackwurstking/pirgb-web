@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 )
 
@@ -17,7 +18,7 @@ func init() {
 			r.Get("/", getSectionsHandler)
 
 			// Redirect request to pirgb-server (device)
-			r.Post("/:host/pwm/:sectionID", func(w http.ResponseWriter, r *http.Request) {
+			r.Post("/{host}/pwm/{section:[0-9]}", func(w http.ResponseWriter, r *http.Request) {
 				device := config.Global.Devices.Get(chi.URLParam(r, "host"))
 				if device == nil {
 					http.Error(w, "device not found", http.StatusBadRequest)
@@ -27,9 +28,12 @@ func init() {
 				url := fmt.Sprintf(
 					"http://%s:%d/pwm/%s",
 					device.Host, device.Port,
-					chi.URLParam(r, "sectionID"),
+					chi.URLParam(r, "section"),
 				)
 
+				logrus.Debugf("redirect to ... %s:%d", device.Host, device.Port)
+
+				// TODO: Scratch this redirect stuff, just to a request and return the resp.
 				http.Redirect(w, r, url, http.StatusSeeOther)
 			})
 		})
@@ -38,8 +42,8 @@ func init() {
 	})
 
 	Info = append(Info, NewEndpointInfo("GET", "/api/devices", "get devices"))
-	Info = append(Info, NewEndpointInfo("POST", "/api/devices/:host/pwm/:sectionID",
-		"redirects the request to the pirgb-server device"))
+	Info = append(Info, NewEndpointInfo("POST", "/api/devices/{host}/pwm/{section:[0-9]}",
+		"redirects the request to the pirgb-server (device)"))
 	Info = append(Info, NewEndpointInfo("GET", "/api/groups", "get available groups"))
 }
 
