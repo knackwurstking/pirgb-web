@@ -133,7 +133,7 @@
   >
     <!-- TODO: Transition out: up direction, Transition in: from the button -->
     {#each sections as section}
-       <fieldset class="section">
+       <fieldset class="section card">
          <legend class="title">{section.Host}</legend>
          <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
