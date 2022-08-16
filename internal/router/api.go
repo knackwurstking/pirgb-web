@@ -4,6 +4,7 @@ package router
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -33,8 +34,18 @@ func init() {
 
 				logrus.Debugf("redirect to ... %s:%d", device.Host, device.Port)
 
-				// TODO: Scratch this redirect stuff, just to a request and return the resp.
-				http.Redirect(w, r, url, http.StatusSeeOther)
+				resp, err := http.Post(url, r.Header.Get("Content-Type"), r.Body)
+				if err != nil {
+					http.Error(
+						w, http.StatusText(http.StatusInternalServerError),
+						http.StatusInternalServerError,
+					)
+					return
+				}
+				defer resp.Body.Close()
+				CopyHeader(w.Header(), resp.Header)
+				w.WriteHeader(resp.StatusCode)
+				io.Copy(w, resp.Body)
 			})
 		})
 
