@@ -16,6 +16,7 @@ var (
 		DisableSorting:            false,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,
+		ForceColors:               true,
 		PadLevelText:              true,
 	}
 )

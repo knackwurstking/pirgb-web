@@ -21,6 +21,7 @@ var (
 		DisableSorting:            false,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,
+		ForceColors:               true,
 		FullTimestamp:             true,
 		TimestampFormat:           time.Now().Format(time.UnixDate),
 		PadLevelText:              true,
