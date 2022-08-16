@@ -12,9 +12,16 @@ import (
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
 
-		r.Get("/devices", getSectionsHandler)
+		r.Route("/devices", func(r chi.Router) {
+			r.Get("/", getSectionsHandler)
+			// TODO: Add device control stuff (set and get pwm)
+			/* NOTE: ...
+			- "/devices/:host/:sectionID" - redirect this request
+			*/
+		})
+
 		r.Get("/groups", getGroupsHandler)
-		// TODO: Add device control stuff (set and get pwm, just redirect stuff to the servers?)
+
 	})
 
 	Info = append(Info, NewEndpointInfo("GET", "/api/devices", "get devices"))
