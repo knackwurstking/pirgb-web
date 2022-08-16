@@ -123,6 +123,7 @@
 </Popover>
 
 <main>
+  <!-- TODO: Make this a scrollable container, so that the popover don't move from his place -->
   <!-- 
     TODO: render (sections/groups/scene) content here
     - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
@@ -160,5 +161,9 @@
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--bg-low);
+  }
+
+  fieldset {
+    margin: 1rem 0;
   }
 </style>
