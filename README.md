@@ -1,2 +1,2 @@
-# pirgb-web (Work-in-Progress)
+# pirgb-web (v0.1.0)
 
