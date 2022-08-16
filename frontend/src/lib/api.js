@@ -16,6 +16,11 @@
  * }} Device
  *
  * @typedef {Device[]} Devices
+ *
+ * @typedef {{
+ *  pulse: number,
+ *  rgbw?: number[],
+ * }} PWMRequest
  */
 
 /**
@@ -49,4 +54,25 @@ export async function getSections() {
   }
 
   return sections
+}
+
+/**
+ * @param {string} host
+ * @param {number} section
+ * @param {PWMRequest} data
+ */
+export async function setPWM(host, section, data) {
+  const resp = await fetch(`/api/devices/${host}/pwm/${section}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+
+  if (!resp.ok) {
+    throw `resp: ${resp.statusText}: ${await resp.text()}`
+  }
+
+  return
 }
