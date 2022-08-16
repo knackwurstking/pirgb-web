@@ -21,7 +21,6 @@ Devices:
   - Host: pi-bath
     Groups: 
       - all
-      - lr
 
   - Host: pi-kitchen
     Groups: 
