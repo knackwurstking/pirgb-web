@@ -16,8 +16,8 @@ var (
 		//AllowedOrigins: []string{"https://foo.com"}, // use this to allow specific origin hosts
 		AllowedOrigins: []string{"https://*", "http://*"},
 		//AllowOriginFunc: func(r *http.Request, origin string) bool { return true }, // allow all
-		AllowedMethods: []string{"GET"},
-		AllowedHeaders: []string{},
+		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowedHeaders: []string{"Content-Type"},
 		//ExposedHeaders:   []string{"Content-Type"},
 		ExposedHeaders:   []string{},
 		AllowCredentials: false,

@@ -32,8 +32,7 @@ func init() {
 					chi.URLParam(r, "section"),
 				)
 
-				logrus.Debugf("redirect to ... %s:%d", device.Host, device.Port)
-
+				logrus.Debugf("forward to ... %s:%d", device.Host, device.Port)
 				resp, err := http.Post(url, r.Header.Get("Content-Type"), r.Body)
 				if err != nil {
 					http.Error(
@@ -43,8 +42,12 @@ func init() {
 					return
 				}
 				defer resp.Body.Close()
-				CopyHeader(w.Header(), resp.Header)
+
 				w.WriteHeader(resp.StatusCode)
+				if ct := resp.Header.Get("Content-Type"); ct != "" {
+					w.Header().Add("Content-Type", ct)
+				}
+
 				io.Copy(w, resp.Body)
 			})
 		})
