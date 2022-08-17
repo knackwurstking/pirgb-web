@@ -7,9 +7,9 @@
   --bg-mid: #444444;
   --bg-low: #696969; /* min dark */
 
-  --color-special-max: var(--color-max); /* max dark */
+  --color-special-max: var(--color-low);
   --color-special-mid: var(--color-mid);
-  --color-special-low: var(--color-low); /* min dark */
+  --color-special-low: var(--color-max);
 
   --border-radius: 0.25rem;
   --border-color: var(--bg-low);

@@ -79,13 +79,18 @@ button:focus-visible {
 input {
   padding: 0.3em .5em;
   background: transparent;
-  color: var(--color-mid);
+  color: var(--color-max);
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+textarea:focus,
 input:focus {
   color: var(--color-low);
-  outline-width: 0.1rem !important;
-  outline-color: var(--color-special-max) !important;
+  outline: none;
+  border-color: var(--color-special-max);
 }
 
 input::-webkit-outer-spin-button,

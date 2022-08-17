@@ -67,5 +67,6 @@
 
   label.input input {
     text-align: center;
+    width: 5em;
   }
 </style>
