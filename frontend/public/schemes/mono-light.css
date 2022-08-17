@@ -1,16 +1,19 @@
 :root {
-  --color-max: #555555; /* max light */
-  --color-mid: #2a2a2a;
-  --color-low: #000000; /* min light */
+  --color-primary-bright: #000000;
+  --color-primary: #2a2a2a;
+  --color-primary-dark: #444444;
 
-  --bg-max: #d9d9d9d9; /* max light */
-  --bg-mid: #aaaaaa;
-  --bg-low: #999999; /* min light */
+  --color-bg-primary: #eeeeee;
+  --color-bg-secondary: #cccccc;
+  --color-bg-highlight: #aaaaaa;
 
-  --color-special-max: var(--color-low);
-  --color-special-mid: var(--color-mid);
-  --color-special-low: var(--color-max);
+  --color-special-bright: var(--color-primary-bright);
+  --color-special: var(--color-primary);
+  --color-special-dark: var(--color-primary-dark);
+
+  --bg-color: var(--color-bg-primary);
+  --color: var(--color-primary);
 
   --border-radius: 0.25rem;
-  --border-color: var(--bg-low);
+  --border-color: var(--color-bg-highlight);
 }

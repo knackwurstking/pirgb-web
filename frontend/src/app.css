@@ -10,8 +10,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--color-mid);
-  background-color: var(--bg-max);
+  color: var(--color);
+  background-color: var(--color-bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,12 +22,12 @@
 
 a {
   font-weight: 500;
-  color: var(--color-mid);
+  color: var(--color);
   text-decoration: inherit;
 }
 a:hover,
 a:active {
-  color: var(--color-low);
+  color: var(--color-primary-bright);
 }
 
 body {
@@ -56,19 +56,19 @@ h1 {
 
 button {
   border: 0.1rem solid;
-  border-color: var(--border-color, --bg-low);
+  border-color: var(--border-color);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: var(--color-mid);
-  background-color: var(--bg-mid);
+  color: var(--color);
+  background-color: var(--color-bg-secondary);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover,
 button:active {
-  border-color: var(--color-special-max);
+  border-color: var(--color-special-bright);
 }
 button:focus,
 button:focus-visible {
@@ -79,7 +79,7 @@ button:focus-visible {
 input {
   padding: 0.3em .5em;
   background: transparent;
-  color: var(--color-max);
+  color: var(--color-primary-dark);
 }
 
 input[type=number] {
@@ -88,9 +88,9 @@ input[type=number] {
 
 textarea:focus,
 input:focus {
-  color: var(--color-low);
+  color: var(--color-primary-bright);
   outline: none;
-  border-color: var(--color-special-max);
+  border-color: var(--color-special-bright);
 }
 
 input::-webkit-outer-spin-button,
@@ -103,6 +103,6 @@ input::-webkit-inner-spin-button {
 
 *, *::after, *::before {
   box-sizing: border-box;
-  border-color: var(--border-color, --bg-low);
+  border-color: var(--border-color);
   border-radius: var(--border-radius);
 }

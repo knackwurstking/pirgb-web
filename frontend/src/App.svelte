@@ -98,11 +98,11 @@
     style={`
       position: absolute;
       z-index: 10;
-      background-color: var(--bg-mid);
+      background-color: var(--color-bg-secondary);
       border-radius: var(--border-radius);
       padding: 0 0.25em;
       border: 0.1em solid;
-      border-color: var(--border-color, --bg-low);
+      border-color: var(--border-color);
       width: 15em;
       top: 3.5em;
       left: 0.5em;
@@ -163,7 +163,7 @@
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
-    background-color: var(--bg-low);
+    background-color: var(--color-bg-highlight);
   }
 
   div.flex-container {
