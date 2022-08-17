@@ -1,4 +1,4 @@
-<script lang="js">
+<script>
   import {
     Popover,
     PopoverButton,
@@ -146,7 +146,7 @@
   </Transition>
 </main>
 
-<style lang="css">
+<style>
   .popover-panel-content {
     display: flex;
     flex-direction: column;
