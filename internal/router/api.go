@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
+	"gitlab.com/knackwurstking/pirgb-web/internal/utils"
 )
 
 func init() {
@@ -20,21 +21,23 @@ func init() {
 
 			// Redirect request to pirgb-server (device)
 			r.Post("/{host}/pwm/{section:[0-9]}", func(w http.ResponseWriter, r *http.Request) {
-				device := config.Global.Devices.Get(chi.URLParam(r, "host"))
+				host := chi.URLParam(r, "host")
+				section := chi.URLParam(r, "section")
+
+				device := config.Global.Devices.Get(host)
 				if device == nil {
-					http.Error(w, "device not found", http.StatusBadRequest)
+					// error: wrong {host}
+					http.Error(w, fmt.Sprintf("device not found \"%s\"", host),
+						http.StatusBadRequest)
 					return
 				}
 
-				url := fmt.Sprintf(
-					"http://%s:%d/pwm/%s",
-					device.Host, device.Port,
-					chi.URLParam(r, "section"),
-				)
-
+				// Build the URL
+				url := fmt.Sprintf("http://%s:%d/pwm/%s", device.Host, device.Port, section)
 				logrus.Debugf("forward to ... %s:%d", device.Host, device.Port)
 				resp, err := http.Post(url, r.Header.Get("Content-Type"), r.Body)
 				if err != nil {
+					// NOTE: check server logs for %s:%d (see url)
 					http.Error(
 						w, http.StatusText(http.StatusInternalServerError),
 						http.StatusInternalServerError,
@@ -44,10 +47,35 @@ func init() {
 				defer resp.Body.Close()
 
 				w.WriteHeader(resp.StatusCode)
-				if ct := resp.Header.Get("Content-Type"); ct != "" {
-					w.Header().Add("Content-Type", ct)
+				utils.CopyHeaders(w.Header(), resp.Header)
+				io.Copy(w, resp.Body)
+			})
+
+			r.Get("/{host}/pwm/{section:[0-9]}", func(w http.ResponseWriter, r *http.Request) {
+				host := chi.URLParam(r, "host")
+				section := chi.URLParam(r, "section")
+
+				device := config.Global.Devices.Get(host)
+				if device == nil {
+					// error: wrong {host}
+					http.Error(w, fmt.Sprintf("device not found for \"%s\"", host),
+						http.StatusBadRequest)
+					return
 				}
 
+				// Build the URL
+				url := fmt.Sprintf("http://%s:%d/pwm/%s", device.Host, device.Port, section)
+				logrus.Debugf("forward to ... %s:%d", device.Host, device.Port)
+				resp, err := http.Get(url)
+				if err != nil {
+					// NOTE: check server logs for %s:%d (see url)
+					http.Error(w, http.StatusText(http.StatusInternalServerError),
+						http.StatusInternalServerError)
+				}
+				defer resp.Body.Close()
+
+				w.WriteHeader(resp.StatusCode)
+				utils.CopyHeaders(w.Header(), resp.Header)
 				io.Copy(w, resp.Body)
 			})
 		})
