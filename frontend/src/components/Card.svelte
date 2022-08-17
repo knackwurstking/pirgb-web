@@ -19,7 +19,7 @@
   onMount(() => {
     // TODO: get stat from device
   })
-</script>
+utils.</script>
 
 <fieldset class="section card">
   <legend class="title">{section.Host}</legend>
@@ -44,8 +44,8 @@
     <button
       class="on"
       on:click={() => {
-        api.setPWM(section.Host, section.SectionID, {
-          pulse: pulse, rgbw: [255,255,255,255],
+        api.setPWM(section.Host, section.SectionID,
+          { pulse: pulse, rgbw: utils.hexToRGBW(color),
         })
       }}
     >
@@ -54,7 +54,8 @@
     <button
       class="off"
       on:click={() => {
-        api.setPWM(section.Host, section.SectionID, { pulse: 0 })
+        api.setPWM(section.Host, section.SectionID,
+          { pulse: 0, rgbw: utils.hexToRGBW(color) })
       }}
     >
       OFF
