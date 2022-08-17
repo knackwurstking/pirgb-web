@@ -84,9 +84,12 @@ func init() {
 	})
 
 	Info = append(Info, NewEndpointInfo("GET", "/api/devices", "get devices"))
-	Info = append(Info, NewEndpointInfo("POST", "/api/devices/{host}/pwm/{section:[0-9]}",
-		"redirects the request to the pirgb-server (device)"))
 	Info = append(Info, NewEndpointInfo("GET", "/api/groups", "get available groups"))
+
+	Info = append(Info, NewEndpointInfo("POST", "/api/devices/{host}/pwm/{section:[0-9]}",
+		"forwards the request to the pirgb-server (device)"))
+	Info = append(Info, NewEndpointInfo("GET", "/api/devices/{host}/pwm/{section:[0-9]}",
+		"forwards the request to the pirgb-server (device)"))
 }
 
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
