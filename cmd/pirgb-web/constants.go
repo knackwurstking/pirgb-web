@@ -5,7 +5,6 @@ package main
 
 import (
 	"flag"
-	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -18,12 +17,11 @@ var (
 	debug     bool
 	formatter = &logrus.TextFormatter{
 		DisableQuote:              true,
+		DisableTimestamp:          true,
 		DisableSorting:            false,
 		DisableLevelTruncation:    true,
 		EnvironmentOverrideColors: true,
 		ForceColors:               true,
-		FullTimestamp:             true,
-		TimestampFormat:           time.Now().Format(time.UnixDate),
 		PadLevelText:              true,
 	}
 )
