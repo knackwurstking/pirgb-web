@@ -76,8 +76,8 @@ func postServerPWMHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	w.WriteHeader(resp.StatusCode)
 	utils.CopyHeaders(w.Header(), resp.Header)
+	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
 }
 
@@ -104,7 +104,7 @@ func getServerPWMHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	w.WriteHeader(resp.StatusCode)
 	utils.CopyHeaders(w.Header(), resp.Header)
+	w.WriteHeader(resp.StatusCode)
 	io.Copy(w, resp.Body)
 }
