@@ -14,7 +14,7 @@
   export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
 
   onMount(() => {
-    // TODO: get stat from device
+    // TODO: request PWM data for device and section ids
   })
 </script>
 
@@ -29,7 +29,6 @@
 
   <section class="actions">
     <label class="input">
-      <!-- TODO: auto select all on focus -->
       <span>Pulse</span>
       <input
         class="pulse"
