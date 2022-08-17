@@ -134,10 +134,14 @@
   <Transition
     show={selectedItem.name.toLowerCase() === "sections"}
   >
-    <!-- TODO: Transition out: up direction, Transition in: from the button -->
-    {#each sections as section}
-      <Card bind:section />
-    {/each}
+    <div class="flex-container">
+      <!-- TODO: Transition out: up direction, Transition in: from the button -->
+      {#each sections as section}
+        <div class="item">
+        <Card bind:section />
+        </div>
+      {/each}
+    </div>
   </Transition>
 </main>
 
@@ -160,5 +164,21 @@
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--bg-low);
+  }
+
+  div.flex-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-top: 3rem;
+  }
+
+  div.flex-container .item {
+    margin: 0.5rem;
   }
 </style>

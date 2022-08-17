@@ -13,34 +13,36 @@
   <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
   <!-- TODO: Actions: Pulse / RGBW -->
-  <label class="input">
-    <span>Pulse</span>
-    <input
-      class="pulse"
-      type="number"
-      min={0} max={100}
-      bind:value={pulse}
-    />
-  </label>
+  <section class="actions">
+    <label class="input">
+      <span>Pulse</span>
+      <input
+        class="pulse"
+        type="number"
+        min={0} max={100}
+        bind:value={pulse}
+      />
+    </label>
 
-  <button
-    class="on"
-    on:click={() => {
-      api.setPWM(section.Host, section.SectionID, {
-        pulse: pulse, rgbw: [255,255,255,255],
-      })
-    }}
-  >
-    ON
-  </button>
-  <button
-    class="off"
-    on:click={() => {
-      api.setPWM(section.Host, section.SectionID, { pulse: 0 })
-    }}
-  >
-    OFF
-  </button>
+    <button
+      class="on"
+      on:click={() => {
+        api.setPWM(section.Host, section.SectionID, {
+          pulse: pulse, rgbw: [255,255,255,255],
+        })
+      }}
+    >
+      ON
+    </button>
+    <button
+      class="off"
+      on:click={() => {
+        api.setPWM(section.Host, section.SectionID, { pulse: 0 })
+      }}
+    >
+      OFF
+    </button>
+  </section>
 
 </fieldset>
 
@@ -49,15 +51,25 @@
     margin: 1em 0;
   }
 
-  fieldset button {
-    margin: 0.5em;
+  section.actions {
+    display: flex;
+    place-items: center;
+  }
+
+  section.actions > * {
+    margin: 0.5rem;
+  }
+
+  section.actions > button {
+    font-size: 1rem;
+    height: fit-content;
+    margin-top: 1rem;
   }
 
   label.input {
     display: flex;
     flex-direction: column;
     place-items: center;
-    margin: 0.5em 0;
   }
 
   label.input span {
