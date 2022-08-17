@@ -19,7 +19,7 @@
   onMount(() => {
     // TODO: get stat from device
   })
-utils.</script>
+</script>
 
 <fieldset class="section card">
   <legend class="title">{section.Host}</legend>
