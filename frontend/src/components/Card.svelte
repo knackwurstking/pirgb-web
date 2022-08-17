@@ -1,5 +1,6 @@
 <script>
   import * as api from "../lib/api"
+  import * as color from "../lib/color"
 
   export let section;
 
@@ -13,6 +14,12 @@
   <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
   <!-- TODO: Actions: Pulse / RGBW -->
+  <input
+    type="color"
+    value="#ffffff"
+    on:change={({ target }) => console.log("color:", color.hexToRGBW(target.value))}
+  />
+
   <section class="actions">
     <label class="input">
       <span>Pulse</span>
@@ -51,6 +58,10 @@
     margin: 1em 0;
   }
 
+  fieldset > pre {
+    margin-top: 0em;
+  }
+
   section.actions {
     display: flex;
     place-items: center;
@@ -80,5 +91,12 @@
   label.input input {
     text-align: center;
     width: 5em;
+  }
+
+  input[type=color] {
+    width: 90%;
+    height: 2.5em;
+    max-width: 10em;
+    padding: 0.4em;
   }
 </style>

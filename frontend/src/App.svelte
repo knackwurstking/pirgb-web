@@ -138,7 +138,7 @@
       <!-- TODO: Transition out: up direction, Transition in: from the button -->
       {#each sections as section}
         <div class="item">
-        <Card bind:section />
+          <Card bind:section />
         </div>
       {/each}
     </div>
