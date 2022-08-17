@@ -36,6 +36,7 @@
         type="number"
         min={0} max={100}
         bind:value={pulse}
+        on:click={(ev) => ev.target.select()}
       />
     </label>
 
