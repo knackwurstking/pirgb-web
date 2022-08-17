@@ -44,7 +44,7 @@ h1 {
 }
 
 .card {
-  padding: 2em;
+  padding: 1.5em;
 }
 
 #app {
@@ -75,6 +75,26 @@ button:focus-visible {
   /*outline: 4px auto -webkit-focus-ring-color;*/
   outline: none;
 }
+
+input {
+  padding: 0.3em .5em;
+  background: transparent;
+  color: var(--color-mid);
+}
+
+input:focus {
+  color: var(--color-low);
+  outline-width: 0.1rem !important;
+  outline-color: var(--color-special-max) !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+/* TODO: Remove this stupid input field inner spin stuff */
+/* TODO: Style the input field a little */
 
 *, *::after, *::before {
   box-sizing: border-box;

@@ -6,13 +6,15 @@
     Transition
   } from "@rgossiaux/svelte-headlessui"
 
-  import * as api from "./lib/api"
-
   //import {
   //  ChevronDownIcon,
   //} from "@rgossiaux/svelte-heroicons/solid"
 
   import { slide } from "svelte/transition"
+
+  import Card from "./components/Card.svelte"
+
+  import * as api from "./lib/api"
 
   export let scheme = "";
 
@@ -79,15 +81,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 9rem;
+      width: 9em;
       position: absolute;
-      top: 0.5rem;
-      left: 0.5rem;
+      top: 0.5em;
+      left: 0.5em;
     `}
   >
     <span>{selectedItem.name}</span>
     <!--
-    <ChevronDownIcon style="width:1.5rem;"/>
+    <ChevronDownIcon style="width:1.5em;"/>
     -->
   </PopoverButton>
 
@@ -97,12 +99,12 @@
       z-index: 10;
       background-color: var(--bg-mid);
       border-radius: var(--border-radius);
-      padding: 0 0.25rem;
-      border: 0.1rem solid;
+      padding: 0 0.25em;
+      border: 0.1em solid;
       border-color: var(--border-color, --bg-low);
-      width: 15rem;
-      top: 3.5rem;
-      left: 0.5rem;
+      width: 15em;
+      top: 3.5em;
+      left: 0.5em;
     `}
   >
     <div class="popover-panel-content" transition:slide>
@@ -133,32 +135,7 @@
   >
     <!-- TODO: Transition out: up direction, Transition in: from the button -->
     {#each sections as section}
-       <fieldset class="section card">
-         <legend class="title">{section.Host}</legend>
-         <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
-
-         <!-- TODO: Actions: Pulse / RGBW -->
-
-         <button
-           class="on"
-           on:click={() => {
-             api.setPWM(section.Host, section.SectionID, {
-               pulse: 100, rgbw: [255,255,255,255],
-             })
-           }}
-         >
-           ON
-         </button>
-         <button
-           class="off"
-           on:click={() => {
-             api.setPWM(section.Host, section.SectionID, { pulse: 0 })
-           }}
-         >
-           OFF
-         </button>
-
-       </fieldset>
+      <Card bind:section />
     {/each}
   </Transition>
 </main>
@@ -170,25 +147,17 @@
   }
 
   .popover-panel-content > * {
-    margin: 0.25rem 0;
+    margin: 0.25em 0;
   }
 
   .popover-panel-item {
     border-radius: var(--border-radius);
     transition: background-color .5s ease, color .5s ease;
-    padding: 0.5rem 0;
+    padding: 0.5em 0;
   }
 
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--bg-low);
-  }
-
-  fieldset {
-    margin: 1rem 0;
-  }
-
-  fieldset button {
-    margin: 0.5rem;
   }
 </style>
