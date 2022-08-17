@@ -12,9 +12,6 @@
   $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
 
   export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
-  $: console.log(
-    `[host: ${section.Host}, id: ${section.SectionID}] color: ${utils.hexToRGBW(color)}`
-  )
 
   onMount(() => {
     // TODO: get stat from device
@@ -32,6 +29,7 @@
 
   <section class="actions">
     <label class="input">
+      <!-- TODO: auto select all on focus -->
       <span>Pulse</span>
       <input
         class="pulse"
