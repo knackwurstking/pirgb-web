@@ -108,6 +108,6 @@
     width: 90%;
     height: 2.5em;
     max-width: 10em;
-    padding: 0.4em;
+    padding: 0.1em;
   }
 </style>
