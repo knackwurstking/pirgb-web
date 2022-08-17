@@ -13,18 +13,21 @@ export function hexToRGBW(color, fix = true) {
     }
   }
 
-  // push W to rgbw
-  if (rgbw.length < 4) {
-    if (!rgbw.filter(v => v != rgbw[0]).length) {
-      rgbw.push(rgbw[0])
-    } else {
-      rgbw.push(0)
+  let max = Math.max(...rgbw)
+  let min = Math.min(...rgbw)
+
+  if ((max - min <= 5 || max === min) && rgbw.length === 3) {
+    return [max, max, max, max]
+  } else if (rgbw.length < 3) {
+    // fill with zero values
+    const newRGBW = []
+    for (let x = 0; rgbw.length < 3; x++) {
+      newRGBW.push(rgbw[x] !== undefined ? rgbw[x]: 0)
     }
+    rgbw = newRGBW
   }
 
-  // TODO: Fix color (ex: [192,191, 188]) - diff <= 5 should be all even (the highest value)
-
-  return rgbw // placeholder
+  return [...rgbw, 0].slice(0, 4)
 }
 
 /** @param {number[]} rgbw */
