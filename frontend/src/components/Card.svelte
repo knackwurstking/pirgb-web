@@ -1,23 +1,26 @@
 <script>
   import * as api from "../lib/api"
-  import * as color from "../lib/color"
+  import * as utils from "../lib/utils"
 
   export let section;
 
   /** @type {number} */
   export let pulse = 100 // TODO: get device section data (pwm) and set Pulse and RGBW
   $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
+
+  export let color = "#ffffff"
+  $: console.log(
+    `[host: ${section.Host}, id: ${section.SectionID}] color: ${utils.hexToRGBW(color)}`
+  )
 </script>
 
 <fieldset class="section card">
   <legend class="title">{section.Host}</legend>
   <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
 
-  <!-- TODO: Actions: Pulse / RGBW -->
   <input
     type="color"
-    value="#ffffff"
-    on:change={({ target }) => console.log("color:", color.hexToRGBW(target.value))}
+    bind:value={color}
   />
 
   <section class="actions">
