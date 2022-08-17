@@ -20,11 +20,12 @@
 
   /** @type {{ id: number, href: string, name: string }[]} */
   let items = [
-    { id: 0, href: "#", name: "Sections" },
-    { id: 1, href: "#", name: "Groups" },
-    { id: 2, href: "#", name: "Scenes" },
+    { id: 0, href: "#sections", name: "Sections" },
+    { id: 1, href: "#groups", name: "Groups" },
+    { id: 2, href: "#scenes", name: "Scenes" },
   ]
 
+  // TODO: on mount - parse hash (window.location) an set selected Item
   let selectedItem = items[0]
   $: {
     if (selectedItem)
