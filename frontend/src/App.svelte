@@ -68,6 +68,7 @@
   {/if}
 </svelte:head>
 
+<!-- TODO: Add a theme picker on the top right position -->
 <Popover
   style={`
     position: fixed;
