@@ -11,11 +11,11 @@ import (
 
 // Config is the main config type
 type Config struct {
-	Host        string  `yaml:"Host"`
-	Port        int     `yaml:"Port"`
-	EnableHTTP  bool    `yaml:"EnableHTTP"`
-	EnableHTTPS bool    `yaml:"EnableHTTPS"`
-	Devices     Devices `yaml:"Devices"`
+	Host        string  `yaml:"host"`
+	Port        int     `yaml:"port"`
+	EnableHTTP  bool    `yaml:"enableHTTP"`
+	EnableHTTPS bool    `yaml:"enableHTTPS"`
+	Devices     Devices `yaml:"devices"`
 	Groups      Groups  // no config
 }
 
@@ -58,9 +58,14 @@ func DoIt() {
 
 		// just print out some information
 		for _, device := range Global.Devices {
+			var sections []int
+			for _, section := range device.Sections {
+				sections = append(sections, section.ID)
+			}
+
 			logrus.WithFields(logrus.Fields{
 				"Port":     device.Port,
-				"Sections": device.Sections,
+				"Sections": sections,
 				"Groups":   device.Groups,
 			}).Debugf("available device: %s", device.Host)
 		}

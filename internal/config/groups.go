@@ -1,5 +1,7 @@
 package config
 
+import "gitlab.com/knackwurstking/pirgb"
+
 // Groups ...
 type Groups struct {
 	Devices *Devices `json:"-"`
@@ -31,8 +33,7 @@ func (g *Groups) ListGroups() []string {
 }
 
 // GetDevices for a specific group
-func (g *Groups) GetDevices(name string) []*Device {
-	var devices []*Device
+func (g *Groups) GetDevices(name string) (devices []*pirgb.Device) {
 	for _, device := range *g.Devices {
 		for _, group := range device.Groups {
 			if group == name {

@@ -36,16 +36,6 @@ func (*Devices) Scan() {
 	wg.Wait()
 }
 
-func (devices *Devices) Get(host string) *pirgb.Device {
-	for _, device := range *devices {
-		if device.Host == host {
-			return device
-		}
-	}
-
-	return nil
-}
-
 // Clean devices, this will remove all devices without sections
 func (devices *Devices) Clean() {
 	var newDevices []*pirgb.Device
@@ -57,4 +47,14 @@ func (devices *Devices) Clean() {
 		newDevices = append(newDevices, device)
 	}
 	*devices = newDevices
+}
+
+func (devices *Devices) Get(host string) *pirgb.Device {
+	for _, device := range *devices {
+		if device.Host == host {
+			return device
+		}
+	}
+
+	return nil
 }

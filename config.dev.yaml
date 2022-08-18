@@ -1,27 +1,27 @@
 # defaults to 50826 if not set
-Port: 50831
+port: 50831
 
 # server listening for host
-Host: 0.0.0.0
+host: 0.0.0.0
 
 # starts http and/or https server
-EnableHTTP: true
-EnableHTTPS: true # NOTE: missing cert
+enableHTTP: true
+enableHTTPS: true # NOTE: missing cert
 
-Devices:
-  - Host: pi-bed
-    Port: 50826 # NOTE: 50826 is the default pirgb-server port (optional)
-    Groups: [all]
+devices:
+  - host: pi-bed
+    port: 50826 # NOTE: 50826 is the default pirgb-server port (optional)
+    groups: [all]
 
-  - Host: pi-lr
-    Groups: 
+  - host: pi-lr
+    groups: 
       - all
       - lr
 
-  - Host: pi-bath
-    Groups: 
+  - host: pi-bath
+    groups: 
       - all
 
-  - Host: pi-kitchen
-    Groups: 
+  - host: pi-kitchen
+    groups: 
       - all
