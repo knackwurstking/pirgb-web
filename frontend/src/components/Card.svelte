@@ -36,7 +36,10 @@
         type="number"
         min={0} max={100}
         bind:value={pulse}
-        on:click={(ev) => ev.target.select()}
+        on:focus={(ev) => {
+          // @ts-ignore
+          ev.target.select()
+        }}
       />
     </label>
 
