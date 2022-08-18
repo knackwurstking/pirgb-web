@@ -69,7 +69,7 @@ export async function setPWM(host, section, data) {
 
 /**
  * @param {string} host
- * @parma {number} section
+ * @param {number} section
  * @returns {Promise<Section>}
  */
 export async function getPWM(host, section) {
