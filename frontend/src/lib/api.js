@@ -79,7 +79,7 @@ export async function getPWM(host, section) {
     throw await responseError(resp)
   }
 
-  // TODO: parse ...
+  return await resp.json()
 }
 
 /**
