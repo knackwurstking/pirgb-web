@@ -14,7 +14,8 @@
   export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
 
   onMount(() => {
-    // TODO: request PWM data for device and section ids
+    // TODO: request PWM data for device and section ids (parse: pulse and color)
+    // TODO: color conversion rgbw to hex
   })
 </script>
 
