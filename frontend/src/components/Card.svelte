@@ -19,8 +19,8 @@
 </script>
 
 <fieldset class="section card">
-  <legend class="title">{section.Host}</legend>
-  <pre>[Section: {section.SectionID}, Port: {section.Port}]</pre>
+  <legend class="title">{section.host}</legend>
+  <pre>[Section: {section.id}, Port: {section.port}]</pre>
 
   <input
     type="color"
@@ -42,7 +42,7 @@
     <button
       class="on"
       on:click={() => {
-        api.setPWM(section.Host, section.SectionID,
+        api.setPWM(section.host, section.id,
           { pulse: pulse, rgbw: utils.hexToRGBW(color),
         })
       }}
@@ -52,7 +52,7 @@
     <button
       class="off"
       on:click={() => {
-        api.setPWM(section.Host, section.SectionID,
+        api.setPWM(section.host, section.id,
           { pulse: 0, rgbw: utils.hexToRGBW(color) })
       }}
     >

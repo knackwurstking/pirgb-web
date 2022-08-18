@@ -1,65 +1,55 @@
 /**
  * @typedef {{
- *  Host: string,
- *  Port: number,
- *  SectionID: number,
- *  Groups: string[],
- * }} Section
- *
- * @typedef {Section[]} Sections
- *
- * @typedef {{
- *  Host: string,
- *  Port: number,
- *  Sections: number[] | null,
- *  Groups: string[] | null,
- * }} Device
+ *  pulse: number,
+ *  rgbw: number[],
+ * }} PWM
  *
  * @typedef {Device[]} Devices
  *
  * @typedef {{
+ *  host: string,
+ *  port: number,
+ *  groups: string[],
+ *  sections: Section[],
+ * }} Device
+ *
+ * @typedef {{
+ *  id: number,
+ *  section: Pin[],
+ *  host: string,
+ *  port: number,
+ * }} Section
+ *
+ * @typedef {{
+ *  pin: number,
+ *  range: number,
  *  pulse: number,
- *  rgbw?: number[],
- * }} PWMRequest
+ *  colorValue: number,
+ *  colorPulse: number,
+ *  isRunning: boolean,
+ * }} Pin
  */
 
 /**
- * @returns {Promise<Sections>}
+ * @returns {Promise<Devices>}
  */
-export async function getSections() {
-  /** @type {Sections} */
-  let sections = []
+export async function getDevices() {
+  let resp = await fetch("/api/devices")
+  /** @type Devices */
+  let devices = []
 
-  // Get devices from the api and parse sections
-  const resp = await fetch("/api/devices")
-
-  // Check response
   if (resp.ok) {
-    /** @type {Devices | null} */
-    const devices = await resp.json()
-    if (devices) { // devices could be null
-      // Parse devices into sections
-      for (let device of devices) {
-        // Build sections data from this device for each section in sections
-        for (let section of device.Sections) {
-          sections.push({
-            Host: device.Host,
-            Port: device.Port,
-            SectionID: section,
-            Groups: device.Groups,
-          })
-        }
-      }
-    }
+    /** @type {Devices} */
+    devices = await resp.json()
   }
 
-  return sections
+  return devices
 }
 
 /**
  * @param {string} host
  * @param {number} section
- * @param {PWMRequest} data
+ * @param {PWM} data
  */
 export async function setPWM(host, section, data) {
   const resp = await fetch(`/api/devices/${host}/pwm/${section}`, {

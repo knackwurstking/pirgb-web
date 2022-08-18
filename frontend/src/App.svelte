@@ -31,11 +31,11 @@
     if (selectedItem)
         console.info(`Selected table: "${selectedItem.name}"`)
         // load sections ... 
-        api.getSections().then((res) => (sections = res))
+        api.getDevices().then(res => (devices = res))
   }
 
-  /** @type {import("./lib/api").Sections} */
-  let sections = []
+  /** @type {import("./lib/api").Devices} */
+  let devices = []
 
   //let groups = []
 
@@ -127,20 +127,17 @@
 </Popover>
 
 <main>
-  <!-- 
-    TODO: render (sections/groups/scene) content here ...
-    - transition if item changed: old swipe out (right to left) and new swipe in (right to left)
-    - column layout centered, top to bottom
-  -->
+  <!-- TODO: Transition out: up direction, Transition in: from the button -->
   <Transition
     show={selectedItem.name.toLowerCase() === "sections"}
   >
     <div class="flex-container">
-      <!-- TODO: Transition out: up direction, Transition in: from the button -->
-      {#each sections as section}
-        <div class="item">
-          <Card bind:section />
-        </div>
+      {#each devices as device}
+        {#each device.sections as section}
+          <div class="item">
+            <Card bind:section />
+          </div>
+        {/each}
       {/each}
     </div>
   </Transition>
