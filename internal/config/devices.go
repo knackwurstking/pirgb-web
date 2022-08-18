@@ -1,16 +1,14 @@
 package config
 
 import (
-	"encoding/json"
-	"fmt"
-	"net/http"
 	"sync"
 
 	"github.com/sirupsen/logrus"
+	"gitlab.com/knackwurstking/pirgb"
 )
 
 // Devices ...
-type Devices []*Device
+type Devices []*pirgb.Device
 
 // Scan devices for sections available, if sections already set than skip scan
 func (*Devices) Scan() {
@@ -21,7 +19,7 @@ func (*Devices) Scan() {
 		if len(device.Sections) == 0 {
 			wg.Add(1)
 
-			go func(index int, device *Device, wg *sync.WaitGroup) {
+			go func(index int, device *pirgb.Device, wg *sync.WaitGroup) {
 				defer wg.Done()
 				// scan for sections ("/info" endpoint)
 				if err := device.Scan(); err != nil || len(device.Sections) == 0 {
@@ -38,7 +36,7 @@ func (*Devices) Scan() {
 	wg.Wait()
 }
 
-func (devices *Devices) Get(host string) *Device {
+func (devices *Devices) Get(host string) *pirgb.Device {
 	for _, device := range *devices {
 		if device.Host == host {
 			return device
@@ -50,7 +48,7 @@ func (devices *Devices) Get(host string) *Device {
 
 // Clean devices, this will remove all devices without sections
 func (devices *Devices) Clean() {
-	var newDevices []*Device
+	var newDevices []*pirgb.Device
 	for _, device := range *devices {
 		if len(device.Sections) == 0 {
 			continue
@@ -59,31 +57,4 @@ func (devices *Devices) Clean() {
 		newDevices = append(newDevices, device)
 	}
 	*devices = newDevices
-}
-
-// Device ...
-type Device struct {
-	Host     string   `yaml:"Host"`
-	Port     int      `yaml:"Port"`
-	Sections []int    `yaml:"Sections"` // just the section ids
-	Groups   []string `yaml:"Groups"`
-}
-
-// Scan for sections if `Sections` field is empty
-func (d *Device) Scan() error {
-	if d.Port == 0 {
-		d.Port = DefaultPort
-	}
-	r, err := http.Get(fmt.Sprintf("http://%s:%d/info", d.Host, d.Port))
-	if err != nil {
-		return err
-	}
-	defer r.Body.Close()
-
-	err = json.NewDecoder(r.Body).Decode(&d.Sections)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
