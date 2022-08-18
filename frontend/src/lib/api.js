@@ -61,11 +61,31 @@ export async function setPWM(host, section, data) {
   })
 
   if (!resp.ok) {
-    throw `resp: ${resp.statusText}: ${await resp.text()}`
+    throw await responseError(resp)
   }
 
   return
 }
 
-// TODO: Get PWM ...
-// ...
+/**
+ * @param {string} host
+ * @parma {number} section
+ * @returns {Promise<Section>}
+ */
+export async function getPWM(host, section) {
+  const resp = await fetch(`/api/devices/${host}/pwm/${section}`)
+
+  if (!resp.ok) {
+    throw await responseError(resp)
+  }
+
+  // TODO: parse ...
+}
+
+/**
+ * @param {Response} resp
+ * @returns {Promise<string>}
+ */
+async function responseError(resp) {
+  return `resp: ${resp.statusText}: ${await resp.text()}`
+}
