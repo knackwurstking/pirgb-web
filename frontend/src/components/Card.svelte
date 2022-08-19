@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from "svelte" 
-
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
 
