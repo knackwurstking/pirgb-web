@@ -6,17 +6,13 @@
 
   /** @type {import('../lib/api').Section} */
   export let section;
+  // TODO: parse section data (pulse, rgbw)
 
   /** @type {number} */
   export let pulse = 100 // TODO: get device section data (pwm) and set Pulse and RGBW
   $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
 
   export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
-
-  onMount(() => {
-    // TODO: request PWM data for device and section ids (parse: pulse and color)
-    // TODO: color conversion rgbw to hex
-  })
 </script>
 
 <fieldset class="section card">
