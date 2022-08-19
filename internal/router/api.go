@@ -2,10 +2,12 @@
 package router
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
@@ -18,8 +20,14 @@ func init() {
 
 		r.Route("/devices", func(r chi.Router) {
 			r.Get("/", getSectionsHandler)
-			r.Post("/{host}/pwm/{section:[0-9]}", postServerPWMHandler)
-			r.Get("/{host}/pwm/{section:[0-9]}", getServerPWMHandler)
+
+			r.Route("/{host}/{section:[0-9]}", func(r chi.Router) {
+				// TODO: some middleware for parsing {host} and {section}
+				r.Use(middlewareParseDeviceData)
+
+				r.Get("/pwm", handlerGetServerPWM)
+				r.Post("/pwm", handlerPostServerPWM)
+			})
 		})
 
 		r.Get("/groups", getGroupsHandler)
@@ -33,6 +41,37 @@ func init() {
 	Info = append(Info, NewEndpointInfo("GET", "/api/devices/{host}/pwm/{section:[0-9]}",
 		"forwards the request to the pirgb-server (device)"))
 }
+
+func middlewareParseDeviceData(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
+
+		host := chi.URLParam(r, "host")
+
+		sectionParam := chi.URLParam(r, "section") // parse this to int
+		section, err := strconv.Atoi(sectionParam)
+		if err != nil {
+			http.Error(w, "section id not found", http.StatusNotFound)
+			return
+		}
+
+		// TODO: set values to context
+		ctx = context.WithValue(ctx, "host", host)
+		ctx = context.WithValue(ctx, "section", section)
+
+		handler.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+func handlerGetServerPWM(w http.ResponseWriter, r *http.Request) {
+	// ...
+}
+
+func handlerPostServerPWM(w http.ResponseWriter, r *http.Request) {
+	// ...
+}
+
+// **** OLD: *******************************************************************************
 
 func getSectionsHandler(w http.ResponseWriter, r *http.Request) {
 	// sections => GET: "/api/sections"
