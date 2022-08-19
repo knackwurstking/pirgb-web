@@ -13,10 +13,10 @@ import (
 const (
 	Vendor     = "knackwurstking" // Vendor name
 	Project    = "pirgb-web"      // Project name
-	ConfigFile = "config.yaml"    // ConfigFile name
+	configFile = "config.yaml"    // ConfigFile name
 )
 
-func userConfigDir() string {
+func GetConfigPath() string {
 	// TODO: handle user "root"
 	dir, err := os.UserConfigDir()
 	if err != nil {

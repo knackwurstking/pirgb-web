@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"os"
-	"sync"
 
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/router"
@@ -22,11 +20,6 @@ func init() {
 }
 
 func main() {
-	config.DoIt()
-	if config.Global.Port == 0 {
-		config.Global.Port = port
-	}
-
 	// parse flags here (host, port)
 	flag.StringVar(&config.Global.Host, "host", config.Global.Host,
 		"whatever ...")
@@ -34,20 +27,17 @@ func main() {
 	flag.IntVar(&config.Global.Port, "port", config.Global.Port,
 		"port to bind the server to")
 
-	flag.BoolVar(&infoFlag, "info", infoFlag,
-		"print the routing table (and exit)")
-
 	flag.Parse()
 
 	if debug {
 		logrus.SetLevel(logrus.DebugLevel)
+		logrus.Debugf("config path: \"%s\"", config.Global.Path)
+		logrus.Debugf("%+v", config.Global)
+		for _, device := range config.Global.Devices {
+			logrus.Debugf("%+v", device)
+		}
 	} else {
 		logrus.SetLevel(logrus.InfoLevel)
-	}
-
-	if infoFlag {
-		router.Info.Print()
-		os.Exit(0)
 	}
 
 	// initialize the router and server
@@ -57,37 +47,8 @@ func main() {
 		Handler: router.Mux,
 	}
 
-	if config.Global.EnableHTTP || config.Global.EnableHTTPS {
-		router.Info.Print()
-	}
-
-	var wg sync.WaitGroup
-
-	if config.Global.EnableHTTP {
-		wg.Add(1)
-		go startServerHTTP(server, &wg)
-	}
-
-	if config.Global.EnableHTTPS {
-		wg.Add(1)
-		go startServerHTTPS(server, &wg)
-	}
-
-	wg.Wait()
-}
-
-func startServerHTTP(server *http.Server, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	logrus.WithField("Address", server.Addr).Infof("HTTP server running ...")
+	logrus.WithField("Address", server.Addr).Infof("Server running ...")
 	if err := server.ListenAndServe(); err != nil {
-		logrus.Errorf("http: %s", err.Error())
+		logrus.Fatalln(err.Error())
 	}
-}
-
-func startServerHTTPS(server *http.Server, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	logrus.Warnf("HTTPS server is work in progress")
-	// TODO: need a cert first
 }

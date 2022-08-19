@@ -6,9 +6,9 @@ package config
 const (
 	Vendor     = "knackwurstking"
 	Project    = "pirgb-web"
-	ConfigFile = "config.dev.yaml"
+	configFile = "config.dev.yaml"
 )
 
-func userConfigDir() string {
+func GetConfigPath() string {
 	return ""
 }

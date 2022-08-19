@@ -22,6 +22,5 @@
 
 - [ ] /api
   - [ ] /devices
-    - [ ] GET / - returns a list of devices (`host:string, port:number, sections:number[]`)
     - [ ] GET /{host}/{id}/pwm - get pwm data from server and parse data (`pulse:number, rgbw:number[]`)
     - [ ] POST /{host}/{id}/pwm - set pwm (`pulse:number, rgbw:number[]`)
