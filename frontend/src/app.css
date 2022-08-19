@@ -98,9 +98,6 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
-/* TODO: Remove this stupid input field inner spin stuff */
-/* TODO: Style the input field a little */
-
 *, *::after, *::before {
   box-sizing: border-box;
   border-color: var(--border-color);
