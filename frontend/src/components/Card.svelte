@@ -2,15 +2,27 @@
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
 
-  /** @type {import('../lib/api').Section} */
-  export let section;
-  // TODO: parse section data (pulse, rgbw)
-
   /** @type {number} */
   export let pulse = 100 // TODO: get device section data (pwm) and set Pulse and RGBW
   $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
 
   export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
+
+  /** @type {import('../lib/api').Section} */
+  export let section;
+  $: {
+    if (section) {
+      let newPulse = 0
+      // grab the biggest pulse value
+      for (let pin of section.section) {
+        if (pin.pulse > newPulse) {
+          newPulse = pin.pulse
+        }
+      }
+
+      pulse = newPulse
+    }
+  }
 </script>
 
 <fieldset class="section card">
