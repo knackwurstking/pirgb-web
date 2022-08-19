@@ -20,7 +20,9 @@
         }
       }
 
-      pulse = newPulse
+      if (pulse > 0) {
+        pulse = newPulse
+      }
     }
   }
 </script>
