@@ -13,7 +13,6 @@ func init() {
 	Mux.Route("/api", func(r chi.Router) {
 		r.Route("/devices", func(r chi.Router) {
 			r.Route("/{host}/{section:[0-9]}", func(r chi.Router) {
-				// TODO: some middleware for parsing {host} and {section}
 				r.Use(middlewareParseDeviceData)
 
 				r.Get("/pwm", handlerGetServerPWM)
@@ -36,7 +35,6 @@ func middlewareParseDeviceData(handler http.Handler) http.Handler {
 			return
 		}
 
-		// TODO: set values to context
 		ctx = context.WithValue(ctx, "host", host)
 		ctx = context.WithValue(ctx, "section", section)
 
