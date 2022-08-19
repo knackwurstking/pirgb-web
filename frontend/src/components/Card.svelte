@@ -2,34 +2,48 @@
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
 
+  import { onMount } from "svelte"
+
+  /** @type {string} */
+  export let host
   /** @type {number} */
-  export let pulse = 100 // TODO: get device section data (pwm) and set Pulse and RGBW
+  export let port
+  /** @type {number} */
+  export let sectionID 
+
+  /** @type {number} */
+  export let pulse = 0
   $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
 
-  export let color = "#ffffff" // TODO: init color from server (pwm) together with pulse
+  export let color = "#ffffff"
 
-  /** @type {import('../lib/api').Section} */
-  export let section;
-  $: {
-    if (section) {
-      let newPulse = 0
-      // grab the biggest pulse value
-      for (let pin of section.section) {
-        if (pin.pulse > newPulse) {
-          newPulse = pin.pulse
-        }
-      }
+  onMount(() => {
+    console.log(`[onMount] Card.svelte: ${host}:${port} [sectionID ${sectionID}]`)
+    refresh(null)
+  })
 
-      if (pulse > 0) {
-        pulse = newPulse
-      }
+  /**
+   * @param {import('../lib/api').Section} section
+   */
+  async function refresh(section = null) {
+    if (!section) section = await api.getPWM(host, sectionID)
+    let newColor = "#"
+    for (let idx=0; idx < section.pins.length; idx++) {
+      if (section.pins[idx].pulse)
+        pulse = section.pins[idx].pulse
+
+      if (idx < 3)
+        newColor += section.pins[idx].colorValue.toString(16).padStart(2, "0")
     }
+
+    if (!pulse) pulse = 100
+    color = newColor
   }
 </script>
 
 <fieldset class="section card">
-  <legend class="title">{section.host}</legend>
-  <pre>[Section: {section.id}, Port: {section.port}]</pre>
+  <legend class="title">{host}</legend>
+  <pre>[Section: {sectionID}, Port: {port}]</pre>
 
   <input
     type="color"
@@ -54,8 +68,8 @@
     <button
       class="on"
       on:click={() => {
-        api.setPWM(section.host, section.id,
-          { pulse: pulse, rgbw: utils.hexToRGBW(color),
+        api.setPWM(host, sectionID,
+          { pulse: pulse, rgbw: utils.colorToRGBW(color),
         })
       }}
     >
@@ -64,8 +78,8 @@
     <button
       class="off"
       on:click={() => {
-        api.setPWM(section.host, section.id,
-          { pulse: 0, rgbw: utils.hexToRGBW(color) })
+        api.setPWM(host, sectionID,
+          { pulse: 0, rgbw: utils.colorToRGBW(color) })
       }}
     >
       OFF

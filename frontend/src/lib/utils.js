@@ -1,5 +1,5 @@
 /** @param {string} color */
-export function hexToRGBW(color, fix = true) {
+export function colorToRGBW(color) {
   // prevent errors
   if (color[0] !== "#" || color.length < 7) return [255, 255, 255, 255]
 
@@ -28,11 +28,4 @@ export function hexToRGBW(color, fix = true) {
   }
 
   return [...rgbw, 0].slice(0, 4)
-}
-
-/** @param {number[]} rgbw */
-export function rgbwToHex(...rgbw) {
-  // TODO: convert rgb(w) color to hex
-
-  return "#ffffff" // placeholder
 }

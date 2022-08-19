@@ -10,9 +10,10 @@
   //  ChevronDownIcon,
   //} from "@rgossiaux/svelte-heroicons/solid"
 
+  import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
-  import Card from "./components/Card.svelte"
+  import SectionCard from "./components/Card.svelte"
 
   import * as api from "./lib/api"
 
@@ -26,20 +27,16 @@
   ]
 
   // TODO: on mount - parse hash (window.location) an set selected Item
+  /** @type {{ id: number, href: string, name: string }} */
   let selectedItem = items[0]
-  $: {
-    if (selectedItem)
-        console.info(`Selected table: "${selectedItem.name}"`)
-        // load sections ... 
-        api.getDevices().then(res => (devices = res))
-  }
 
   /** @type {import("./lib/api").Devices} */
   let devices = []
 
-  //let groups = []
-
-  //let scenes = []
+  onMount(() => {
+    console.log(`[onMount] App.svelte`)
+    api.getDevices().then(res => devices = res)
+  })
 </script>
 
 <svelte:head>
@@ -135,7 +132,11 @@
       {#each devices as device}
         {#each device.sections as section}
           <div class="item">
-            <Card bind:section />
+            <SectionCard
+              sectionID={section.id}
+              host={section.host}
+              port={section.port}
+            />
           </div>
         {/each}
       {/each}

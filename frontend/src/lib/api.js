@@ -15,7 +15,7 @@
  *
  * @typedef {{
  *  id: number,
- *  section: Pin[],
+ *  pins: Pin[],
  *  host: string,
  *  port: number,
  * }} Section
