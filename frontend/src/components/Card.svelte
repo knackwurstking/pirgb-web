@@ -18,14 +18,18 @@
   export let color = "#ffffff"
 
   onMount(() => {
-    console.log(`[onMount] Card.svelte: ${host}:${port} [sectionID ${sectionID}]`)
+    console.log(`[Card.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
     refresh(null)
   })
+
+  // TODO: Need to handle color differently ...
+  //  - calculate pulse from color
 
   /**
    * @param {import('../lib/api').Section} section
    */
   async function refresh(section = null) {
+    console.log(`[Card.svelte] [refresh] host=${host} sectionID=${sectionID}`)
     if (!section) section = await api.getPWM(host, sectionID)
     let newColor = "#"
     for (let idx=0; idx < section.pins.length; idx++) {
