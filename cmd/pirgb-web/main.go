@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
+	"gitlab.com/knackwurstking/pirgb-web/internal/database"
 	"gitlab.com/knackwurstking/pirgb-web/internal/router"
 
 	"github.com/sirupsen/logrus"
@@ -39,6 +40,9 @@ func main() {
 	} else {
 		logrus.SetLevel(logrus.InfoLevel)
 	}
+
+	// start data stuff (and event handlers)
+	database.Initialize()
 
 	// initialize the router and server
 	server := &http.Server{

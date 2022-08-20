@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/sirupsen/logrus"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 )
@@ -36,16 +37,22 @@ type Event[T EventTypes] struct {
 	OnEvent   []func(data T)
 }
 
-func (ev *Event[T]) Start() error {
-	if ev.IsRunning {
-		return nil
-	}
-
+func (ev *Event[T]) Connect() error {
+	// TODO: handle reconnects on connection error
 	conn, _, err := websocket.Dial(context.Background(), fmt.Sprintf(""), nil)
 	if err != nil {
 		return err
 	}
 	ev.Conn = conn
+	return nil
+}
+
+func (ev *Event[T]) Start() error {
+	if ev.IsRunning {
+		return nil
+	}
+
+	ev.Connect()
 
 	ev.WaitGroup.Add(1)
 	go ev.Handler()
@@ -72,6 +79,7 @@ func (ev *Event[T]) Handler() {
 
 	go func() {
 		defer func() {
+			ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
 			ev.WaitGroup.Done()
 			ev.Done <- struct{}{}
 		}()
@@ -79,9 +87,10 @@ func (ev *Event[T]) Handler() {
 		var err error
 		var data T
 		for {
-			// TODO: handle reconnects on connection error
 			err = wsjson.Read(context.Background(), ev.Conn, &data)
 			if err != nil {
+				// TODO: check error type, on disconnect to a reconnect every 5 seconds
+				logrus.Debugf("change event handler err: %s [type: %T]", err.Error(), err)
 				break
 			}
 

@@ -26,4 +26,5 @@ type DeviceSection struct {
 
 func Initialize() {
 	// TODO: start event handler
+	// TODO: and store this global data things like Devices
 }
