@@ -13,7 +13,7 @@
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
-  import SectionCard from "./components/Card.svelte"
+  import SectionCard from "./components/SectionCard.svelte"
 
   import * as api from "./lib/api"
 
@@ -133,9 +133,9 @@
         {#each device.sections as section}
           <div class="item">
             <SectionCard
+              host={device.host}
+              port={device.port}
               sectionID={section.id}
-              host={section.host}
-              port={section.port}
             />
           </div>
         {/each}
