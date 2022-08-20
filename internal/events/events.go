@@ -6,13 +6,14 @@ import (
 	"sync"
 
 	"github.com/sirupsen/logrus"
+	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 )
 
 var (
 	Global struct {
-		ChangeEvent *Event[Section]
+		ChangeEvents []*Event[Section]
 	}
 )
 
@@ -36,6 +37,9 @@ type EventTypes interface {
 
 type Event[T EventTypes] struct {
 	Name      string // "change", ...
+	Host      string
+	Port      int
+	SectionID int
 	IsRunning bool
 	WaitGroup *sync.WaitGroup
 	Done      chan struct{}
@@ -45,7 +49,11 @@ type Event[T EventTypes] struct {
 
 func (ev *Event[T]) Connect() error {
 	// TODO: handle reconnects on connection error
-	conn, _, err := websocket.Dial(context.Background(), fmt.Sprintf(""), nil)
+	conn, _, err := websocket.Dial(
+		context.Background(),
+		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d", ev.Host, ev.Port, ev.Name, ev.SectionID),
+		nil,
+	)
 	if err != nil {
 		return err
 	}
@@ -117,10 +125,34 @@ func NewChangeEvent() *Event[Section] {
 }
 
 func Initialize() {
-	// start event handler
-	Global.ChangeEvent = NewChangeEvent()
+	var changeEvents []*Event[Section]
 
-	Global.ChangeEvent.OnEvent = append(Global.ChangeEvent.OnEvent, func(data Section) {
-		// TODO: register event handler function for storing data
-	})
+	for _, device := range config.Global.Devices {
+		for _, section := range device.Sections {
+			changeEvent := NewChangeEvent()
+			changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
+				var pulse int
+				var color []int
+
+				for _, pin := range data.Pins {
+					if pin.Pulse > 0 {
+						pulse = pin.Pulse
+					}
+
+					color = append(color, pin.ColorValue)
+				}
+
+				section.Pulse = pulse
+				section.Color = color
+			})
+			changeEvents = append(changeEvents, changeEvent)
+		}
+	}
+
+	// set change event to global, but first stop existing ones
+	for _, changeEvent := range Global.ChangeEvents {
+		changeEvent.Stop()
+	}
+
+	Global.ChangeEvents = changeEvents
 }
