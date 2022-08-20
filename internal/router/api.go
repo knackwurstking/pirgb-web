@@ -17,6 +17,8 @@ func init() {
 
 				r.Get("/pwm", handlerGetServerPWM)
 				r.Post("/pwm", handlerPostServerPWM)
+				r.Get("/ws/pwm", handlerWebsocketPWM)
+				r.Get("/ws/event/change", handlerEventChange)
 			})
 		})
 	})
@@ -48,6 +50,14 @@ func handlerGetServerPWM(w http.ResponseWriter, r *http.Request) {
 
 func handlerPostServerPWM(w http.ResponseWriter, r *http.Request) {
 	// TODO: set pwm to pirgb-server
+}
+
+func handlerWebsocketPWM(w http.ResponseWriter, r *http.Request) {
+	// TODO: ...
+}
+
+func handlerEventChange(w http.ResponseWriter, r *http.Request) {
+	// TODO: ...
 }
 
 // **** OLD: *******************************************************************************
