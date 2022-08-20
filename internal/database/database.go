@@ -9,6 +9,13 @@ package database
 //		- rgbw ([4]int)
 //	- Event handler (pirgb-server "change" event)
 
+var (
+	Global struct {
+		ChangeEvent *Event[Section]
+		Devices     *Devices
+	}
+)
+
 type Pulse int
 
 type Color []int
@@ -24,7 +31,13 @@ type DeviceSection struct {
 	Color     Color
 }
 
-func Initialize() {
-	// TODO: start event handler
-	// TODO: and store this global data things like Devices
+func InitializeGlobal() {
+	// start event handler
+	Global.ChangeEvent = NewChangeEvent()
+
+	Global.ChangeEvent.OnEvent = append(Global.ChangeEvent.OnEvent, func(data Section) {
+		// TODO: register event handler function for storing data
+	})
+
+	// TODO: Get pwm data once per http request
 }

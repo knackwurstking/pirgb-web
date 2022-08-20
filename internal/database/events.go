@@ -101,3 +101,11 @@ func (ev *Event[T]) Handler() {
 
 	<-ev.Done
 }
+
+func NewChangeEvent() *Event[Section] {
+	return &Event[Section]{
+		Name:    "change",
+		Done:    make(chan struct{}),
+		OnEvent: make([]func(data Section), 0),
+	}
+}

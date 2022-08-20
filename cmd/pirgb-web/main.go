@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// start data stuff (and event handlers)
-	database.Initialize()
+	database.InitializeGlobal()
 
 	// initialize the router and server
 	server := &http.Server{
