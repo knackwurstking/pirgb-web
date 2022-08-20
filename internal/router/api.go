@@ -17,21 +17,13 @@ import (
 
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
-		r.Get("/events/{name}", func(w http.ResponseWriter, r *http.Request) {
-			name := chi.URLParam(r, "name")
-
-			switch name {
-			case "change":
-				conn, err := websocket.Accept(w, r, nil)
-				if err != nil {
-					http.Error(w, "websocket connection failed", http.StatusInternalServerError)
-					return
-				}
-				events.Global.AddClient(r.Context(), conn, strings.Split(r.RemoteAddr, ":")[0])
-			default:
-				http.Error(w, "event not found", http.StatusNotFound)
+		r.Get("/events", func(w http.ResponseWriter, r *http.Request) {
+			conn, err := websocket.Accept(w, r, nil)
+			if err != nil {
+				http.Error(w, "websocket connection failed", http.StatusInternalServerError)
 				return
 			}
+			events.Global.AddClient(r.Context(), conn, strings.Split(r.RemoteAddr, ":")[0])
 		})
 
 		r.Route("/devices", func(r chi.Router) {
