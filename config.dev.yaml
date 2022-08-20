@@ -4,10 +4,6 @@ port: 50831
 # server listening for host
 host: 0.0.0.0
 
-# starts http and/or https server
-enableHTTP: true
-enableHTTPS: true # NOTE: missing cert
-
 devices:
   - host: pi-bed
     port: 50826 # NOTE: 50826 is the default pirgb-server port (optional)
