@@ -14,6 +14,9 @@ import (
 
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
+		// TODO: some event route, send all events possible to the frontend
+		// TODO: register client websocket connection to the events package
+
 		r.Route("/devices", func(r chi.Router) {
 			r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 				w.Header().Add("Content-Type", "application/json")

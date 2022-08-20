@@ -12,10 +12,28 @@ import (
 )
 
 var (
-	Global struct {
-		ChangeEvents []*Event[Section]
-	}
+	Global global
 )
+
+type global struct {
+	ChangeEvents []*Event[Section]
+	Register     []*websocket.Conn // TODO: some register for clients (frontend)
+}
+
+// AddClient to the register
+func (g *global) AddClient(conn *websocket.Conn) {
+	// ...
+}
+
+// RemoveClient from the register
+func (g *global) RemoveClient(conn *websocket.Conn) {
+	// ...
+}
+
+func (g *global) Dispatch(eventName string, data any) {
+	// FIX: Cannot use type EventTypes outside of a type constraint: interface contains type constraints
+	// ...
+}
 
 type Section struct {
 	ID   int   `json:"id"`
@@ -130,6 +148,7 @@ func Initialize() {
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
 			changeEvent := NewChangeEvent()
+			// TODO: check register and send parsed event data to the clients (frontend)
 			changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
 				var pulse int
 				var color []int
