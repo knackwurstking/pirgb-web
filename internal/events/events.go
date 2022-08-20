@@ -17,30 +17,50 @@ var (
 )
 
 type Client struct {
-	Conn    *websocket.Conn
 	Context context.Context
+	Conn    *websocket.Conn
+	Addr    string
 }
 
 type global struct {
 	ChangeEvents []*Event[Section]
-	Register     []Client
+	Register     []*Client
 }
 
 // AddClient to the register
-func (g *global) AddClient(conn *websocket.Conn) {
-	// TODO: Add client to register
+func (g *global) AddClient(ctx context.Context, conn *websocket.Conn, addr string) {
+	for _, client := range g.Register {
+		if client.Addr == addr {
+			client.Conn.Close(websocket.StatusAbnormalClosure, "recreate connection")
+			client.Conn = conn
+			client.Context = ctx
+			return
+		}
+	}
+
+	g.Register = append(g.Register, &Client{
+		Context: ctx,
+		Conn:    conn,
+		Addr:    addr,
+	})
 }
 
-// RemoveClient from the register
-func (g *global) RemoveClient(conn *websocket.Conn) {
-	// TODO: Remove client from register
+// RemoveClientAddr from the register
+func (g *global) RemoveClientAddr(addr string) {
+	var newRegister []*Client
+	for _, client := range g.Register {
+		if client.Addr != addr {
+			newRegister = append(newRegister, client)
+		}
+	}
+	g.Register = newRegister
 }
 
 func (g *global) Dispatch(eventName string, data any) {
 	switch eventName {
 	case "change":
 		for _, client := range g.Register {
-			func(client Client) {
+			func(client *Client) {
 				ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
 				defer cancel()
 				err := wsjson.Write(ctx, client.Conn, data)
@@ -49,6 +69,10 @@ func (g *global) Dispatch(eventName string, data any) {
 						"eventName": eventName,
 						"conn":      client.Conn,
 					}).Warnf(err.Error())
+
+					// Remove client address from register
+					client.Conn.Close(websocket.StatusAbnormalClosure, "read failed, close connection, remove client from register")
+					g.RemoveClientAddr(client.Addr)
 				}
 			}(client)
 		}

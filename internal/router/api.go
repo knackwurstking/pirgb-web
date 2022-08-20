@@ -6,16 +6,33 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
+	"gitlab.com/knackwurstking/pirgb-web/internal/events"
+	"nhooyr.io/websocket"
 )
 
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
-		// TODO: some event route, send all events possible to the frontend
-		// TODO: register client websocket connection to the events package
+		r.Get("/events/{name}", func(w http.ResponseWriter, r *http.Request) {
+			name := chi.URLParam(r, "name")
+
+			switch name {
+			case "change":
+				conn, err := websocket.Accept(w, r, nil)
+				if err != nil {
+					http.Error(w, "websocket connection failed", http.StatusInternalServerError)
+					return
+				}
+				events.Global.AddClient(r.Context(), conn, strings.Split(r.RemoteAddr, ":")[0])
+			default:
+				http.Error(w, "event not found", http.StatusNotFound)
+				return
+			}
+		})
 
 		r.Route("/devices", func(r chi.Router) {
 			r.Get("/", func(w http.ResponseWriter, r *http.Request) {
