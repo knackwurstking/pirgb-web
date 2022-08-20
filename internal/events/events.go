@@ -60,10 +60,15 @@ func (g *global) Dispatch(eventName string, data any) {
 	switch eventName {
 	case "change":
 		for _, client := range g.Register {
-			func(client *Client) {
+			go func(client *Client) {
 				ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
 				defer cancel()
-				err := wsjson.Write(ctx, client.Conn, data)
+
+				err := wsjson.Write(ctx, client.Conn, struct {
+					Name string          `json:"name"`
+					Data *config.Section `json:"data"`
+				}{Name: eventName, Data: data.(*config.Section)})
+
 				if err != nil {
 					logrus.WithFields(logrus.Fields{
 						"eventName": eventName,
