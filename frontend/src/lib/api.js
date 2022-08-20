@@ -1,10 +1,15 @@
 /**
  * @typedef {{
  *  pulse: number,
- *  rgbw: number[],
+ *  color: number[], // TODO: renamed: rgbw => color
  * }} PWM
  *
- * @typedef {Device[]} Devices
+ * @typedef {{
+ *  id: number,
+ *  pulse: number,
+ *  lastPulse: number,
+ *  color: number,
+ * }} Section // TODO: Section type changed
  *
  * @typedef {{
  *  host: string,
@@ -13,21 +18,7 @@
  *  sections: Section[],
  * }} Device
  *
- * @typedef {{
- *  id: number,
- *  pins: Pin[],
- *  host: string,
- *  port: number,
- * }} Section
- *
- * @typedef {{
- *  pin: number,
- *  range: number,
- *  pulse: number,
- *  colorValue: number,
- *  colorPulse: number,
- *  isRunning: boolean,
- * }} Pin
+ * @typedef {Device[]} Devices
  */
 
 /**
