@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/sirupsen/logrus"
@@ -32,15 +34,21 @@ func (devices *Devices) Scan() {
 			resp, err := http.Get(url)
 			if err != nil {
 				logrus.WithField("url", url).Errorln(err.Error())
-				device.Sections = make([]int, 0)
+				device.Sections = make([]*Section, 0)
 				return
 			}
 
 			defer resp.Body.Close()
 
-			err = json.NewDecoder(resp.Body).Decode(&device.Sections)
+			var sectionIDs []int
+			err = json.NewDecoder(resp.Body).Decode(&sectionIDs)
 			if err != nil {
 				logrus.WithField("url", url).Errorln(err.Error())
+			}
+
+			for _, sectionID := range sectionIDs {
+				device.Sections = append(device.Sections, &Section{ID: sectionID})
+				go device.GetPWM(sectionID)
 			}
 		}(device, &wg)
 	}
@@ -48,9 +56,65 @@ func (devices *Devices) Scan() {
 	wg.Wait()
 }
 
+type Section struct {
+	ID        int   `json:"id" yaml:"id"`
+	Pulse     int   `json:"pulse" yaml:"pulse"`
+	LastPulse int   `json:"-"`
+	Color     []int `json:"color" yaml:"color"`
+}
+
 type Device struct {
-	Host     string   `json:"host" yaml:"host"`
-	Port     int      `json:"port" yaml:"port"`
-	Sections []int    `json:"sections" yaml:"sections"`
-	Groups   []string `json:"groups" yaml:"groups"`
+	Host     string     `json:"host" yaml:"host"`
+	Port     int        `json:"port" yaml:"port"`
+	Sections []*Section `json:"sections" yaml:"sections"`
+	Groups   []string   `json:"groups" yaml:"groups"`
+}
+
+func (device *Device) URL(path ...string) string {
+	return fmt.Sprintf(
+		"http://%s:%d/%s",
+		device.Host, device.Port, strings.TrimLeft(filepath.Join(path...), "/"),
+	)
+}
+
+func (device *Device) GetPWM(sectionID int) error {
+	// get pwm section data from device
+	resp, err := http.Get(device.URL("pwm", fmt.Sprintf("%d", sectionID)))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	for _, section := range device.Sections {
+		if section.ID == sectionID {
+			// parse response
+			var sectionData struct {
+				ID   int `json:"id"`
+				Pins []struct {
+					Pulse      int `json:"pulse"`
+					ColorValue int `json:"colorValue"`
+				} `json:"pins"`
+			}
+			if err := json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
+				return nil
+			}
+
+			// parse pulse and color
+			var pulse int
+			var color []int
+			for _, pin := range sectionData.Pins {
+				if pin.Pulse > 0 {
+					pulse = pin.Pulse
+				}
+
+				color = append(color, pin.ColorValue)
+			}
+
+			// set data to section
+			section.Pulse = pulse
+			section.Color = color
+		}
+	}
+
+	return nil
 }

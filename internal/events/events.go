@@ -1,4 +1,4 @@
-package database
+package events
 
 import (
 	"context"
@@ -8,6 +8,12 @@ import (
 	"github.com/sirupsen/logrus"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
+)
+
+var (
+	Global struct {
+		ChangeEvent *Event[Section]
+	}
 )
 
 type Section struct {
@@ -108,4 +114,13 @@ func NewChangeEvent() *Event[Section] {
 		Done:    make(chan struct{}),
 		OnEvent: make([]func(data Section), 0),
 	}
+}
+
+func Initialize() {
+	// start event handler
+	Global.ChangeEvent = NewChangeEvent()
+
+	Global.ChangeEvent.OnEvent = append(Global.ChangeEvent.OnEvent, func(data Section) {
+		// TODO: register event handler function for storing data
+	})
 }

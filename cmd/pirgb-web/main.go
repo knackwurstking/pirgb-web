@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
-	"gitlab.com/knackwurstking/pirgb-web/internal/database"
+	"gitlab.com/knackwurstking/pirgb-web/internal/events"
 	"gitlab.com/knackwurstking/pirgb-web/internal/router"
 
 	"github.com/sirupsen/logrus"
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// start data stuff (and event handlers)
-	database.InitializeGlobal()
+	events.Initialize()
 
 	// initialize the router and server
 	server := &http.Server{
