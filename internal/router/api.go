@@ -3,15 +3,26 @@ package router
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/sirupsen/logrus"
+	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 )
 
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
 		r.Route("/devices", func(r chi.Router) {
+			r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Add("Content-Type", "application/json")
+				err := json.NewEncoder(w).Encode(config.Global.Devices)
+				if err != nil {
+					logrus.Warnln(err.Error())
+				}
+			})
+
 			r.Route("/{host}/{section:[0-9]}", func(r chi.Router) {
 				r.Use(middlewareParseDeviceData)
 
