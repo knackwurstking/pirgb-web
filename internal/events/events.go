@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
@@ -15,24 +16,45 @@ var (
 	Global global
 )
 
+type Client struct {
+	Conn    *websocket.Conn
+	Context context.Context
+}
+
 type global struct {
 	ChangeEvents []*Event[Section]
-	Register     []*websocket.Conn // TODO: some register for clients (frontend)
+	Register     []Client
 }
 
 // AddClient to the register
 func (g *global) AddClient(conn *websocket.Conn) {
-	// ...
+	// TODO: Add client to register
 }
 
 // RemoveClient from the register
 func (g *global) RemoveClient(conn *websocket.Conn) {
-	// ...
+	// TODO: Remove client from register
 }
 
 func (g *global) Dispatch(eventName string, data any) {
-	// FIX: Cannot use type EventTypes outside of a type constraint: interface contains type constraints
-	// ...
+	switch eventName {
+	case "change":
+		for _, client := range g.Register {
+			func(client Client) {
+				ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
+				defer cancel()
+				err := wsjson.Write(ctx, client.Conn, data)
+				if err != nil {
+					logrus.WithFields(logrus.Fields{
+						"eventName": eventName,
+						"conn":      client.Conn,
+					}).Warnf(err.Error())
+				}
+			}(client)
+		}
+	default:
+		logrus.Fatalf("Unknown event name \"%s\"", eventName)
+	}
 }
 
 type Section struct {
@@ -96,12 +118,6 @@ func (ev *Event[T]) Stop() {
 	ev.WaitGroup.Wait()
 }
 
-func (ev *Event[T]) Dispatch(data T) {
-	for _, handler := range ev.OnEvent {
-		go handler(data)
-	}
-}
-
 func (ev *Event[T]) Handler() {
 	ev.IsRunning = true
 	defer func() {
@@ -134,6 +150,12 @@ func (ev *Event[T]) Handler() {
 	<-ev.Done
 }
 
+func (ev *Event[T]) Dispatch(data T) {
+	for _, handler := range ev.OnEvent {
+		go handler(data)
+	}
+}
+
 func NewChangeEvent() *Event[Section] {
 	return &Event[Section]{
 		Name:    "change",
@@ -148,7 +170,6 @@ func Initialize() {
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
 			changeEvent := NewChangeEvent()
-			// TODO: check register and send parsed event data to the clients (frontend)
 			changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
 				var pulse int
 				var color []int
@@ -163,6 +184,8 @@ func Initialize() {
 
 				section.Pulse = pulse
 				section.Color = color
+
+				go Global.Dispatch(changeEvent.Name, section) // Type: `*config.Section`
 			})
 			changeEvents = append(changeEvents, changeEvent)
 		}
