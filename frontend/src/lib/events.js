@@ -27,6 +27,7 @@ class GlobalEvents extends EventTarget {
     }
     this.ws.onclose = (ev) => {
       console.log("[onclose]", ev)
+      // TODO: auto reconnect on close every 2.5 seconds
     }
     this.ws.onerror = (ev) => {
       console.log("[onerror]", ev)
