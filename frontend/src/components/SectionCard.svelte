@@ -14,7 +14,7 @@
 
   /** @type {number} */
   export let pulse = 0
-  $: pulse > 100 ? (pulse = 100) : pulse < 0 && (pulse = 0)
+  $: pulse < 0 && (pulse = 0)
 
   export let color = "#ffffff"
 
@@ -55,21 +55,23 @@
 </script>
 
 <fieldset class="section card">
-  <legend class="title">{host}</legend>
-  <pre>[Section: {sectionID}, Port: {port}]</pre>
+  <legend class="title"><code>[{sectionID}]</code> {host} </legend>
 
-  <input
-    type="color"
-    bind:value={color}
-  />
+  <section class="content">
+    <label class="input">
+      <span>Color</span>
+      <input
+        type="color"
+        bind:value={color}
+      />
+    </label>
 
-  <section class="actions">
     <label class="input">
       <span>Pulse</span>
       <input
         class="pulse"
         type="number"
-        min={0} max={100}
+        min={0}
         bind:value={pulse}
         on:focus={(ev) => {
           // @ts-ignore
@@ -77,7 +79,9 @@
         }}
       />
     </label>
+  </section>
 
+  <section class="actions">
     <button
       class="on"
       on:click={() => {
@@ -86,7 +90,7 @@
         })
       }}
     >
-      ON
+      <span>ON</span>
     </button>
     <button
       class="off"
@@ -104,25 +108,44 @@
 <style>
   fieldset {
     margin: 1em 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 
-  fieldset > pre {
-    margin-top: 0em;
+  section.content {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    justify-content: space-evenly;
+    width: 10em;
+  }
+
+  section.content > * {
+    margin: 0.5em;
   }
 
   section.actions {
     display: flex;
+    flex-direction: column;
     place-items: center;
+    justify-content: space-evenly;
+    margin-left: 0.75em;
+    overflow: hidden;
   }
 
   section.actions > * {
-    margin: 0.5rem;
+    margin: 0.5em;
   }
 
   section.actions > button {
     font-size: 1rem;
     height: fit-content;
-    margin-top: 1rem;
+    width: 4em;
+    margin-top: 1em;
+    display: flex;
+    place-items: center;
+    justify-content: center;
   }
 
   label.input {
@@ -136,13 +159,13 @@
     text-decoration: underline;
   }
 
-  label.input input {
+  label.input input.pulse {
     text-align: center;
     width: 5em;
   }
 
-  input[type=color] {
-    width: 90%;
+  label.input input[type=color] {
+    width: 9.5em;
     height: 2.5em;
     max-width: 10em;
     padding: 0.1em;
