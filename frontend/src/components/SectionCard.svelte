@@ -82,7 +82,7 @@
       class="on"
       on:click={() => {
         api.setPWM(host, sectionID,
-          { pulse: pulse, color: utils.hexToColor(color),
+          { pulse: pulse, rgbw: utils.hexToColor(color),
         })
       }}
     >
@@ -92,7 +92,7 @@
       class="off"
       on:click={() => {
         api.setPWM(host, sectionID,
-          { pulse: 0, color: utils.hexToColor(color) })
+          { pulse: 0, rgbw: utils.hexToColor(color) })
       }}
     >
       OFF

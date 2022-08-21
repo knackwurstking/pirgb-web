@@ -1,7 +1,7 @@
 /**
  * @typedef {{
  *  pulse: number,
- *  color: number[], // TODO: renamed: rgbw => color
+ *  rgbw: number[],
  * }} PWM
  *
  * @typedef {{
@@ -9,7 +9,7 @@
  *  pulse: number,
  *  lastPulse: number,
  *  color: number[],
- * }} Section // TODO: Section type changed
+ * }} Section
  *
  * @typedef {{
  *  host: string,
@@ -29,7 +29,7 @@ export async function getDevices() {
   /** @type Devices */
   let devices = []
 
-  if (resp.ok) {
+  if (resp.status === 200) {
     /** @type {Devices} */
     devices = await resp.json()
   }
