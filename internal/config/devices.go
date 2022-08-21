@@ -29,11 +29,11 @@ func (devices *Devices) Scan() {
 			}
 
 			url := fmt.Sprintf("http://%s:%d/info", device.Host, device.Port)
-			logrus.WithField("url", url).Debugln("scan device")
+			logrus.WithField("url", url).Debugln("[config] scan device")
 
 			resp, err := http.Get(url)
 			if err != nil {
-				logrus.WithField("url", url).Errorln(err.Error())
+				logrus.WithField("url", url).Errorln("[config]", err.Error())
 				device.Sections = make([]*Section, 0)
 				return
 			}
@@ -43,7 +43,7 @@ func (devices *Devices) Scan() {
 			var sectionIDs []int
 			err = json.NewDecoder(resp.Body).Decode(&sectionIDs)
 			if err != nil {
-				logrus.WithField("url", url).Errorln(err.Error())
+				logrus.WithField("url", url).Errorln("[config]", err.Error())
 			}
 
 			for _, sectionID := range sectionIDs {
