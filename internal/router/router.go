@@ -15,8 +15,8 @@ var (
 		//AllowOriginFunc: func(r *http.Request, origin string) bool { return true }, // allow all
 		AllowedMethods: []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders: []string{"Content-Type"},
-		//ExposedHeaders:   []string{"Content-Type"},
-		ExposedHeaders:   []string{},
+		ExposedHeaders: []string{"Content-Type"},
+		//ExposedHeaders:   []string{},
 		AllowCredentials: false,
 		//MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}
