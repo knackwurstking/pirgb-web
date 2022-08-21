@@ -2,9 +2,18 @@
 
 /**
  * @typedef {{
- *  name: string,
- *  data: any,
+ *  name: "change",
+ *  data: ChangeEventData,
  * }} EventData
+ *
+ * @typedef {{
+ *  host: string,
+ *  port: number,
+ *  id: number,
+ *  pulse: number,
+ *  lastPulse: number,
+ *  color: number[],
+ * }} ChangeEventData
  */
 
 class GlobalEvents extends EventTarget {
@@ -35,13 +44,13 @@ class GlobalEvents extends EventTarget {
 
       /** @type {EventData} */
       const eventData = JSON.parse(ev.data)
-      this.dispatchCustomEvent("change", eventData)
+      this.dispatchCustomEvent(eventData.name, eventData.data)
     }
   }
 
   /**
    * @param {"change"} type
-   * @param {(ev: CustomEvent<any>) => (Promise<void>|void)} callback
+   * @param {(ev: CustomEvent<ChangeEventData>) => (Promise<void>|void)} callback
    */
   addEventListener(type, callback) {
     super.addEventListener(type, callback)
@@ -49,7 +58,7 @@ class GlobalEvents extends EventTarget {
 
   /**
    * @param {"change"} type
-   * @param {(ev: CustomEvent<any>) => (Promise<void>|void)} callback
+   * @param {(ev: CustomEvent<ChangeEventData>) => (Promise<void>|void)} callback
    */
   removeEventListener(type, callback) {
     super.removeEventListener(type, callback)
@@ -57,7 +66,7 @@ class GlobalEvents extends EventTarget {
 
   /**
    * @param {"change"} type
-   * @param {any} detail
+   * @param {ChangeEventData} detail
    */
   dispatchCustomEvent(type, detail) {
     super.dispatchEvent(new CustomEvent(type, { detail }))
