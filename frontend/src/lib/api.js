@@ -8,7 +8,7 @@
  *  id: number,
  *  pulse: number,
  *  lastPulse: number,
- *  color: number,
+ *  color: number[],
  * }} Section // TODO: Section type changed
  *
  * @typedef {{

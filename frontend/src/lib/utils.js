@@ -1,5 +1,5 @@
 /** @param {string} color */
-export function colorToRGBW(color) {
+export function hexToColor(color) {
   // prevent errors
   if (color[0] !== "#" || color.length < 7) return [255, 255, 255, 255]
 
@@ -28,4 +28,16 @@ export function colorToRGBW(color) {
   }
 
   return [...rgbw, 0].slice(0, 4)
+}
+
+/**
+ * @param {number[]} rgbw
+ */
+export function colorToHex(...rgbw) {
+  var hex = "#"
+  for (let i = 0; i < 3; i++) {
+    hex += (rgbw[i] || 0).toString(16).padStart(2, "0")
+  }
+
+  return hex
 }

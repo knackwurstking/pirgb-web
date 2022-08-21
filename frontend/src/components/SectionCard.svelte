@@ -26,22 +26,21 @@
   //  - calculate pulse from color
 
   /**
-   * @param {import('../lib/api').Section} section
+   * @param {import('../lib/api').Section | null} section
    */
   async function refresh(section = null) {
     console.log(`[Card.svelte] [refresh] host=${host} sectionID=${sectionID}`)
-    if (!section) section = await api.getPWM(host, sectionID)
-    let newColor = "#"
-    for (let idx=0; idx < section.pins.length; idx++) {
-      if (section.pins[idx].pulse)
-        pulse = section.pins[idx].pulse
-
-      if (idx < 3)
-        newColor += section.pins[idx].colorValue.toString(16).padStart(2, "0")
+    try {
+      if (!section) section = await api.getPWM(host, sectionID)
+    } catch (error) {
+      console.warn(`[${host}:${port}, id: ${sectionID}]`, error)
+      pulse = 100
+      color = "#ffffff"
+      return
     }
 
-    if (!pulse) pulse = 100
-    color = newColor
+    pulse = section.pulse || section.lastPulse || 100
+    color = utils.colorToHex(...section.color)
   }
 </script>
 
@@ -73,7 +72,7 @@
       class="on"
       on:click={() => {
         api.setPWM(host, sectionID,
-          { pulse: pulse, rgbw: utils.colorToRGBW(color),
+          { pulse: pulse, color: utils.hexToColor(color),
         })
       }}
     >
@@ -83,7 +82,7 @@
       class="off"
       on:click={() => {
         api.setPWM(host, sectionID,
-          { pulse: 0, rgbw: utils.colorToRGBW(color) })
+          { pulse: 0, color: utils.hexToColor(color) })
       }}
     >
       OFF

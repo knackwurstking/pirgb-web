@@ -13,7 +13,27 @@ class GlobalEvents extends EventTarget {
   constructor() {
     super()
 
-    // TODO: connect websocket to "/api/events"
+    /** @type {WebSocket} */
+    this.ws = null
+
+    this.connect()
+  }
+
+  // Connect to "/api/events"
+  connect() {
+    this.ws = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/events`)
+    this.ws.onopen = (ev) => {
+      console.log("[onopen]", ev)
+    }
+    this.ws.onclose = (ev) => {
+      console.log("[onclose]", ev)
+    }
+    this.ws.onerror = (ev) => {
+      console.log("[onerror]", ev)
+    }
+    this.ws.onmessage = (ev) => {
+      console.log("[onmessage]", ev)
+    }
   }
 }
 
