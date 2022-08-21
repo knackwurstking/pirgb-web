@@ -125,7 +125,6 @@
 </Popover>
 
 <main>
-  <!-- TODO: Transition out: up direction, Transition in: from the button -->
   {#if selectedItem.name === "Sections"}
     <FlyDiv
       style={`
