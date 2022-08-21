@@ -249,6 +249,9 @@ func Initialize() {
 						color = append(color, pin.ColorValue)
 					}
 
+					if section.Pulse > 0 {
+						section.LastPulse = section.Pulse
+					}
 					section.Pulse = pulse
 					section.Color = color
 
