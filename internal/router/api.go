@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
@@ -27,7 +26,7 @@ func init() {
 				return
 			}
 			ctx := r.Context()
-			addr := strings.Split(r.RemoteAddr, ":")[0]
+			addr := r.RemoteAddr
 			events.Global.AddClient(ctx, conn, addr)
 
 			// Connection closed handling
