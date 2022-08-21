@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/sirupsen/logrus"
+	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 )
 
 // Devices ...
@@ -56,6 +58,16 @@ func (devices *Devices) Scan() {
 	wg.Wait()
 }
 
+func (devices *Devices) Get(host string) *Device {
+	for _, device := range *devices {
+		if device.Host == host {
+			return device
+		}
+	}
+
+	return nil
+}
+
 type Section struct {
 	ID        int   `json:"id" yaml:"id"`
 	Pulse     int   `json:"pulse" yaml:"pulse"`
@@ -70,11 +82,37 @@ type Device struct {
 	Groups   []string   `json:"groups" yaml:"groups"`
 }
 
+func (device *Device) GetSection(sectionID int) *Section {
+	for _, section := range device.Sections {
+		if section.ID == sectionID {
+			return section
+		}
+	}
+
+	return nil
+}
+
 func (device *Device) URL(path ...string) string {
 	return fmt.Sprintf(
 		"http://%s:%d/%s",
 		device.Host, device.Port, strings.TrimLeft(filepath.Join(path...), "/"),
 	)
+}
+
+func (device *Device) SetPWM(sectionID int, pwm servertypes.PWM) error {
+	url := device.URL("pwm", fmt.Sprintf("%d", sectionID))
+	data, _ := json.Marshal(pwm)
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(data))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusNoContent {
+		return &RespError{Resp: resp}
+	}
+
+	return nil
 }
 
 func (device *Device) GetPWM(sectionID int) error {
@@ -84,6 +122,10 @@ func (device *Device) GetPWM(sectionID int) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return &RespError{Resp: resp}
+	}
 
 	for _, section := range device.Sections {
 		if section.ID == sectionID {

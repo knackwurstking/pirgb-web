@@ -11,6 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/events"
+	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 	"nhooyr.io/websocket"
 )
 
@@ -47,11 +48,14 @@ func init() {
 
 		r.Route("/devices", func(r chi.Router) {
 			r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-				w.Header().Add("Content-Type", "application/json")
 				err := json.NewEncoder(w).Encode(config.Global.Devices)
 				if err != nil {
 					logrus.Warnln("[router]", err.Error())
+					w.WriteHeader(http.StatusNoContent)
+					return
 				}
+				w.Header().Add("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
 			})
 
 			r.Route("/{host}/{section:[0-9]}", func(r chi.Router) {
@@ -73,7 +77,7 @@ func middlewareParseDeviceData(handler http.Handler) http.Handler {
 		sectionParam := chi.URLParam(r, "section") // parse this to int
 		section, err := strconv.Atoi(sectionParam)
 		if err != nil {
-			http.Error(w, "section id not found", http.StatusNotFound)
+			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}
 
@@ -85,9 +89,49 @@ func middlewareParseDeviceData(handler http.Handler) http.Handler {
 }
 
 func handlerGetServerPWM(w http.ResponseWriter, r *http.Request) {
-	// TODO: get pwm from database
+	host := r.Context().Value("host").(string)
+	sectionID := r.Context().Value("section").(int)
+
+	device := config.Global.Devices.Get(host)
+	if device == nil {
+		http.Error(w, "device not found", http.StatusNotFound)
+		return
+	}
+
+	section := device.GetSection(sectionID)
+	if section == nil {
+		http.Error(w, "section not found", http.StatusNotFound)
+		return
+	}
+
+	json.NewEncoder(w).Encode(section)
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 }
 
 func handlerPostServerPWM(w http.ResponseWriter, r *http.Request) {
-	// TODO: set pwm to pirgb-server
+	host := r.Context().Value("host").(string)
+	sectionID := r.Context().Value("section").(int)
+
+	//  get request
+	var pwmData servertypes.PWM
+	err := json.NewDecoder(r.Body).Decode(&pwmData)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	device := config.Global.Devices.Get(host)
+	if device == nil {
+		http.Error(w, "device not found", http.StatusNotFound)
+		return
+	}
+
+	err = device.SetPWM(sectionID, pwmData)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

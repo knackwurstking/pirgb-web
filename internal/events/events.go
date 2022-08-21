@@ -10,6 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
+	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 )
@@ -28,11 +29,6 @@ type ChangeEventData struct {
 	Color     []int `json:"color" yaml:"color"`
 }
 
-//type GlobalChangeEventData struct {
-//	Name string                       `json:"name"`
-//	Data GlobalChangeEventDataSection `json:"data"`
-//}
-
 type Client struct {
 	Context context.Context
 	Conn    *websocket.Conn
@@ -40,7 +36,7 @@ type Client struct {
 }
 
 type global struct {
-	ChangeEvents []*Event[Section]
+	ChangeEvents []*Event[servertypes.Section]
 	Register     []*Client
 }
 
@@ -103,25 +99,7 @@ func (g *global) Dispatch(eventName string, data any) {
 	}
 }
 
-type Section struct {
-	ID   int   `json:"id"`
-	Pins []Pin `json:"pins"`
-}
-
-type Pin struct {
-	Pin        int  `json:"pin"`
-	Range      int  `json:"range"`
-	Pulse      int  `json:"pulse"`
-	ColorValue int  `json:"colorValue"`
-	ColorPulse int  `json:"colorPulse"`
-	IsRunning  bool `json:"isRunning"`
-}
-
-type EventTypes interface {
-	Section
-}
-
-type Event[T EventTypes] struct {
+type Event[T servertypes.EventTypes] struct {
 	Name      string // "change", ...
 	Host      string
 	Port      int
@@ -211,14 +189,14 @@ func (ev *Event[T]) Dispatch(data T) {
 	}
 }
 
-func NewChangeEvent(host string, port int, sectionID int) *Event[Section] {
-	ev := &Event[Section]{
+func NewChangeEvent(host string, port int, sectionID int) *Event[servertypes.Section] {
+	ev := &Event[servertypes.Section]{
 		Name:      "change",
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
 		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data Section), 0),
+		OnEvent:   make([]func(data servertypes.Section), 0),
 	}
 
 	ev.Log = logrus.WithFields(logrus.Fields{
@@ -231,13 +209,13 @@ func NewChangeEvent(host string, port int, sectionID int) *Event[Section] {
 }
 
 func Initialize() {
-	var changeEvents []*Event[Section]
+	var changeEvents []*Event[servertypes.Section]
 
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
 			func(device *config.Device, section *config.Section) {
 				changeEvent := NewChangeEvent(device.Host, device.Port, section.ID)
-				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data servertypes.Section) {
 					var pulse int
 					var color []int
 
