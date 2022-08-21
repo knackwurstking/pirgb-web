@@ -22,6 +22,7 @@
     console.log(`[SectionCard.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
     refresh(null)
 
+    // TODO: parse "change" event data
     events.global.addEventListener("change", ({ detail }) => {
       //const { id, pulse, lastPulse, color } = detail
       console.log("[SectionCard.svelte] change event occured:", detail)
