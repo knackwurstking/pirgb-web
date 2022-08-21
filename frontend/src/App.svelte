@@ -107,9 +107,18 @@
       left: 0.5em;
     `}
   >
-    <div class="popover-panel-content" transition:slide>
+    <div 
+      style={`
+        display: flex;
+        flex-direction: column;
+      `}
+      transition:slide
+    >
       {#each items as item, index (item.id)}
         <a
+          style={`
+            margin: 0.25em 0;
+          `}
           class="popover-panel-item"
           href={item.href},
           on:click={() => {
@@ -155,15 +164,6 @@
 </main>
 
 <style>
-  .popover-panel-content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .popover-panel-content > * {
-    margin: 0.25em 0;
-  }
-
   .popover-panel-item {
     border-radius: var(--border-radius);
     transition: background-color .5s ease, color .5s ease;
