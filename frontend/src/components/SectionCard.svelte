@@ -55,7 +55,7 @@
 </script>
 
 <fieldset class="section card">
-  <legend class="title"><code>[{sectionID}]</code> {host} </legend>
+  <legend class="title"> {host} <code style="font-size: 0.75em;">[{sectionID}]</code></legend>
 
   <section class="content">
     <label class="input">
@@ -107,10 +107,22 @@
 
 <style>
   fieldset {
+    position: relative;
     margin: 1em 0;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    border-style: solid;
+    padding-top: 2em;
+  }
+
+  fieldset legend {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.25em 1.3em;
+    border-bottom: 0.1rem solid var(--border-color);
+    border-bottom-right-radius: 0;
   }
 
   section.content {
