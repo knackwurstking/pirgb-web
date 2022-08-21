@@ -30,8 +30,8 @@
         return
       }
 
-      // TODO: parse data
-      console.log("change event:", detail)
+      // parse data ...
+      refresh({ ...detail })
     })
   })
 
