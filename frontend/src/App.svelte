@@ -14,6 +14,7 @@
   import { slide } from "svelte/transition"
 
   import SectionCard from "./components/SectionCard.svelte"
+  import FlyDiv from "./components/FlyDiv.svelte"
 
   import * as api from "./lib/api"
 
@@ -125,13 +126,23 @@
 
 <main>
   <!-- TODO: Transition out: up direction, Transition in: from the button -->
-  <Transition
-    show={selectedItem.name.toLowerCase() === "sections"}
-  >
-    <div class="flex-container">
+  {#if selectedItem.name === "Sections"}
+    <FlyDiv
+      style={`
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-top: 3rem;
+      `}
+    >
       {#each devices as device}
         {#each device.sections as section}
-          <div class="item">
+          <div style="margin: 0.5em;">
             <SectionCard
               host={device.host}
               port={device.port}
@@ -140,8 +151,8 @@
           </div>
         {/each}
       {/each}
-    </div>
-  </Transition>
+    </FlyDiv>
+  {/if}
 </main>
 
 <style>
@@ -163,21 +174,5 @@
   .popover-panel-item:hover,
   .popover-panel-item:active {
     background-color: var(--color-bg-highlight);
-  }
-
-  div.flex-container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding-top: 3rem;
-  }
-
-  div.flex-container .item {
-    margin: 0.5rem;
   }
 </style>
