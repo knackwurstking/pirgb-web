@@ -33,7 +33,33 @@ class GlobalEvents extends EventTarget {
     }
     this.ws.onmessage = (ev) => {
       console.log("[onmessage]", ev)
+      // TODO: dispatch a custom event here ...
+      // ...
     }
+  }
+
+  /**
+   * @param {"change"} type
+   * @param {(ev: CustomEvent<any>) => (Promise<void>|void)} callback
+   */
+  addEventListener(type, callback) {
+    super.addEventListener(type, callback)
+  }
+
+  /**
+   * @param {"change"} type
+   * @param {(ev: CustomEvent<any>) => (Promise<void>|void)} callback
+   */
+  removeEventListener(type, callback) {
+    super.removeEventListener(type, callback)
+  }
+
+  /**
+   * @param {"change"} type
+   * @param {any} detail
+   */
+  dispatchCustomEvent(type, detail) {
+    super.dispatchEvent(new CustomEvent(type, { detail }))
   }
 }
 
