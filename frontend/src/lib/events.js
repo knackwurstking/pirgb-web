@@ -1,11 +1,9 @@
 // TODO: global event handling
 
 /**
- * @typedef {import("./api").Section} Section
- *
  * @typedef {{
  *  name: string,
- *  data: Section,
+ *  data: any,
  * }} EventData
  */
 
@@ -37,10 +35,7 @@ class GlobalEvents extends EventTarget {
 
       /** @type {EventData} */
       const eventData = JSON.parse(ev.data)
-      console.log("[events]", eventData)
-
-      // TODO: dispatch a custom event here ...
-      // ...
+      this.dispatchCustomEvent("change", eventData)
     }
   }
 
