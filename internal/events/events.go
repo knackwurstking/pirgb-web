@@ -16,6 +16,21 @@ var (
 	Global global
 )
 
+type ChangeEventData struct {
+	Host string `json:"host"`
+	Port int    `json:"port"`
+
+	ID        int   `json:"id" yaml:"id"`
+	Pulse     int   `json:"pulse" yaml:"pulse"`
+	LastPulse int   `json:"lastPulse"`
+	Color     []int `json:"color" yaml:"color"`
+}
+
+//type GlobalChangeEventData struct {
+//	Name string                       `json:"name"`
+//	Data GlobalChangeEventDataSection `json:"data"`
+//}
+
 type Client struct {
 	Context context.Context
 	Conn    *websocket.Conn
@@ -66,8 +81,8 @@ func (g *global) Dispatch(eventName string, data any) {
 
 				err := wsjson.Write(ctx, client.Conn, struct {
 					Name string          `json:"name"`
-					Data *config.Section `json:"data"`
-				}{Name: eventName, Data: data.(*config.Section)})
+					Data ChangeEventData `json:"data"`
+				}{Name: eventName, Data: data.(ChangeEventData)})
 
 				if err != nil {
 					logrus.WithFields(logrus.Fields{
@@ -218,25 +233,34 @@ func Initialize() {
 
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
-			changeEvent := NewChangeEvent(device.Host, device.Port, section.ID)
-			changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
-				var pulse int
-				var color []int
+			func(device *config.Device, section *config.Section) {
+				changeEvent := NewChangeEvent(device.Host, device.Port, section.ID)
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
+					var pulse int
+					var color []int
 
-				for _, pin := range data.Pins {
-					if pin.Pulse > 0 {
-						pulse = pin.Pulse
+					for _, pin := range data.Pins {
+						if pin.Pulse > 0 {
+							pulse = pin.Pulse
+						}
+
+						color = append(color, pin.ColorValue)
 					}
 
-					color = append(color, pin.ColorValue)
-				}
+					section.Pulse = pulse
+					section.Color = color
 
-				section.Pulse = pulse
-				section.Color = color
-
-				go Global.Dispatch(changeEvent.Name, section) // Type: `*config.Section`
-			})
-			changeEvents = append(changeEvents, changeEvent)
+					go Global.Dispatch(changeEvent.Name, ChangeEventData{
+						Host:      device.Host,
+						Port:      device.Port,
+						ID:        section.ID,
+						Pulse:     section.Pulse,
+						LastPulse: section.LastPulse,
+						Color:     section.Color,
+					})
+				})
+				changeEvents = append(changeEvents, changeEvent)
+			}(device, section)
 		}
 	}
 
