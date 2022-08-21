@@ -33,14 +33,14 @@ func (config *GlobalConfig) Load() {
 	// loading configuration first
 	data, err := ioutil.ReadFile(filepath.Join(config.Path, configFile))
 	if err != nil {
-		logrus.Warnf("Read config failed: %s", err.Error())
+		logrus.Warnf("[config] Read config failed: %s", err.Error())
 		return
 	}
 
 	// merge config into `Global` (if possible)
 	err = yaml.Unmarshal(data, config)
 	if err != nil {
-		logrus.Warnf("Load config failed: %s", err.Error())
+		logrus.Warnf("[config] Load config failed: %s", err.Error())
 	}
 
 	config.Devices.Scan()
