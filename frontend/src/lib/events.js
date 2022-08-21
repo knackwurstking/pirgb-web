@@ -34,6 +34,11 @@ class GlobalEvents extends EventTarget {
     }
     this.ws.onmessage = (ev) => {
       console.log("[events] [onmessage]", ev)
+
+      /** @type {EventData} */
+      const eventData = JSON.parse(ev.data)
+      console.log("[events]", eventData)
+
       // TODO: dispatch a custom event here ...
       // ...
     }
