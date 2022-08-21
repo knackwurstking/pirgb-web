@@ -1,5 +1,7 @@
 package events
 
+// TODO: Clean up this mess here
+
 import (
 	"context"
 	"fmt"
