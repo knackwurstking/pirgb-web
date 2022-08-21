@@ -23,17 +23,17 @@ class GlobalEvents extends EventTarget {
   connect() {
     this.ws = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/events`)
     this.ws.onopen = (ev) => {
-      console.log("[onopen]", ev)
+      console.log("[events] [onopen]", ev)
     }
     this.ws.onclose = (ev) => {
-      console.log("[onclose]", ev)
+      console.log("[events] [onclose]", ev)
       // TODO: auto reconnect on close every 2.5 seconds
     }
     this.ws.onerror = (ev) => {
-      console.log("[onerror]", ev)
+      console.log("[events] [onerror]", ev)
     }
     this.ws.onmessage = (ev) => {
-      console.log("[onmessage]", ev)
+      console.log("[events] [onmessage]", ev)
       // TODO: dispatch a custom event here ...
       // ...
     }

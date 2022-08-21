@@ -34,7 +34,7 @@
   let devices = []
 
   onMount(() => {
-    console.log(`[onMount] App.svelte`)
+    console.log(`[App.svelte] [onMount] App.svelte`)
     api.getDevices().then(res => devices = res)
   })
 </script>

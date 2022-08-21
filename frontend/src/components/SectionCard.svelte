@@ -19,12 +19,12 @@
   export let color = "#ffffff"
 
   onMount(() => {
-    console.log(`[Card.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
+    console.log(`[SectionCard.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
     refresh(null)
 
     events.global.addEventListener("change", ({ detail }) => {
       //const { id, pulse, lastPulse, color } = detail
-      console.log("change event occured:", detail)
+      console.log("[SectionCard.svelte] change event occured:", detail)
     })
   })
 
@@ -32,11 +32,11 @@
    * @param {import('../lib/api').Section | null} section
    */
   async function refresh(section = null) {
-    console.log(`[Card.svelte] [refresh] host=${host} sectionID=${sectionID}`)
+    console.log(`[SectionCard.svelte] [refresh] host=${host} sectionID=${sectionID}`)
     try {
       if (!section) section = await api.getPWM(host, sectionID)
     } catch (error) {
-      console.warn(`[${host}:${port}, id: ${sectionID}]`, error)
+      console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)
       pulse = 100
       color = "#ffffff"
       return
