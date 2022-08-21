@@ -3,7 +3,6 @@
     Popover,
     PopoverButton,
     PopoverPanel,
-    Transition
   } from "@rgossiaux/svelte-headlessui"
 
   //import {
