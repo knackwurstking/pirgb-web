@@ -1,6 +1,7 @@
 <script>
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
+  import * as events from "../lib/events"
 
   import { onMount } from "svelte"
 
@@ -20,10 +21,12 @@
   onMount(() => {
     console.log(`[Card.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
     refresh(null)
-  })
 
-  // TODO: Need to handle color differently ...
-  //  - calculate pulse from color
+    events.global.addEventListener("change", ({ detail }) => {
+      //const { id, pulse, lastPulse, color } = detail
+      console.log("change event occured:", detail)
+    })
+  })
 
   /**
    * @param {import('../lib/api').Section | null} section
