@@ -18,12 +18,32 @@ import (
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
 		r.Get("/events", func(w http.ResponseWriter, r *http.Request) {
-			conn, err := websocket.Accept(w, r, nil)
+			conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
+				InsecureSkipVerify: true,
+			})
 			if err != nil {
+				logrus.Errorln(err.Error())
 				http.Error(w, "websocket connection failed", http.StatusInternalServerError)
 				return
 			}
-			events.Global.AddClient(r.Context(), conn, strings.Split(r.RemoteAddr, ":")[0])
+			ctx := r.Context()
+			addr := strings.Split(r.RemoteAddr, ":")[0]
+			events.Global.AddClient(ctx, conn, addr)
+
+			// Connection closed handling
+			defer func() {
+				conn.Close(websocket.StatusAbnormalClosure, "connection aborted")
+				events.Global.RemoveClientAddr(addr)
+			}()
+
+			for {
+				_, _, err := conn.Read(r.Context())
+				if err != nil {
+					// TODO: check error type ...
+					logrus.Errorf("[events] Connection read error: \"%+v\", %T", err, err)
+					return
+				}
+			}
 		})
 
 		r.Route("/devices", func(r chi.Router) {
