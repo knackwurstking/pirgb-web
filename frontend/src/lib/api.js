@@ -43,7 +43,7 @@ export async function getDevices() {
  * @param {PWM} data
  */
 export async function setPWM(host, section, data) {
-  const resp = await fetch(`/api/devices/${host}/pwm/${section}`, {
+  const resp = await fetch(`/api/devices/${host}/${section}/pwm`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -64,7 +64,7 @@ export async function setPWM(host, section, data) {
  * @returns {Promise<Section>}
  */
 export async function getPWM(host, section) {
-  const resp = await fetch(`/api/devices/${host}/pwm/${section}`)
+  const resp = await fetch(`/api/devices/${host}/${section}/pwm`)
 
   if (!resp.ok) {
     throw await responseError(resp)
