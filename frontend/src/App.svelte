@@ -20,6 +20,7 @@
 
   export let scheme = "";
 
+  // TODO: I don't like this items nav thing here
   /** @type {{ id: number, href: string, name: string }[]} */
   let items = [
     { id: 0, href: "#sections", name: "Sections" },
