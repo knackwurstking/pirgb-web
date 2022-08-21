@@ -22,7 +22,7 @@ func init() {
 				InsecureSkipVerify: true,
 			})
 			if err != nil {
-				logrus.Errorln(err.Error())
+				logrus.Errorln("[router]", err.Error())
 				http.Error(w, "websocket connection failed", http.StatusInternalServerError)
 				return
 			}
@@ -40,7 +40,7 @@ func init() {
 				_, _, err := conn.Read(r.Context())
 				if err != nil {
 					// TODO: check error type ...
-					logrus.Errorf("[events] Connection read error: \"%+v\", %T", err, err)
+					logrus.Errorf("[router] Connection read error: \"%+v\", %T", err, err)
 					return
 				}
 			}
@@ -51,7 +51,7 @@ func init() {
 				w.Header().Add("Content-Type", "application/json")
 				err := json.NewEncoder(w).Encode(config.Global.Devices)
 				if err != nil {
-					logrus.Warnln(err.Error())
+					logrus.Warnln("[router]", err.Error())
 				}
 			})
 
