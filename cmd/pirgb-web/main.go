@@ -32,10 +32,10 @@ func main() {
 
 	if debug {
 		logrus.SetLevel(logrus.DebugLevel)
-		logrus.Debugf("config path: \"%s\"", config.Global.Path)
-		logrus.Debugf("%+v", config.Global)
+		logrus.Debugf("[main] config path: \"%s\"", config.Global.Path)
+		logrus.Debugf("[main] %+v", config.Global)
 		for _, device := range config.Global.Devices {
-			logrus.Debugf("%+v", device)
+			logrus.Debugf("[main] %+v", device)
 		}
 	} else {
 		logrus.SetLevel(logrus.InfoLevel)
@@ -51,8 +51,8 @@ func main() {
 		Handler: router.Mux,
 	}
 
-	logrus.WithField("Address", server.Addr).Infof("Server running ...")
+	logrus.WithField("Address", server.Addr).Infof("[main] Server running ...")
 	if err := server.ListenAndServe(); err != nil {
-		logrus.Fatalln(err.Error())
+		logrus.Fatalln("[main]", err.Error())
 	}
 }
