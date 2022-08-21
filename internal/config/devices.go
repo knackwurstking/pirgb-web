@@ -59,7 +59,7 @@ func (devices *Devices) Scan() {
 type Section struct {
 	ID        int   `json:"id" yaml:"id"`
 	Pulse     int   `json:"pulse" yaml:"pulse"`
-	LastPulse int   `json:"-"`
+	LastPulse int   `json:"lastPulse"`
 	Color     []int `json:"color" yaml:"color"`
 }
 
