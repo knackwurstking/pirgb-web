@@ -73,7 +73,7 @@ func (g *global) Dispatch(eventName string, data any) {
 					logrus.WithFields(logrus.Fields{
 						"eventName": eventName,
 						"conn":      client.Conn,
-					}).Warnf(err.Error())
+					}).Warnln("[Events]", err.Error())
 
 					// Remove client address from register
 					client.Conn.Close(websocket.StatusAbnormalClosure, "read failed, close connection, remove client from register")
@@ -110,10 +110,11 @@ type Event[T EventTypes] struct {
 	Port      int
 	SectionID int
 	IsRunning bool
-	WaitGroup *sync.WaitGroup
+	WaitGroup sync.WaitGroup
 	Done      chan struct{}
 	Conn      *websocket.Conn
 	OnEvent   []func(data T)
+	Log       *logrus.Entry
 }
 
 func (ev *Event[T]) Connect() error {
@@ -135,6 +136,8 @@ func (ev *Event[T]) Start() error {
 		return nil
 	}
 
+	ev.Log.Debugf("[events] starting event handler")
+
 	ev.Connect()
 
 	ev.WaitGroup.Add(1)
@@ -143,6 +146,7 @@ func (ev *Event[T]) Start() error {
 }
 
 func (ev *Event[T]) Stop() {
+	ev.Log.Debugf("[events] stopping event handler")
 	ev.Done <- struct{}{}
 	ev.WaitGroup.Wait()
 }
@@ -164,10 +168,13 @@ func (ev *Event[T]) Handler() {
 		var err error
 		var data T
 		for {
+			ev.Log.Debugf("[events] wait for (json) data")
+
 			err = wsjson.Read(context.Background(), ev.Conn, &data)
 			if err != nil {
 				// TODO: check error type, on disconnect to a reconnect every 5 seconds
-				logrus.Debugf("change event handler err: %s [type: %T]", err.Error(), err)
+				ev.Log.Debugln("[events] @TODO: check error type, on disconnect to a reconnect every 5 seconds")
+				ev.Log.Debugf("[events] read error: %s [type: %T]", err.Error(), err)
 				break
 			}
 
@@ -180,17 +187,30 @@ func (ev *Event[T]) Handler() {
 }
 
 func (ev *Event[T]) Dispatch(data T) {
+	ev.Log.Debugf("[events] dispatch event %+v", data)
+
 	for _, handler := range ev.OnEvent {
 		go handler(data)
 	}
 }
 
-func NewChangeEvent() *Event[Section] {
-	return &Event[Section]{
-		Name:    "change",
-		Done:    make(chan struct{}),
-		OnEvent: make([]func(data Section), 0),
+func NewChangeEvent(host string, port int, sectionID int) *Event[Section] {
+	ev := &Event[Section]{
+		Name:      "change",
+		Host:      host,
+		Port:      port,
+		SectionID: sectionID,
+		Done:      make(chan struct{}),
+		OnEvent:   make([]func(data Section), 0),
 	}
+
+	ev.Log = logrus.WithFields(logrus.Fields{
+		"Host":      ev.Host,
+		"Port":      ev.Port,
+		"SectionID": ev.SectionID,
+	})
+
+	return ev
 }
 
 func Initialize() {
@@ -198,7 +218,7 @@ func Initialize() {
 
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
-			changeEvent := NewChangeEvent()
+			changeEvent := NewChangeEvent(device.Host, device.Port, section.ID)
 			changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
 				var pulse int
 				var color []int
@@ -220,10 +240,14 @@ func Initialize() {
 		}
 	}
 
-	// set change event to global, but first stop existing ones
+	// (re)start event handler for devices
 	for _, changeEvent := range Global.ChangeEvents {
 		changeEvent.Stop()
 	}
 
 	Global.ChangeEvents = changeEvents
+
+	for _, changeEvent := range Global.ChangeEvents {
+		changeEvent.Start()
+	}
 }
