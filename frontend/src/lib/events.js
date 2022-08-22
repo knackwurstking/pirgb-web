@@ -54,6 +54,8 @@ class GlobalEvents extends EventTarget {
   connect() {
     if (this.ws) {
       this.ws.close()
+      if (this._timeout) clearTimeout(this._timeout)
+      this._heartbeat = 0 
     }
 
     this.ws = new WebSocket(
@@ -73,7 +75,6 @@ class GlobalEvents extends EventTarget {
     }
 
     this.ws.onmessage = (ev) => {
-      console.log("[events] [onmessage]", ev)
       if (ev.data == "heartbeat") {
         if (this._heartbeat === this._FAILED) {
           this.dispatchCustomEvent("open", null)
@@ -82,6 +83,8 @@ class GlobalEvents extends EventTarget {
         this._heartbeat = this._RECEIVED
         return
       }
+
+      console.log("[events] [onmessage]", ev)
 
       /** @type {ServerEventData} */
       const eventData = JSON.parse(ev.data)
