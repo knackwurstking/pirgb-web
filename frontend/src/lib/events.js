@@ -84,7 +84,7 @@ class GlobalEvents extends EventTarget {
         return
       }
 
-      console.log("[events] [onmessage]", ev)
+      //console.log("[events] [onmessage]", ev)
 
       /** @type {ServerEventData} */
       const eventData = JSON.parse(ev.data)
@@ -107,7 +107,7 @@ class GlobalEvents extends EventTarget {
       this.dispatchCustomEvent("close", null)
     }
 
-    console.log("[events] send a heartbeat ...")
+    //console.log("[events] send a heartbeat ...")
     if (this._heartbeat !== this._FAILED) this._heartbeat = this._SEND
     this.ws.send("heartbeat")
     this._timeout = setTimeout(this.heartbeat.bind(this), this._heartbeatTimeoutValue);
