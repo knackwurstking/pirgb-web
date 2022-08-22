@@ -86,7 +86,6 @@
       class="panel-item-container"
       transition:slide
     >
-      <!-- TODO: list schemes available here ... -->
       {#each schemes as scheme}
         <div
           class="panel-item"

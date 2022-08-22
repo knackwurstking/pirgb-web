@@ -1,5 +1,3 @@
-// TODO: global event handling
-
 /**
  * @typedef {{
  *  name: "change",
