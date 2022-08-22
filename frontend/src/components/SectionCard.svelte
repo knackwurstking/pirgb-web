@@ -71,7 +71,6 @@
     console.log(`[SectionCard.svelte] [refresh] host=${host} sectionID=${sectionID}`)
     try {
       if (!section) section = await api.getPWM(host, sectionID)
-      if (!online) online = true
     } catch (error) {
       console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)
       if (online) online = false
@@ -143,7 +142,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    border-style: solid;
+    border-style: ridge;
     padding-top: 2em;
   }
 
@@ -152,7 +151,7 @@
     top: 0;
     right: 0;
     padding: 0.25em 1.3em;
-    border-bottom: 0.1rem solid var(--border-color);
+    border-bottom: 0.1rem ridge var(--border-color);
     border-bottom-right-radius: 0;
   }
 
