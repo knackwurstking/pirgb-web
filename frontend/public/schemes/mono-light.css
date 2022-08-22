@@ -1,7 +1,7 @@
 :root {
   --color-primary-bright: #000000;
   --color-primary: #2a2a2a;
-  --color-primary-dark: #444444;
+  --color-primary-dark: #7b7b7b;
 
   --color-bg-primary: #eeeeee;
   --color-bg-secondary: #cccccc;
@@ -11,7 +11,7 @@
   --color-special: var(--color-primary);
   --color-special-dark: var(--color-primary-dark);
 
-  --bg-color: var(--color-bg-primary);
+  --color-bg: var(--color-bg-primary);
   --color: var(--color-primary);
 
   --border-radius: 0.25rem;

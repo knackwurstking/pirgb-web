@@ -12,12 +12,11 @@
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
+  import ThemePicker from "./components/ThemePicker.svelte"
   import SectionCard from "./components/SectionCard.svelte"
   import FlyDiv from "./components/FlyDiv.svelte"
 
   import * as api from "./lib/api"
-
-  export let scheme = "";
 
   // TODO: I don't like this items nav thing here
   /** @type {{ id: number, href: string, name: string }[]} */
@@ -40,33 +39,6 @@
   })
 </script>
 
-<svelte:head>
-  {#if scheme === "light" }
-    <link
-      rel="stylesheet"
-      href="/schemes/mono-light.css"
-    />
-  {:else if scheme === "dark"}
-    <link
-      rel="stylesheet"
-      href="/schemes/mono-dark.css"
-    />
-  {:else}
-    <link
-      rel="stylesheet"
-      href="/schemes/mono-light.css"
-      media="(prefers-color-scheme: light)"
-    />
-
-    <link
-      rel="stylesheet"
-      href="/schemes/mono-dark.css"
-      media="(prefers-color-scheme: dark)"
-    />
-  {/if}
-</svelte:head>
-
-<!-- TODO: Add a theme picker on the top right position -->
 <Popover
   style={`
     position: fixed;
@@ -98,10 +70,8 @@
       position: absolute;
       z-index: 10;
       background-color: var(--color-bg-secondary);
-      border-radius: var(--border-radius);
       padding: 0 0.25em;
-      border: 0.1em solid;
-      border-color: var(--border-color);
+      border: 0.1em solid var(--border-color);
       width: 15em;
       top: 3.5em;
       left: 0.5em;
@@ -116,9 +86,6 @@
     >
       {#each items as item, index (item.id)}
         <a
-          style={`
-            margin: 0.25em 0;
-          `}
           class="popover-panel-item"
           href={item.href},
           on:click={() => {
@@ -132,6 +99,8 @@
     </div>
   </PopoverPanel>
 </Popover>
+
+<ThemePicker />
 
 <main>
   {#if selectedItem.name === "Sections"}
@@ -165,9 +134,9 @@
 
 <style>
   .popover-panel-item {
-    border-radius: var(--border-radius);
     transition: background-color .5s ease, color .5s ease;
     padding: 0.5em 0;
+    margin: 0.25em 0;
   }
 
   .popover-panel-item:hover,
