@@ -3,7 +3,7 @@
   import * as utils from "../lib/utils"
   import * as events from "../lib/events"
 
-  import { onMount } from "svelte"
+  import { onMount, onDestroy } from "svelte"
 
   /** @type {string} */
   export let host
@@ -18,21 +18,50 @@
 
   export let color = "#ffffff"
 
+  export let online = true
+
+  /**
+   * @param {Object} ev
+   * @param {import("../lib/events").ChangeEventData} ev.detail */
+  const changeEventListener = ({ detail }) => {
+    console.log(`[SectionCard.svelte] change event occured ${host}:${port}`)
+
+    if (detail.host !== host
+      || detail.port !== port
+      || detail.id !== sectionID) {
+
+      return
+    }
+
+    // parse data ...
+    refresh({ ...detail })
+  }
+
+  const openEventListener = () => {
+    console.log(`[SectionCard.svelte] websocket open event ${host}:${port}`)
+    if (!online) online = true
+  }
+
+  const closeEventListener = () => {
+    console.log(`[SectionCard.svelte] websocket close event ${host}:${port}`)
+    if (online) online = false
+  }
+
   onMount(() => {
     console.log(`[SectionCard.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
     refresh(null)
 
-    events.global.addEventListener("change", ({ detail }) => {
-      if (detail.host !== host
-        || detail.port !== port
-        || detail.id !== sectionID) {
+    events.global.addEventListener("change", changeEventListener)
+    events.global.addEventListener("close", closeEventListener)
+    events.global.addEventListener("open", openEventListener)
+  })
 
-        return
-      }
+  onDestroy(() => {
+    console.log(`[SectionCard.svelte] [onDestroy] ${host}:${port} [sectionID ${sectionID}]`)
 
-      // parse data ...
-      refresh({ ...detail })
-    })
+    events.global.removeEventListener("change", changeEventListener)
+    events.global.removeEventListener("close", closeEventListener)
+    events.global.removeEventListener("open", openEventListener)
   })
 
   /**
@@ -42,8 +71,10 @@
     console.log(`[SectionCard.svelte] [refresh] host=${host} sectionID=${sectionID}`)
     try {
       if (!section) section = await api.getPWM(host, sectionID)
+      if (!online) online = true
     } catch (error) {
       console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)
+      if (online) online = false
       pulse = 100
       color = "#ffffff"
       return
@@ -56,6 +87,7 @@
 
 <fieldset class="section card">
   <legend class="title"> {host} <code style="font-size: 0.75em;">[{sectionID}]</code></legend>
+  <pre class={`online-indicator ${online ? "online" : ""}`}>offline</pre>
 
   <section class="content">
     <label class="input">
@@ -93,8 +125,7 @@
       <span>ON</span>
     </button>
     <button
-      class="off"
-      on:click={() => {
+      class="off" on:click={() => {
         api.setPWM(host, sectionID,
           { pulse: 0, rgbw: utils.hexToColor(color) })
       }}
@@ -123,6 +154,22 @@
     padding: 0.25em 1.3em;
     border-bottom: 0.1rem solid var(--border-color);
     border-bottom-right-radius: 0;
+  }
+
+  fieldset .online-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.25em 0.75em;
+    margin: 0;
+    font-size: 0.75rem;
+    color: red;
+    opacity: 1;
+    transition: opacity ease 0.35s;
+  }
+
+  fieldset .online-indicator.online {
+    opacity: 0;
   }
 
   section.content {
