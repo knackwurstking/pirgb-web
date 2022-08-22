@@ -5,13 +5,11 @@
   import { slide } from "svelte/transition"
 
   export let schemes = [
-    "system",
-    "mono dark",
-    "mono light",
-    "dark blue",
+    "System",
+    "Light",
+    "Dark",
   ]
 
-  // TODO: Store state in (window) local storage
   let mounted = false
   export let currentScheme = schemes[0];
   $: (mounted) && window.localStorage.setItem("scheme", currentScheme)
@@ -23,31 +21,26 @@
 </script>
 
 <svelte:head>
-  {#if currentScheme === "mono light" }
+  {#if currentScheme === "Light" }
     <link
       rel="stylesheet"
-      href="/schemes/mono-light.css"
+      href="/schemes/light.css"
     />
-  {:else if currentScheme === "mono dark"}
+  {:else if currentScheme === "Dark"}
     <link
       rel="stylesheet"
-      href="/schemes/mono-dark.css"
-    />
-  {:else if currentScheme === "dark blue"}
-    <link
-      rel="stylesheet"
-      href="/schemes/dark-blue.css"
+      href="/schemes/dark.css"
     />
   {:else}
     <link
       rel="stylesheet"
-      href="/schemes/mono-light.css"
+      href="/schemes/light.css"
       media="(prefers-color-scheme: light)"
     />
 
     <link
       rel="stylesheet"
-      href="/schemes/mono-dark.css"
+      href="/schemes/dark.css"
       media="(prefers-color-scheme: dark)"
     />
   {/if}
@@ -81,28 +74,24 @@
     style={`
       position: absolute;
       z-index: 10;
-      background-color: var(--color-bg-secondary);
-      border: 0.1rem solid var(--border-color);
+      background-color: var(--button-bg);
+      border: var(--border-style);
       padding: 0 0.25em;
-      width: 10em;
+      width: fit-content;
       top: 3.5em;
       right: 0.5em;
     `}
   >
     <div
-      style={`
-        display: flex;
-        flex-direction: column;
-        place-items: center;
-      `}
+      class="panel-item-container"
       transition:slide
     >
       <!-- TODO: list schemes available here ... -->
-      {#each schemes as scheme, index}
+      {#each schemes as scheme}
         <div
           class="panel-item"
           on:click={() => {
-            currentScheme = schemes[index]
+            currentScheme = scheme
             close(null)
           }}
         >
@@ -114,19 +103,26 @@
 </Popover>
 
 <style>
+  .panel-item-container {
+    display: flex;
+    flex-direction: column;
+    width: 7em;
+  }
+
   .panel-item {
     margin: 0.25em 0;
+    font-size: inherit;
     font-weight: 500;
-    color: var(--color);
     text-decoration: inherit;
-    padding: 0.25em 0;
+    padding: 0.25em 0.5em;
     transition: background-color .5s ease, color .5s ease;
     width: 100%;
+    text-align: right;
+    cursor: pointer;
   }
 
   .panel-item:hover,
   .panel-item:active {
-    color: var(--color-primary-bright);
-    background-color: var(--color-bg-highlight);
+    background-color: var(--alternate-bg-color);
   }
 </style>

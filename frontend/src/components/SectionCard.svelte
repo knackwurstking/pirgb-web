@@ -85,7 +85,10 @@
 </script>
 
 <fieldset class="section card">
+  <legend class="title"> {host} <code>[{sectionID}]</code></legend>
+  <!--
   <legend class="title"> {host} <code style="font-size: 0.75em;">[{sectionID}]</code></legend>
+  -->
   <pre class={`online-indicator ${online ? "online" : ""}`}>offline</pre>
 
   <section class="content">
@@ -137,13 +140,10 @@
 
 <style>
   fieldset {
-    position: relative;
     margin: 1em 0;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    border-style: ridge;
     padding-top: 2em;
+    place-items: center;
   }
 
   fieldset legend {
@@ -151,7 +151,7 @@
     top: 0;
     right: 0;
     padding: 0.25em 1.3em;
-    border-bottom: 0.1rem ridge var(--border-color);
+    border-bottom: var(--border-width) var(--border-style) var(--border-color);
     border-bottom-right-radius: 0;
   }
 
@@ -197,15 +197,17 @@
   }
 
   section.actions > button {
+    /*
     font-size: 1rem;
     height: fit-content;
+    */
     width: 4em;
-    margin-top: 1em;
     display: flex;
     place-items: center;
     justify-content: center;
   }
 
+  /* TODO: make this a component */
   label.input {
     display: flex;
     flex-direction: column;
@@ -214,12 +216,16 @@
 
   label.input span {
     font-size: 0.70rem;
-    text-decoration: underline;
+    width: 100%;
+    text-align: center;
   }
 
   label.input input.pulse {
     text-align: center;
     width: 5em;
+    border-top: 0.1rem solid var(--border-color);
+    border-right: none;
+    border-left: none;
   }
 
   label.input input[type=color] {

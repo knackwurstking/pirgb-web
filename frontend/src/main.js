@@ -1,4 +1,4 @@
-import './app.css'
+import './app2.css'
 import App from './App.svelte'
 
 const app = new App({

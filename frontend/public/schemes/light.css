@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Sora";
+  src: local("Sora"), url("/assets/Sora-VariableFont_wght.ttf") format("truetype");
+}
+
+:root {
+  /* TODO: missing third color (--special-color | --accent-color) */
+  --bg-color: #ffffff;
+  --alternate-bg-color: #d5d5d5;
+  --text-color: #121416;
+  --text-color-light: #777676;
+  --link-color: #543fd7;
+  --button-color: #263238;
+  --button-bg: #f1f1f1;
+
+  font-family: Sora, Inter, Avenier, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+
+  color: var(--text-color);
+  background-color: var(--bg-color);
+
+  --border-color: #a9a9a9;
+  --border-width: 0.15rem;
+  --border-style: groove;
+  --border-radius: 0.25rem;
+}
+
+input {
+  border-style: 0.15rem ridge;
+  background-color: #d9d9d9;
+}
+
