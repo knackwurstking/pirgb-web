@@ -19,6 +19,7 @@ func init() {
 	Mux.Route("/api", func(r chi.Router) {
 		r.Get("/events", func(w http.ResponseWriter, r *http.Request) {
 			logrus.Debugf("[router] register event handler %s", r.RemoteAddr)
+
 			conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
 				InsecureSkipVerify: true,
 			})
@@ -27,23 +28,45 @@ func init() {
 				http.Error(w, "websocket connection failed", http.StatusInternalServerError)
 				return
 			}
-			ctx := r.Context()
-			addr := r.RemoteAddr
-			events.Global.AddClient(ctx, conn, addr)
 
-			// Connection closed handling
+			addr := r.RemoteAddr
+
+			ctx := r.Context()
+
+			/* TODO: test this ...
+			pingCtx, pingCancel := context.WithTimeout(ctx, time.Duration(time.Second*3))
+			defer pingCancel()
+			go func() {
+				for {
+					time.Sleep(5)
+					err := conn.Ping(pingCtx)
+					if err != nil {
+						logrus.Warnf("[router] ping failed: %s", err.Error())
+						return
+					}
+				}
+			}()
+			*/
+
+			events.Global.AddClient(ctx, conn, addr)
 			defer func() {
 				conn.Close(websocket.StatusAbnormalClosure, "connection aborted")
 				events.Global.RemoveClientAddr(addr)
 			}()
 
 			for {
-				_, _, err := conn.Read(r.Context())
+				msgType, msg, err := conn.Read(r.Context())
 				if err != nil {
-					// TODO: check error type ...
 					logrus.Errorf("[router] Connection read error: \"%+v\", %T", err, err)
 					return
 				}
+
+				go func() {
+					err = conn.Write(r.Context(), msgType, msg)
+					if err != nil {
+						logrus.Warnf("[router] Send echo failed: %s", err.Error())
+					}
+				}()
 			}
 		})
 
