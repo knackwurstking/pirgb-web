@@ -18,6 +18,7 @@ import (
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
 		r.Get("/events", func(w http.ResponseWriter, r *http.Request) {
+			logrus.Debugf("[router] register event handler %s", r.RemoteAddr)
 			conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
 				InsecureSkipVerify: true,
 			})
