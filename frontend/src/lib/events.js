@@ -27,15 +27,15 @@ class GlobalEvents extends EventTarget {
     this.ws = null
 
     /** @type {number|NodeJS.Timeout} */
-    this._timeout = 0
+    this._heartbeatTimeout = 0
 
-    this._heartbeatTimeoutValue = 2500
+    this.heartbeatTimeoutValue = 2500
 
 
-    this._NONE = 0
-    this._SEND = 1
-    this._RECEIVED = 2
-    this._FAILED = 3
+    this.NONE = 0
+    this.SEND = 1
+    this.RECEIVED = 2
+    this.FAILED = 3
 
     /**
      * 0: none
@@ -43,7 +43,7 @@ class GlobalEvents extends EventTarget {
      * 2: received
      * 3; fail
      */
-    this._heartbeat = 0 
+    this.heartbeatState = 0 
 
     this.connect()
   }
@@ -52,8 +52,8 @@ class GlobalEvents extends EventTarget {
   connect() {
     if (this.ws) {
       this.ws.close()
-      if (this._timeout) clearTimeout(this._timeout)
-      this._heartbeat = 0 
+      if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout)
+      this.heartbeatState = 0 
     }
 
     this.ws = new WebSocket(
@@ -68,17 +68,17 @@ class GlobalEvents extends EventTarget {
 
     this.ws.onclose = (ev) => {
       console.log("[events] [onclose]", ev)
-      clearTimeout(this._timeout)
+      clearTimeout(this._heartbeatTimeout)
       this.dispatchCustomEvent("close", null)
     }
 
     this.ws.onmessage = (ev) => {
       if (ev.data == "heartbeat") {
-        if (this._heartbeat === this._FAILED) {
+        if (this.heartbeatState === this.FAILED) {
           this.dispatchCustomEvent("open", null)
         }
 
-        this._heartbeat = this._RECEIVED
+        this.heartbeatState = this.RECEIVED
         return
       }
 
@@ -91,24 +91,24 @@ class GlobalEvents extends EventTarget {
   }
 
   heartbeat() {
-    if (this._timeout) {
-      clearTimeout(this._timeout)
-      this._timeout = 0
+    if (this._heartbeatTimeout) {
+      clearTimeout(this._heartbeatTimeout)
+      this._heartbeatTimeout = 0
     }
 
     if (!this.ws) return
     if (this.ws.readyState !== this.ws.OPEN) return
 
-    if (this._heartbeat === this._SEND) {
-      this._heartbeat = this._FAILED
+    if (this.heartbeatState === this.SEND) {
+      this.heartbeatState = this.FAILED
       this.closed = true
       this.dispatchCustomEvent("close", null)
     }
 
     //console.log("[events] send a heartbeat ...")
-    if (this._heartbeat !== this._FAILED) this._heartbeat = this._SEND
+    if (this.heartbeatState !== this.FAILED) this.heartbeatState = this.SEND
     this.ws.send("heartbeat")
-    this._timeout = setTimeout(this.heartbeat.bind(this), this._heartbeatTimeoutValue);
+    this._heartbeatTimeout = setTimeout(this.heartbeat.bind(this), this.heartbeatTimeoutValue);
   }
 
   /**
