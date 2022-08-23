@@ -107,10 +107,6 @@
         type="number"
         min={0}
         bind:value={pulse}
-        on:focus={(ev) => {
-          // @ts-ignore
-          ev.target.select()
-        }}
       />
     </label>
   </section>
@@ -201,7 +197,8 @@
     font-size: 1rem;
     height: fit-content;
     */
-    width: 4em;
+    width: 5em;
+    padding: 0.6em 0;
     display: flex;
     place-items: center;
     justify-content: center;

@@ -4,14 +4,16 @@
 }
 
 :root {
-  /* TODO: missing third color (--special-color | --accent-color) */
   --bg-color: #121416;
   --alternate-bg-color: #676666;
   --text-color: #d1d1d1;
   --text-color-light: #c5c5c5;
+  --special-color: #0700d4;
   --link-color: #543fd7;
   --button-color: #f6f6f6;
   --button-bg: #262228;
+  --input-color: var(--text-color-light);
+  --input-bg: #373636;
 
   font-family: Sora, Inter, Avenier, Helvetica, Arial, sans-serif;
   font-weight: 400;
@@ -27,5 +29,34 @@
 
 input {
   border-style: ridge;
-  background-color: #373636;
+  background-color: var(--input-bg);
+  color: var(--input-color);
+}
+
+fieldset {
+  box-shadow: 0.07em 0.07em 0.45em var(--special-color);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+fieldset > legend {
+  color: var(--text-color-light);
+  text-shadow: 0.07em 0.07em 0.125em var(--special-color);
+}
+
+button {
+  transition: transform 0.25s, filter 0.25s, box-shadow 0.25s;
+  box-shadow: 0.07em 0.07em 0.4em var(--special-color);
+}
+
+@media (hover: hover) {
+  button:hover {
+    transform: scale(1.06);
+    box-shadow: 0.15em 0.15em 0.45em var(--special-color);
+  }
+}
+
+button:active {
+  filter: brightness(80%);
+  transform: scale(0.94);
+  box-shadow: 0.04em 0.04em 0.35em var(--special-color);
 }
