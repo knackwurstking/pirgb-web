@@ -112,6 +112,7 @@
   </section>
 
   <section class="actions">
+    <!-- TODO: Toggle button on/off -->
     <button
       class="on"
       on:click={() => {
