@@ -23,21 +23,33 @@ class GlobalEvents extends EventTarget {
   constructor() {
     super()
 
-    /** @type {WebSocket} */
+    /**
+     * This will be `null` every time the websocket receives a close event
+     * @type {WebSocket|null}
+     */
     this.ws = null
 
-    /** @type {number|NodeJS.Timeout} */
+    /**
+     * The heartbeat timeout is currently running
+     * @type {number|NodeJS.Timeout}
+     */
     this._heartbeatTimeout = 0
 
+    /** Time to wait before sending the next heartbeat to the server */
     this.heartbeatTimeoutValue = 2500
 
 
+    /** Heartbeat state value: not started */
     this.NONE = 0
+    /** Heartbeat state value: heartbeat send, wait for echo */
     this.SEND = 1
+    /** Heartbeat state value: echo received, server reachable */
     this.RECEIVED = 2
+    /** Heartbeat state value: server is gone? */
     this.FAILED = 3
 
     /**
+     * The current heartbeat state
      * 0: none
      * 1: send
      * 2: received
@@ -45,16 +57,26 @@ class GlobalEvents extends EventTarget {
      */
     this.heartbeatState = 0 
 
+    /** Auto reconnect if the websocket receives a close event */
+    this.autoReconnect = true
+
+    /**
+     * The running `setInterval`
+     * @type {NodeJS.Timer|null}
+     */
+    this._autoReconnectInterval = null
+
     this.connect()
   }
 
-  // Connect to "/api/events"
+  /** Connect to server: "/api/events" */
   connect() {
     if (this.ws) {
       this.ws.close()
-      if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout)
-      this.heartbeatState = 0 
     }
+
+    if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout)
+    this.heartbeatState = 0 
 
     this.ws = new WebSocket(
       `${location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/events`
@@ -62,6 +84,10 @@ class GlobalEvents extends EventTarget {
 
     this.ws.onopen = (ev) => {
       console.log("[events] [onopen]", ev)
+      if (this._autoReconnectInterval) {
+        clearInterval(this._autoReconnectInterval)
+        this._autoReconnectInterval = null
+      }
       this.dispatchCustomEvent("open", null)
       this.heartbeat()
     }
@@ -69,7 +95,19 @@ class GlobalEvents extends EventTarget {
     this.ws.onclose = (ev) => {
       console.log("[events] [onclose]", ev)
       clearTimeout(this._heartbeatTimeout)
+
+      this.ws.close()
+      this.ws = null
+
       this.dispatchCustomEvent("close", null)
+
+      if (this.autoReconnect) {
+        if (!this._autoReconnectInterval) {
+          this._autoReconnectInterval = setInterval(() => {
+            this.connect()
+          }, 2500)
+        }
+      }
     }
 
     this.ws.onmessage = (ev) => {
@@ -90,6 +128,7 @@ class GlobalEvents extends EventTarget {
     }
   }
 
+  /** Heartbeat for checking if the server is still reachable */
   heartbeat() {
     if (this._heartbeatTimeout) {
       clearTimeout(this._heartbeatTimeout)

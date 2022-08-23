@@ -18,7 +18,7 @@
 
   export let color = "#ffffff"
 
-  export let online = true
+  export let online = false
 
   /**
    * @param {Object} ev
@@ -39,7 +39,7 @@
 
   const openEventListener = () => {
     console.log(`[SectionCard.svelte] websocket open event ${host}:${port}`)
-    if (!online) online = true
+    refresh(null)
   }
 
   const closeEventListener = () => {
@@ -71,6 +71,7 @@
     console.log(`[SectionCard.svelte] [refresh] host=${host} sectionID=${sectionID}`)
     try {
       if (!section) section = await api.getPWM(host, sectionID)
+      if (!online) online = true
     } catch (error) {
       console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)
       if (online) online = false
@@ -158,10 +159,12 @@
     left: 0;
     padding: 0.25em 0.75em;
     margin: 0;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    text-decoration: underline;
+    font-style: italic;
     color: red;
     opacity: 1;
-    transition: opacity ease 0.35s;
+    transition: opacity ease 0.4s;
   }
 
   fieldset .online-indicator.online {
