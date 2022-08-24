@@ -1,7 +1,8 @@
 <script>
-  //import { tick } from "svelte"
+  import { createEventDispatcher } from "svelte"
+  const dispatch = createEventDispatcher()
 
-  /** TODO: Update colors here ...
+  /**
    * Our color set
    * @type {string[][]}
    */
@@ -73,11 +74,6 @@
     }
 
     ddActive = !ddActive
-
-    //await tick()
-    //if (ddActive) {
-    //  //document.querySelector('.color-block.active').focus()
-    //}
   }
 
   function clickOutsideDropdown() {
@@ -88,6 +84,10 @@
   function changeValue(innerValue) {
     color = innerValue
     ddActive = false
+
+    if (color !== innerValue) {
+      dispatch("change", { color: innerValue })
+    }
   }
 </script>
 

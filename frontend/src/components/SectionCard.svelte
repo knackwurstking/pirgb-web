@@ -18,6 +18,7 @@
   export let pulse = 0
   $: pulse < 0 && (pulse = 0)
   export let color = "#ffffff"
+  $: color && console.log(`color ${color} for host ${host} and section ${sectionID}`)
   export let online = false
 
   let powerChecked = false
@@ -95,18 +96,16 @@
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
-    <!-- TODO: Replace this with the new `ColorPicker` -->
-    <ColorPicker bind:color />
-    <!--
-    <label class="input">
-      <span>Color</span>
-      <input
-        type="color"
-        bind:value={color}
-      />
-    </label>
-    -->
-
+    <ColorPicker
+      bind:color
+      on:change={
+        async ({ detail }) => {
+          if (detail.color) {
+            await api.setPWM(host, sectionID, { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) })
+          }
+        }
+      }
+    />
     <label class="input">
       <span>Pulse</span>
       <input
