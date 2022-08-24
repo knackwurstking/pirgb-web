@@ -1,10 +1,15 @@
 <script>
+  import { createEventDispatcher } from "svelte"
+
   export let scale = 1
   export let color = "#FFFFFF"
+  export let checked = false
+
+  const dispatch = createEventDispatcher()
 </script>
 
 <div style={`--color-invert: ${color};transform: scale(${scale});`} class="power-switch">
-  <input type="checkbox" />
+  <input type="checkbox" bind:checked on:click={() => dispatch("toggled", { checked: !checked })} />
   <div class="button">
     <svg class="power-off">
       <use xlink:href="#line" class="line" />

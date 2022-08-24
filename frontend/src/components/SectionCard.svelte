@@ -1,9 +1,11 @@
 <script>
+  import { onMount, onDestroy } from "svelte"
+
+  import PowerSwitch from "./PowerSwitch.svelte"
+
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
   import * as events from "../lib/events"
-
-  import { onMount, onDestroy } from "svelte"
 
   /** @type {string} */
   export let host
@@ -17,8 +19,11 @@
   $: pulse < 0 && (pulse = 0)
 
   export let color = "#ffffff"
-
   export let online = false
+
+  let powerChecked = false
+  let currentPulse = 0
+  $: currentPulse ? powerChecked = true : powerChecked = false
 
   /**
    * @param {Object} ev
@@ -80,6 +85,7 @@
       return
     }
 
+    currentPulse = section.pulse
     pulse = section.pulse || section.lastPulse || 100
     color = utils.colorToHex(...section.color)
   }
@@ -113,25 +119,21 @@
   </section>
 
   <section class="actions">
-    <!-- TODO: Toggle button on/off -->
-    <button
-      class="on"
-      on:click={() => {
-        api.setPWM(host, sectionID,
-          { pulse: pulse, rgbw: utils.hexToColor(color),
-        })
-      }}
-    >
-      <span>ON</span>
-    </button>
-    <button
-      class="off" on:click={() => {
-        api.setPWM(host, sectionID,
-          { pulse: 0, rgbw: utils.hexToColor(color) })
-      }}
-    >
-      OFF
-    </button>
+    <PowerSwitch
+      scale={0.7}
+      {color}
+      bind:checked={powerChecked}
+      on:toggled={
+        ({ detail }) => {
+          console.log("toggled", detail)
+          if (detail.checked) {
+            api.setPWM(host, sectionID, { pulse, rgbw: utils.hexToColor(color) })
+          } else {
+            api.setPWM(host, sectionID, { pulse: 0, rgbw: utils.hexToColor(color) })
+          }
+        }
+      }
+    />
   </section>
 
 </fieldset>
@@ -176,7 +178,7 @@
     flex-direction: column;
     place-items: center;
     justify-content: space-evenly;
-    width: 10em;
+    width: 13em;
   }
 
   section.content > * {
@@ -190,22 +192,8 @@
     justify-content: space-evenly;
     margin-left: 0.75em;
     overflow: hidden;
-  }
-
-  section.actions > * {
-    margin: 0.5em;
-  }
-
-  section.actions > button {
-    /*
-    font-size: 1rem;
-    height: fit-content;
-    */
-    width: 5em;
-    padding: 0.6em 0;
-    display: flex;
-    place-items: center;
-    justify-content: center;
+    width: 7em;
+    overflow: visible;
   }
 
   /* TODO: make this a component */
