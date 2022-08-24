@@ -12,7 +12,7 @@
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
-  import ThemePicker from "./components/ThemePicker.svelte"
+  //import ThemePicker from "./components/ThemePicker.svelte"
   import SectionCard from "./components/SectionCard.svelte"
   import FlyDiv from "./components/FlyDiv.svelte"
 
@@ -35,6 +35,13 @@
   })
 </script>
 
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="/schemes/dark.css"
+  />
+</svelte:head>
+
 <Popover
   style={`
     position: fixed;
@@ -56,9 +63,6 @@
     `}
   >
     <span>{selectedItem}</span>
-    <!--
-    <ChevronDownIcon style="width:1.5em;"/>
-    -->
   </PopoverButton>
 
   <PopoverPanel
@@ -91,8 +95,6 @@
     </div>
   </PopoverPanel>
 </Popover>
-
-<ThemePicker />
 
 <main>
   {#if selectedItem === "Sections"}
