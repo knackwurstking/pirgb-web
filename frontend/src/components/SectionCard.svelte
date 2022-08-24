@@ -13,17 +13,14 @@
   export let port
   /** @type {number} */
   export let sectionID 
-
   /** @type {number} */
   export let pulse = 0
   $: pulse < 0 && (pulse = 0)
-
   export let color = "#ffffff"
   export let online = false
 
   let powerChecked = false
   let currentPulse = 0
-  $: currentPulse ? powerChecked = true : powerChecked = false
 
   /**
    * @param {Object} ev
@@ -86,6 +83,7 @@
     }
 
     currentPulse = section.pulse
+    powerChecked = !!currentPulse
     pulse = section.pulse || section.lastPulse || 100
     color = utils.colorToHex(...section.color)
   }
