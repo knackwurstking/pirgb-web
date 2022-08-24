@@ -22,7 +22,7 @@
   background-color: var(--bg-color);
 
   --border-color: #109110;
-  --border-width: 0.1rem;
+  --border-width: 0.0625rem;
   --border-style: groove;
   --border-radius: 0.312rem;
 }
