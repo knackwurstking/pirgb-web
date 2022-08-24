@@ -5,10 +5,6 @@
     PopoverPanel,
   } from "@rgossiaux/svelte-headlessui"
 
-  //import {
-  //  ChevronDownIcon,
-  //} from "@rgossiaux/svelte-heroicons/solid"
-
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
