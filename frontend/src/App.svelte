@@ -115,6 +115,10 @@
 </main>
 
 <style>
+  main {
+    overflow-x: hidden;
+  }
+
   .panel-item-container {
     display: flex;
     flex-direction: column;
