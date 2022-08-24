@@ -5,8 +5,10 @@
   import { slide } from "svelte/transition"
 
   export let schemes = [
-    "System",
-    "Light",
+    "Dark Blue",
+    "Dark White",
+    "Dark Green",
+    "Green",
     "Dark",
   ]
 
@@ -21,10 +23,25 @@
 </script>
 
 <svelte:head>
-  {#if currentScheme === "Light" }
+  {#if currentScheme === "Dark Blue" }
     <link
       rel="stylesheet"
-      href="/schemes/light.css"
+      href="/schemes/dark-blue.css"
+    />
+  {:else if currentScheme === "Dark White"}
+    <link
+      rel="stylesheet"
+      href="/schemes/dark-white.css"
+    />
+  {:else if currentScheme === "Dark Green"}
+    <link
+      rel="stylesheet"
+      href="/schemes/dark-green.css"
+    />
+  {:else if currentScheme === "Green"}
+    <link
+      rel="stylesheet"
+      href="/schemes/green.css"
     />
   {:else if currentScheme === "Dark"}
     <link
@@ -34,14 +51,7 @@
   {:else}
     <link
       rel="stylesheet"
-      href="/schemes/light.css"
-      media="(prefers-color-scheme: light)"
-    />
-
-    <link
-      rel="stylesheet"
-      href="/schemes/dark.css"
-      media="(prefers-color-scheme: dark)"
+      href="/schemes/dark-blue.css"
     />
   {/if}
 </svelte:head>
@@ -59,8 +69,9 @@
     style={`
       position: absolute;
       top: 0.5em;
-      right: 0.5em;
+      right: 1em;
     `}
+    class="elevate-900"
   >
     <ColorSwatchIcon
       style={`
@@ -79,8 +90,9 @@
       padding: 0 0.25em;
       width: fit-content;
       top: 3.5em;
-      right: 0.5em;
+      right: 1em;
     `}
+    class="elevate-900"
   >
     <div
       class="panel-item-container"

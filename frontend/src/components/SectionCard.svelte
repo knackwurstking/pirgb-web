@@ -89,7 +89,7 @@
   }
 </script>
 
-<fieldset class="section card">
+<fieldset class="section elevate-500">
   <legend class="title"> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator ${online ? "online" : ""}`}>offline</pre>
 
@@ -129,7 +129,6 @@
       }
     />
   </section>
-
 </fieldset>
 
 <style>
