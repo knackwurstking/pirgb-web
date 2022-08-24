@@ -93,9 +93,6 @@
 
 <fieldset class="section card">
   <legend class="title"> {host} <code>[{sectionID}]</code></legend>
-  <!--
-  <legend class="title"> {host} <code style="font-size: 0.75em;">[{sectionID}]</code></legend>
-  -->
   <pre class={`online-indicator ${online ? "online" : ""}`}>offline</pre>
 
   <section class="content">
