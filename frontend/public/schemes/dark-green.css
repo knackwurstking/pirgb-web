@@ -21,10 +21,10 @@
   color: var(--text-color);
   background-color: var(--bg-color);
 
-  --border-color: #919191;
-  --border-width: 0.15rem;
+  --border-color: #109110;
+  --border-width: 0.0625rem;
   --border-style: groove;
-  --border-radius: 0.25rem;
+  --border-radius: 0.312rem;
 }
 
 input {

@@ -96,6 +96,8 @@
 
   <section class="content">
     <!-- TODO: Replace this with the new `ColorPicker` -->
+    <ColorPicker bind:color />
+    <!--
     <label class="input">
       <span>Color</span>
       <input
@@ -103,6 +105,7 @@
         bind:value={color}
       />
     </label>
+    -->
 
     <label class="input">
       <span>Pulse</span>
@@ -135,9 +138,9 @@
 
 <style>
   fieldset {
-    margin: 1em 0;
+    margin: 1rem 0;
     display: flex;
-    padding-top: 2em;
+    padding-top: 2rem;
     place-items: center;
   }
 
@@ -145,7 +148,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.25em 1.3em;
+    padding: 0.25rem 1.3rem;
     border-bottom: var(--border-width) var(--border-style) var(--border-color);
     border-bottom-right-radius: 0;
   }
@@ -154,7 +157,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding: 0.25em 0.75em;
+    padding: 0.25rem 0.75rem;
     margin: 0;
     font-size: 0.7rem;
     text-decoration: underline;
@@ -173,11 +176,11 @@
     flex-direction: column;
     place-items: center;
     justify-content: space-evenly;
-    width: 13em;
+    width: 13rem;
   }
 
   section.content > * {
-    margin: 0.5em;
+    margin: 1rem;
   }
 
   section.actions {
@@ -185,13 +188,12 @@
     flex-direction: column;
     place-items: center;
     justify-content: space-evenly;
-    margin-left: 0.75em;
+    margin-left: 0.75rem;
     overflow: hidden;
-    width: 7em;
+    width: 7rem;
     overflow: visible;
   }
 
-  /* TODO: make this a component */
   label.input {
     display: flex;
     flex-direction: column;
@@ -206,16 +208,16 @@
 
   label.input input.pulse {
     text-align: center;
-    width: 5em;
+    width: 5rem;
     border-top: 0.1rem solid var(--border-color);
     border-right: none;
     border-left: none;
   }
 
   label.input input[type=color] {
-    width: 9.5em;
-    height: 2.5em;
-    max-width: 10em;
-    padding: 0.1em;
+    width: 9.5rem;
+    height: 2.5rem;
+    max-width: 10rem;
+    padding: 0.1rem;
   }
 </style>

@@ -68,8 +68,8 @@
   <PopoverButton
     style={`
       position: absolute;
-      top: 0.5em;
-      right: 1em;
+      top: 0.5rem;
+      right: 1rem;
     `}
     class="elevate-900"
   >
@@ -87,10 +87,10 @@
       z-index: 10;
       background-color: var(--button-bg);
       border: var(--border-width) var(--border-style) var(--border-color);
-      padding: 0 0.25em;
+      padding: 0 0.25rem;
       width: fit-content;
-      top: 3.5em;
-      right: 1em;
+      top: 3.5rem;
+      right: 1rem;
     `}
     class="elevate-900"
   >
@@ -117,15 +117,15 @@
   .panel-item-container {
     display: flex;
     flex-direction: column;
-    width: 7em;
+    width: 7rem;
   }
 
   .panel-item {
-    margin: 0.25em 0;
+    margin: 0.25rem 0;
     font-size: inherit;
     font-weight: 500;
     text-decoration: inherit;
-    padding: 0.35em 0.6em;
+    padding: 0.35rem 0.6rem;
     transition: background-color .5s ease, color .5s ease;
     width: 100%;
     text-align: center;

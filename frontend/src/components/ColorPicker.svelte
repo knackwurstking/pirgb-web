@@ -100,12 +100,11 @@
         <div style="margin-right: 0.2rem" class="caret" class:top={top}></div>
       </div>
     </button>
-    <input type="text" bind:value={color} />
   </div>
 
   {#if ddActive}
     <div
-      class="values-dropdown"
+      class="values-dropdown elevate-200"
       class:top 
       bind:clientHeight={ddHeight}
       use:clickOutside
@@ -140,11 +139,11 @@
   }
 
   .select-color {
-    border: 0.0625rem solid #ccc;
+    border: var(--border-width, 0.0625rem) solid var(--border-color, #ccc);
     padding: 0.1875rem;
     border-radius: .2rem;
     margin-right: .4rem;
-    background: #fff;
+    background: var(--input-bg, #fff);
     height: 2.1875rem;
   }
 
@@ -153,7 +152,7 @@
     height: 0;
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid #555;
+    border-top: 0.25rem solid var(--text-color-light, #555);
     position: relative;
     top: 0.625rem;
     margin-left: 0.25rem;
@@ -162,24 +161,18 @@
   .caret.top {
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-bottom: 0.25rem solid #555;
+    border-bottom: 0.25rem solid var(--text-color-light, #555);
     border-top: none;
   }
 
   .active {
-      box-shadow: inset 0 0 0 0.0625rem #FFF, 0 0 0.1875rem 0.0625rem rgba(0,0,0,0.25);
+      box-shadow: inset 0 0 0 0.125rem var(--special-color, #FFF), 0 0 0.275rem 0.125rem var(--special-color, rgba(0,0,0,0.25));
   }
   
-  .fake-focus, input:focus, button:focus  {
+  .fake-focus, button:focus  {
       outline: 0;
-      box-shadow: 0 0 0 0.125rem #18A0FB;
-      border-color: #18A0FB;
-  }
-  
-  input {
-    border: 0.0625rem solid #CCC;
-    height: 2.1875rem;
-    border-radius: .2rem;
+      box-shadow: 0 0 0 0.0625rem var(--special-color, #18A0FB);
+      border-color: var(--border-color, #18A0FB);
   }
   
   .color-block {
@@ -195,8 +188,8 @@
       position: absolute;
       z-index: 1;
       top: 2.5rem;
-      background: white;
-      border: 0.0625rem solid #CCC;
+      background: var(--input-bg, white);
+      border: 0.0625rem solid var(--border-color, #CCC);
       border-radius: .3rem;
   }
 	

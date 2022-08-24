@@ -43,12 +43,12 @@
   <PopoverButton
     style={`
       display: flex;
-      align-items: center;
+      align-itrems: center;
       justify-content: center;
-      width: 10em;
+      width: 10rem;
       position: absolute;
-      top: 0.5em;
-      left: 0.5em;
+      top: 0.5rem;
+      left: 0.5rem;
     `}
     class="menu-button elevate-900"
   >
@@ -61,10 +61,10 @@
       z-index: 10;
       background-color: var(--button-bg);
       border: var(--border-width) var(--border-style) var(--border-color);
-      padding: 0 0.25em;
+      padding: 0 0.25rem;
       width: fit-content;
-      top: 3.5em;
-      left: 0.5em;
+      top: 3.5rem;
+      left: 0.5rem;
     `}
     class="elevate-900"
   >
@@ -96,12 +96,12 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        padding-top: 3em;
+        padding-top: 3rem;
       `}
     >
       {#each devices as device}
         {#each device.sections as section}
-          <div style="margin: 0.5em;">
+          <div style="margin: 0.5rem;">
             <SectionCard
               host={device.host}
               port={device.port}
@@ -118,15 +118,15 @@
   .panel-item-container {
     display: flex;
     flex-direction: column;
-    width: 10em;
+    width: 10rem;
   }
 
   .panel-item {
-    margin: 0.25em 0;
+    margin: 0.25rem 0;
     font-size: inherit;
     font-weight: 500;
     text-decoration: inherit;
-    padding: 0.35em 0.6em;
+    padding: 0.35rem 0.6rem;
     transition: background-color .5s ease, color .5s ease;
     width: 100%;
     text-align: center;
