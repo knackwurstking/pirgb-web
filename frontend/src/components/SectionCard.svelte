@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte"
 
   import PowerSwitch from "./PowerSwitch.svelte"
+  import ColorPicker from "./ColorPicker.svelte"
 
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
@@ -94,6 +95,7 @@
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
+    <!-- TODO: Replace this with the new `ColorPicker` -->
     <label class="input">
       <span>Color</span>
       <input
