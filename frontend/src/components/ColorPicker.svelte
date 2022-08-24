@@ -82,10 +82,15 @@
 
   /** @param {string} innerValue */
   function changeValue(innerValue) {
+    let change = false
+    if (color !== innerValue) {
+      change = true
+    }
+
     color = innerValue
     ddActive = false
 
-    if (color !== innerValue) {
+    if (change) {
       dispatch("change", { color: innerValue })
     }
   }
