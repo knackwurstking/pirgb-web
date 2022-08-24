@@ -58,37 +58,37 @@ button:active {
 }
 
 .elevate-100 {
-  box-shadow: 0.02em 0.02em 0.45em var(--special-color);
+  box-shadow: 0.02em 0.02em 0.1em 0.1em var(--special-color);
 }
 
 .elevate-200 {
-  box-shadow: 0.04em 0.04em 0.45em var(--special-color);
+  box-shadow: 0.04em 0.04em 0.2em 0.1em var(--special-color);
 }
 
 .elevate-300 {
-  box-shadow: 0.06em 0.06em 0.45em var(--special-color);
+  box-shadow: 0.06em 0.06em 0.3em 0.1em var(--special-color);
 }
 
 .elevate-400 {
-  box-shadow: 0.08em 0.08em 0.45em var(--special-color);
+  box-shadow: 0.08em 0.08em 0.4em 0.1em var(--special-color);
 }
 
 .elevate-500 {
-  box-shadow: 0.10em 0.10em 0.45em var(--special-color);
+  box-shadow: 0.10em 0.10em 0.5em 0.1em var(--special-color);
 }
 
 .elevate-600 {
-  box-shadow: 0.12em 0.12em 0.45em var(--special-color);
+  box-shadow: 0.12em 0.12em 0.6em 0.1em var(--special-color);
 }
 
 .elevate-700 {
-  box-shadow: 0.14em 0.14em 0.45em var(--special-color);
+  box-shadow: 0.14em 0.14em 0.7em 0.1em var(--special-color);
 }
 
 .elevate-800 {
-  box-shadow: 0.16em 0.16em 0.45em var(--special-color);
+  box-shadow: 0.16em 0.16em 0.8em 0.1em var(--special-color);
 }
 
 .elevate-900 {
-  box-shadow: 0.18em 0.18em 0.45em var(--special-color);
+  box-shadow: 0.18em 0.18em 0.9em 0.1em var(--special-color);
 }

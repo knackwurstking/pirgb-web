@@ -89,7 +89,7 @@
   }
 </script>
 
-<fieldset class="section elevate-500">
+<fieldset style={`--special-color: ${color};`} class="section elevate-300">
   <legend class="title"> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator ${online ? "online" : ""}`}>offline</pre>
 
