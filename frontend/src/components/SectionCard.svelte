@@ -3,6 +3,7 @@
 
   import PowerSwitch from "./PowerSwitch.svelte"
   import ColorPicker from "./ColorPicker.svelte"
+  import PulseInput from "./PulseInput.svelte"
 
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
@@ -96,25 +97,19 @@
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
-    <ColorPicker
-      bind:color
-      on:change={
-        async ({ detail }) => {
-          if (detail.color) {
-            await api.setPWM(host, sectionID, { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) })
+    <div style="margin: 0.5rem; margin-left: 1rem;">
+      <ColorPicker
+        bind:color
+        on:change={
+          async ({ detail }) => {
+            if (detail.color) {
+              await api.setPWM(host, sectionID, { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) })
+            }
           }
         }
-      }
-    />
-    <label class="input">
-      <span>Pulse</span>
-      <input
-        class="pulse"
-        type="number"
-        min={0}
-        bind:value={pulse}
       />
-    </label>
+    </div>
+    <PulseInput style="margin: 0.5rem;" min={0} bind:value={pulse} />
   </section>
 
   <section class="actions">
@@ -178,10 +173,6 @@
     width: 13rem;
   }
 
-  section.content > * {
-    margin: 1rem;
-  }
-
   section.actions {
     display: flex;
     flex-direction: column;
@@ -190,32 +181,5 @@
     margin-left: 0.75rem;
     width: 7rem;
     overflow: visible;
-  }
-
-  label.input {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-  }
-
-  label.input span {
-    font-size: 0.70rem;
-    width: 100%;
-    text-align: center;
-  }
-
-  label.input input.pulse {
-    text-align: center;
-    width: 5rem;
-    border-top: 0.1rem solid var(--border-color);
-    border-right: none;
-    border-left: none;
-  }
-
-  label.input {
-    width: 9.5rem;
-    height: 2.5rem;
-    max-width: 10rem;
-    padding: 0.1rem;
   }
 </style>
