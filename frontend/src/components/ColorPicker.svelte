@@ -189,7 +189,7 @@
       z-index: 1;
       top: 2.5rem;
       background: var(--input-bg, white);
-      border: 0.0625rem solid var(--border-color, #CCC);
+      border: var(--border-width) var(--border-style) var(--border-color, #CCC);
       border-radius: .3rem;
   }
 	

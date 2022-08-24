@@ -21,7 +21,8 @@
   color: var(--text-color);
   background-color: var(--bg-color);
 
-  --border-color: #109110;
+  /*--border-color: #109110;*/
+  --border-color: #10911055;
   --border-width: 0.0625rem;
   --border-style: solid;
   --border-radius: 0.312rem;
