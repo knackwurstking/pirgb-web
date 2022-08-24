@@ -1,15 +1,13 @@
 <script>
   //import { tick } from "svelte"
 
-  /**
+  /** TODO: Update colors here ...
    * Our color set
    * @type {string[][]}
    */
   export let colors = [
-    ['#DAAFE9', '#C7DBF5', '#AAD5FB', '#ADE5DA', '#B0EDC3', '#FDF0A4', '#F8D6A2'],
-    ['#C47ADA', '#90BAEE', '#75BAFA', '#72D5BF', '#73DE8C', '#FBE66E', '#F5B969'],
-    ['#AE44B7', '#5E7ABC', '#5E7ABC', '#4DACA9', '#63B75A', '#EDBD4A', '#EC9740'],
-    ['#501B87', '#021B6B', '#0C2794', '#337277', '#2F6A52', '#AE802F', '#AD6127']
+    ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff'], // NOTE: max (255 == ff)
+    ['#ff7f00', '#7fff00', '#00ff7f', '#007fff', '#7f00ff', '#ff007f'], // NOTE: (255 / 2 == 7f)
   ]
 
   // Initial value
@@ -194,7 +192,7 @@
   }
 	
   .values-dropdown-grid {
-      grid-template-columns: repeat(7, 1.5rem);
+      grid-template-columns: repeat(6, 1.5rem);
       grid-template-rows: 1.5rem 1.5rem;
       grid-gap: 0.625rem;
       display: grid;
