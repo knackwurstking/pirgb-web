@@ -126,9 +126,9 @@
       on:toggled={
         async ({ detail }) => {
           if (detail.checked) {
-            api.setPWM(host, sectionID, { pulse, rgbw: utils.hexToColor(color) })
+            await api.setPWM(host, sectionID, { pulse, rgbw: utils.hexToColor(color) })
           } else {
-            api.setPWM(host, sectionID, { pulse: 0, rgbw: utils.hexToColor(color) })
+            await api.setPWM(host, sectionID, { pulse: 0, rgbw: utils.hexToColor(color) })
           }
         }
       }
