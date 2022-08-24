@@ -121,7 +121,7 @@
       {color}
       bind:checked={powerChecked}
       on:toggled={
-        ({ detail }) => {
+        async ({ detail }) => {
           if (detail.checked) {
             api.setPWM(host, sectionID, { pulse, rgbw: utils.hexToColor(color) })
           } else {
