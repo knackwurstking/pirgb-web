@@ -213,7 +213,7 @@
     border-left: none;
   }
 
-  label.input input[type=color] {
+  label.input {
     width: 9.5rem;
     height: 2.5rem;
     max-width: 10rem;
