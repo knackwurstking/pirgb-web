@@ -23,12 +23,11 @@
 
   --border-color: #109110;
   --border-width: 0.0625rem;
-  --border-style: groove;
+  --border-style: solid;
   --border-radius: 0.312rem;
 }
 
 input {
-  border-style: solid;
   background-color: var(--input-bg);
   color: var(--input-color);
 }
