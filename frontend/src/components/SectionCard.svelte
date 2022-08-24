@@ -189,7 +189,6 @@
     place-items: center;
     justify-content: space-evenly;
     margin-left: 0.75rem;
-    overflow: hidden;
     width: 7rem;
     overflow: visible;
   }
