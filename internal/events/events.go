@@ -130,9 +130,12 @@ func (ev *Event[T]) reconnect() {
 	ev.Log.Debugf("[events] reconnect invoked...")
 	var err error
 
-	for err == nil {
+	for {
 		time.Sleep(time.Millisecond * 2500)
 		err = ev.Connect()
+		if err == nil {
+			break
+		}
 	}
 
 	ev.WaitGroup.Wait()
