@@ -16,7 +16,6 @@
 
 <style>
   label {
-    border: 1px solid red;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row-reverse;
