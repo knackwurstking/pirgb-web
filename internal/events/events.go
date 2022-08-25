@@ -113,7 +113,6 @@ type Event[T pirgb.EventTypes] struct {
 }
 
 func (ev *Event[T]) Connect() error {
-	// TODO: handle reconnects on connection error
 	conn, _, err := websocket.Dial(
 		context.Background(),
 		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d", ev.Host, ev.Port, ev.Name, ev.SectionID),
@@ -156,7 +155,6 @@ func (ev *Event[T]) Handler() {
 	go func() {
 		defer func() {
 			ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
-			ev.WaitGroup.Done()
 			ev.Done <- struct{}{}
 		}()
 
@@ -167,9 +165,10 @@ func (ev *Event[T]) Handler() {
 
 			err = wsjson.Read(context.Background(), ev.Conn, &data)
 			if err != nil {
-				// TODO: check error type, on disconnect to a reconnect every 5 seconds
-				ev.Log.Debugln("[events] @TODO: check error type, on disconnect to a reconnect every 5 seconds")
-				ev.Log.Debugf("[events] read error: %s [type: %T]", err.Error(), err)
+				// TODO: reconnect to server (every 2.5 - 5 seconds)
+				ev.Log.Warnf("[events] trouble while reading from device: %s", err.Error())
+				ev.Log.Debugf("[events] error type: %T", err)
+				//ev.Log.Infoln("[events] try to reconnect in a moment...")
 				break
 			}
 
