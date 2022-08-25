@@ -151,7 +151,7 @@
 
   .select-color {
     border: var(--border-width, 0.0625rem) solid var(--border-color, #ccc);
-    padding: 0.1875rem;
+    padding: 0.1875em;
     border-radius: .2rem;
     margin-right: .4rem;
     background: var(--input-bg, #fff);
@@ -195,7 +195,7 @@
   }
   
   .values-dropdown {
-      padding: 1rem;
+      padding: 1em;
       position: absolute;
       z-index: 1;
       top: 2.5rem;

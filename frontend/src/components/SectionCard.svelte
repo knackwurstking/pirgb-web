@@ -8,6 +8,7 @@
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
   import * as events from "../lib/events"
+import PulseSlider from "./PulseSlider.svelte"
 
   /** @type {string} */
   export let host
@@ -109,8 +110,10 @@
         }
       />
     </div>
-    <!-- TODO: Send button or change input to a range slider (0-100) -->
+    <!-- TODO: Send button or change input to a range slider (0-100)
     <PulseInput style="margin: 0.5rem;" min={0} bind:value={pulse} />
+    -->
+    <PulseSlider min={0} max={100} bind:value={pulse} />
   </section>
 
   <section class="actions">

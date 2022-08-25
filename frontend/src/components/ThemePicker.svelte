@@ -87,7 +87,7 @@
       z-index: 10;
       background-color: var(--button-bg);
       border: var(--border-width) var(--border-style) var(--border-color);
-      padding: 0 0.25rem;
+      padding: 0 0.25em;
       width: fit-content;
       top: 3.5rem;
       right: 1rem;
@@ -125,7 +125,7 @@
     font-size: inherit;
     font-weight: 500;
     text-decoration: inherit;
-    padding: 0.35rem 0.6rem;
+    padding: 0.35em 0.6em;
     transition: background-color .5s ease, color .5s ease;
     width: 100%;
     text-align: center;

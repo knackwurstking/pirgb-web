@@ -22,7 +22,7 @@
     width: 9.5rem;
     height: 2.5rem;
     max-width: 10rem;
-    padding: 0.1rem;
+    padding: 0.1em;
   }
 
   label span {
