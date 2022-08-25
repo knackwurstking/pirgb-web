@@ -1,4 +1,7 @@
 <script>
+  import { createEventDispatcher } from "svelte"
+  const dispatch = createEventDispatcher()
+
   export let min
   export let max
   export let value = 0
@@ -11,6 +14,7 @@
     {min}
     {max}
     bind:value
+    on:change={(ev) => dispatch("change", { value: parseInt(ev.currentTarget.value) })}
   />
 </label>
 

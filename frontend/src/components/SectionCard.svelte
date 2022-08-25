@@ -104,16 +104,28 @@ import PulseSlider from "./PulseSlider.svelte"
         on:change={
           async ({ detail }) => {
             if (detail.color) {
-              await api.setPWM(host, sectionID, { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) })
+              await api.setPWM(
+                host, sectionID,
+                { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) }
+              )
             }
           }
         }
       />
     </div>
-    <!-- TODO: Send button or change input to a range slider (0-100)
-    <PulseInput style="margin: 0.5rem;" min={0} bind:value={pulse} />
-    -->
-    <PulseSlider style="margin: 0.5rem;" min={0} max={100} bind:value={pulse} />
+    <PulseSlider
+      style="margin: 0.5rem;"
+      min={0} max={100}
+      bind:value={pulse}
+      on:change={
+        async ({ detail }) => {
+          await api.setPWM(
+            host, sectionID,
+            { pulse: detail.value, rgbw: utils.hexToColor(color) }
+          )
+        }
+      }
+    />
   </section>
 
   <section class="actions">
