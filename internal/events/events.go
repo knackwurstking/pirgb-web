@@ -172,7 +172,7 @@ func (ev *Event[T]) Handler() {
 		defer func() {
 			ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
 
-			if !ev.IsRunning {
+			if ev.IsRunning {
 				// connection read error
 				go ev.reconnect()
 				ev.Done <- struct{}{}
