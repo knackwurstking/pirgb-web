@@ -113,7 +113,7 @@ import PulseSlider from "./PulseSlider.svelte"
     <!-- TODO: Send button or change input to a range slider (0-100)
     <PulseInput style="margin: 0.5rem;" min={0} bind:value={pulse} />
     -->
-    <PulseSlider min={0} max={100} bind:value={pulse} />
+    <PulseSlider style="margin: 0.5rem;" min={0} max={100} bind:value={pulse} />
   </section>
 
   <section class="actions">

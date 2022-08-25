@@ -4,7 +4,7 @@
   export let value = 0
 </script>
 
-<label>
+<label {...$$props}>
   <span>{value}</span>
   <input
     type="range"
