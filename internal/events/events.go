@@ -177,6 +177,7 @@ func (ev *Event[T]) Handler() {
 
 			if ev.IsRunning {
 				// connection read error
+				// TODO: dispatch connection closed event to the frontend somehow
 				go ev.reconnect()
 				ev.Done <- struct{}{}
 			}
