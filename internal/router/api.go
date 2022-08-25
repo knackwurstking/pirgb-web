@@ -34,19 +34,19 @@ func init() {
 
 			ctx := r.Context()
 
-			/* TODO: test this ...
-			pingCtx, pingCancel := context.WithTimeout(ctx, time.Duration(time.Second*3))
-			defer pingCancel()
-			go func() {
-				for {
-					time.Sleep(5)
-					err := conn.Ping(pingCtx)
-					if err != nil {
-						logrus.Warnf("[router] ping failed: %s", err.Error())
-						return
+			/*
+				pingCtx, pingCancel := context.WithTimeout(ctx, time.Duration(time.Second*3))
+				defer pingCancel()
+				go func() {
+					for {
+						time.Sleep(5)
+						err := conn.Ping(pingCtx)
+						if err != nil {
+							logrus.Warnf("[router] ping failed: %s", err.Error())
+							return
+						}
 					}
-				}
-			}()
+				}()
 			*/
 
 			events.Global.AddClient(ctx, conn, addr)
