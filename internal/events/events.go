@@ -29,6 +29,12 @@ type ChangeEventData struct {
 	Color     []int `json:"color" yaml:"color"`
 }
 
+type DeviceStateEventData struct { // Used for "offline" and "online" events
+	Host string `json:"host"`
+	Port int    `json:"port"`
+	ID   int    `json:"id" yaml:"id"`
+}
+
 type Client struct {
 	Context context.Context
 	Conn    *websocket.Conn
@@ -70,6 +76,8 @@ func (g *global) RemoveClientAddr(addr string) {
 }
 
 func (g *global) Dispatch(eventName string, data any) {
+	logrus.Debugf("[events] dispatch \"%s\" event", eventName)
+
 	switch eventName {
 	case "change":
 		for _, client := range g.Register {
@@ -81,6 +89,29 @@ func (g *global) Dispatch(eventName string, data any) {
 					Name string          `json:"name"`
 					Data ChangeEventData `json:"data"`
 				}{Name: eventName, Data: data.(ChangeEventData)})
+
+				if err != nil {
+					logrus.WithFields(logrus.Fields{
+						"eventName": eventName,
+						"conn":      client.Conn,
+					}).Warnln("[Events]", err.Error())
+
+					// Remove client address from register
+					client.Conn.Close(websocket.StatusAbnormalClosure, "read failed, close connection, remove client from register")
+					g.RemoveClientAddr(client.Addr)
+				}
+			}(client)
+		}
+	case "offline", "online":
+		for _, client := range g.Register {
+			go func(client *Client) {
+				ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
+				defer cancel()
+
+				err := wsjson.Write(ctx, client.Conn, struct {
+					Name string               `json:"name"`
+					Data DeviceStateEventData `json:"data"`
+				}{Name: eventName, Data: data.(DeviceStateEventData)})
 
 				if err != nil {
 					logrus.WithFields(logrus.Fields{
@@ -123,6 +154,13 @@ func (ev *Event[T]) Connect() error {
 		return err
 	}
 	ev.Conn = conn
+
+	Global.Dispatch("online", DeviceStateEventData{
+		Host: ev.Host,
+		Port: ev.Port,
+		ID:   ev.SectionID,
+	})
+
 	return nil
 }
 
@@ -175,9 +213,14 @@ func (ev *Event[T]) Handler() {
 		defer func() {
 			ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
 
-			if ev.IsRunning {
-				// connection read error
-				// TODO: dispatch connection closed event to the frontend somehow
+			if ev.IsRunning { // connection read error
+				// dispatch connection closed event to the frontend
+				Global.Dispatch("offline", DeviceStateEventData{
+					Host: ev.Host,
+					Port: ev.Port,
+					ID:   ev.SectionID,
+				})
+
 				go ev.reconnect()
 				ev.Done <- struct{}{}
 			}

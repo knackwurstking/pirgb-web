@@ -41,6 +41,38 @@
     refresh({ ...detail })
   }
 
+  /**
+   * @param {Object} ev
+   * @param {import("../lib/events").OfflineEventData} ev.detail */
+  const offlineEventListener = ({ detail }) => {
+    if (detail.host !== host
+      || detail.port !== port
+      || detail.id !== sectionID) {
+
+      return
+    }
+
+    console.log(`[SectionCard] [${host}:${port} (${sectionID})] offline event occured`)
+
+    online = false
+  }
+
+  /**
+   * @param {Object} ev
+   * @param {import("../lib/events").OfflineEventData} ev.detail */
+  const onlineEventListener = ({ detail }) => {
+    if (detail.host !== host
+      || detail.port !== port
+      || detail.id !== sectionID) {
+
+      return
+    }
+
+    console.log(`[SectionCard] [${host}:${port} (${sectionID})] offline event occured`)
+
+    online = true 
+  }
+
   const openEventListener = () => {
     console.log(`[SectionCard] [${host}:${port} (${sectionID})] websocket open event`)
     refresh(null)
@@ -55,7 +87,10 @@
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onMount]`)
     refresh(null)
 
+    // @ts-ignore
     events.global.addEventListener("change", changeEventListener)
+    events.global.addEventListener("offline", offlineEventListener)
+    events.global.addEventListener("online", onlineEventListener)
     events.global.addEventListener("close", closeEventListener)
     events.global.addEventListener("open", openEventListener)
   })
@@ -63,7 +98,10 @@
   onDestroy(() => {
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onDestroy]`)
 
+    // @ts-ignore
     events.global.removeEventListener("change", changeEventListener)
+    events.global.removeEventListener("offline", offlineEventListener)
+    events.global.removeEventListener("online", onlineEventListener)
     events.global.removeEventListener("close", closeEventListener)
     events.global.removeEventListener("open", openEventListener)
   })

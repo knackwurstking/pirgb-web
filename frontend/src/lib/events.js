@@ -13,10 +13,18 @@
  *  color: number[],
  * }} ChangeEventData
  *
- * @typedef {null} OfflineEventData
+ * @typedef {null} WsEventData
  *
- * @typedef {"change"|"close"|"open"} GlobalEventTpes
- * @typedef {ChangeEventData|OfflineEventData} GlobalEventData
+ * @typedef {{
+ *  host: string,
+ *  port: number,
+ *  id: number,
+ * }} OfflineEventData
+ *
+ * @typedef {OfflineEventData} OnlineEventData
+ *
+ * @typedef {"change"|"offline"|"online"|"close"|"open"} GlobalEventTypes
+ * @typedef {ChangeEventData|OfflineEventData|OnlineEventData|WsEventData} GlobalEventData
  */
 
 class GlobalEvents extends EventTarget {
@@ -82,7 +90,7 @@ class GlobalEvents extends EventTarget {
       `${location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/events`
     )
 
-    this.ws.onopen = (ev) => {
+    this.ws.onopen = () => {
       console.log("[events] [onopen]")
       if (this._autoReconnectInterval) {
         clearInterval(this._autoReconnectInterval)
@@ -92,7 +100,7 @@ class GlobalEvents extends EventTarget {
       this.heartbeat()
     }
 
-    this.ws.onclose = (ev) => {
+    this.ws.onclose = () => {
       console.log("[events] [onclose]")
       clearTimeout(this._heartbeatTimeout)
 
