@@ -7,11 +7,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/events"
-	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
+	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/sirupsen/logrus"
 	"nhooyr.io/websocket"
 )
 
@@ -138,7 +139,7 @@ func handlerPostServerPWM(w http.ResponseWriter, r *http.Request) {
 	sectionID := r.Context().Value("section").(int)
 
 	//  get request
-	var pwmData servertypes.PWM
+	var pwmData pirgb.PWM
 	err := json.NewDecoder(r.Body).Decode(&pwmData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

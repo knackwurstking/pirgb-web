@@ -1,12 +1,10 @@
-package servertypes
+package pirgb
 
-// PWM data to send to pirgb-server (pwm request)
 type PWM struct {
 	Pulse int   `json:"pulse"`
 	RGBW  []int `json:"rgbw"`
 }
 
-// Section returned from pirgb-server (pwm request)
 type Section struct {
 	ID   int   `json:"id"`
 	Pins []Pin `json:"pins"`

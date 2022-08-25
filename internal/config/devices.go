@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	"github.com/sirupsen/logrus"
-	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
+	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
 // Devices ...
@@ -99,7 +99,7 @@ func (device *Device) URL(path ...string) string {
 	)
 }
 
-func (device *Device) SetPWM(sectionID int, pwm servertypes.PWM) error {
+func (device *Device) SetPWM(sectionID int, pwm pirgb.PWM) error {
 	url := device.URL("pwm", fmt.Sprintf("%d", sectionID))
 	data, _ := json.Marshal(pwm)
 	resp, err := http.Post(url, "application/json", bytes.NewBuffer(data))

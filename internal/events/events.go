@@ -10,7 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
-	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
+	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 )
@@ -36,7 +36,7 @@ type Client struct {
 }
 
 type global struct {
-	ChangeEvents []*Event[servertypes.Section]
+	ChangeEvents []*Event[pirgb.Section]
 	Register     []*Client
 }
 
@@ -99,7 +99,7 @@ func (g *global) Dispatch(eventName string, data any) {
 	}
 }
 
-type Event[T servertypes.EventTypes] struct {
+type Event[T pirgb.EventTypes] struct {
 	Name      string // "change", ...
 	Host      string
 	Port      int
@@ -189,14 +189,14 @@ func (ev *Event[T]) Dispatch(data T) {
 	}
 }
 
-func NewChangeEvent(host string, port int, sectionID int) *Event[servertypes.Section] {
-	ev := &Event[servertypes.Section]{
+func NewChangeEvent(host string, port int, sectionID int) *Event[pirgb.Section] {
+	ev := &Event[pirgb.Section]{
 		Name:      "change",
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
 		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data servertypes.Section), 0),
+		OnEvent:   make([]func(data pirgb.Section), 0),
 	}
 
 	ev.Log = logrus.WithFields(logrus.Fields{
@@ -209,13 +209,13 @@ func NewChangeEvent(host string, port int, sectionID int) *Event[servertypes.Sec
 }
 
 func Initialize() {
-	var changeEvents []*Event[servertypes.Section]
+	var changeEvents []*Event[pirgb.Section]
 
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
 			func(device *config.Device, section *config.Section) {
 				changeEvent := NewChangeEvent(device.Host, device.Port, section.ID)
-				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data servertypes.Section) {
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data pirgb.Section) {
 					var pulse int
 					var color []int
 
