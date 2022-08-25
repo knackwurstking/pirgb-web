@@ -3,12 +3,11 @@
 
   import PowerSwitch from "./PowerSwitch.svelte"
   import ColorPicker from "./ColorPicker.svelte"
-  import PulseInput from "./PulseInput.svelte"
+  import PulseSlider from "./PulseSlider.svelte"
 
   import * as api from "../lib/api"
   import * as utils from "../lib/utils"
   import * as events from "../lib/events"
-import PulseSlider from "./PulseSlider.svelte"
 
   /** @type {string} */
   export let host
@@ -20,7 +19,6 @@ import PulseSlider from "./PulseSlider.svelte"
   export let pulse = 0
   $: pulse < 0 && (pulse = 0)
   export let color = "#ffffff"
-  $: color && console.log(`color ${color} for host ${host} and section ${sectionID}`)
   export let online = false
 
   let powerChecked = false
@@ -30,8 +28,6 @@ import PulseSlider from "./PulseSlider.svelte"
    * @param {Object} ev
    * @param {import("../lib/events").ChangeEventData} ev.detail */
   const changeEventListener = ({ detail }) => {
-    console.log(`[SectionCard.svelte] change event occured ${host}:${port}`)
-
     if (detail.host !== host
       || detail.port !== port
       || detail.id !== sectionID) {
@@ -39,22 +35,24 @@ import PulseSlider from "./PulseSlider.svelte"
       return
     }
 
+    console.log(`[SectionCard] [${host}:${port} (${sectionID})] change event occured`)
+
     // parse data ...
     refresh({ ...detail })
   }
 
   const openEventListener = () => {
-    console.log(`[SectionCard.svelte] websocket open event ${host}:${port}`)
+    console.log(`[SectionCard] [${host}:${port} (${sectionID})] websocket open event`)
     refresh(null)
   }
 
   const closeEventListener = () => {
-    console.log(`[SectionCard.svelte] websocket close event ${host}:${port}`)
+    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] websocket close event`)
     if (online) online = false
   }
 
   onMount(() => {
-    console.log(`[SectionCard.svelte] [onMount] ${host}:${port} [sectionID ${sectionID}]`)
+    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onMount]`)
     refresh(null)
 
     events.global.addEventListener("change", changeEventListener)
@@ -63,7 +61,7 @@ import PulseSlider from "./PulseSlider.svelte"
   })
 
   onDestroy(() => {
-    console.log(`[SectionCard.svelte] [onDestroy] ${host}:${port} [sectionID ${sectionID}]`)
+    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onDestroy]`)
 
     events.global.removeEventListener("change", changeEventListener)
     events.global.removeEventListener("close", closeEventListener)
@@ -74,7 +72,8 @@ import PulseSlider from "./PulseSlider.svelte"
    * @param {import('../lib/api').Section | null} section
    */
   async function refresh(section = null) {
-    console.log(`[SectionCard.svelte] [refresh] host=${host} sectionID=${sectionID}`)
+    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [refresh]`)
+
     try {
       if (!section) section = await api.getPWM(host, sectionID)
       if (!online) online = true
@@ -114,11 +113,12 @@ import PulseSlider from "./PulseSlider.svelte"
       />
     </div>
     <PulseSlider
-      style="margin: 0.5rem;"
-      min={0} max={100}
+      style="margin: 0.5rem;width: 100%;"
+      min={5} max={100}
       bind:value={pulse}
       on:change={
         async ({ detail }) => {
+          if (currentPulse == 0) return
           await api.setPWM(
             host, sectionID,
             { pulse: detail.value, rgbw: utils.hexToColor(color) }

@@ -15,7 +15,7 @@
  *
  * @typedef {null} OfflineEventData
  *
- * @typedef {"change"|"close"|"open"} GlobalEventTypes
+ * @typedef {"change"|"close"|"open"} GlobalEventTpes
  * @typedef {ChangeEventData|OfflineEventData} GlobalEventData
  */
 
@@ -83,7 +83,7 @@ class GlobalEvents extends EventTarget {
     )
 
     this.ws.onopen = (ev) => {
-      console.log("[events] [onopen]", ev)
+      console.log("[events] [onopen]")
       if (this._autoReconnectInterval) {
         clearInterval(this._autoReconnectInterval)
         this._autoReconnectInterval = null
@@ -93,7 +93,7 @@ class GlobalEvents extends EventTarget {
     }
 
     this.ws.onclose = (ev) => {
-      console.log("[events] [onclose]", ev)
+      console.log("[events] [onclose]")
       clearTimeout(this._heartbeatTimeout)
 
       this.ws.close()
@@ -120,8 +120,6 @@ class GlobalEvents extends EventTarget {
         return
       }
 
-      //console.log("[events] [onmessage]", ev)
-
       /** @type {ServerEventData} */
       const eventData = JSON.parse(ev.data)
       this.dispatchCustomEvent(eventData.name, eventData.data)
@@ -144,7 +142,6 @@ class GlobalEvents extends EventTarget {
       this.dispatchCustomEvent("close", null)
     }
 
-    //console.log("[events] send a heartbeat ...")
     if (this.heartbeatState !== this.FAILED) this.heartbeatState = this.SEND
     this.ws.send("heartbeat")
     this._heartbeatTimeout = setTimeout(this.heartbeat.bind(this), this.heartbeatTimeoutValue);

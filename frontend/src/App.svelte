@@ -26,7 +26,7 @@
   let devices = []
 
   onMount(() => {
-    console.log(`[App.svelte] [onMount] App.svelte`)
+    console.log(`[App] [onMount] get devices...`)
     api.getDevices().then(res => devices = res)
   })
 </script>
