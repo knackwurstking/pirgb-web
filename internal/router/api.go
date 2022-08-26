@@ -18,76 +18,16 @@ import (
 
 func init() {
 	Mux.Route("/api", func(r chi.Router) {
-		r.Get("/events", func(w http.ResponseWriter, r *http.Request) {
-			logrus.Debugf("[router] register event handler %s", r.RemoteAddr)
-
-			conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
-				InsecureSkipVerify: true,
-			})
-			if err != nil {
-				logrus.Errorln("[router]", err.Error())
-				http.Error(w, "websocket connection failed", http.StatusInternalServerError)
-				return
-			}
-
-			addr := r.RemoteAddr
-
-			ctx := r.Context()
-
-			/*
-				pingCtx, pingCancel := context.WithTimeout(ctx, time.Duration(time.Second*3))
-				defer pingCancel()
-				go func() {
-					for {
-						time.Sleep(5)
-						err := conn.Ping(pingCtx)
-						if err != nil {
-							logrus.Warnf("[router] ping failed: %s", err.Error())
-							return
-						}
-					}
-				}()
-			*/
-
-			events.Global.AddClient(ctx, conn, addr)
-			defer func() {
-				conn.Close(websocket.StatusAbnormalClosure, "connection aborted")
-				events.Global.RemoveClientAddr(addr)
-			}()
-
-			for {
-				msgType, msg, err := conn.Read(r.Context())
-				if err != nil {
-					logrus.Errorf("[router] Connection read error: \"%+v\", %T", err, err)
-					return
-				}
-
-				go func() {
-					err = conn.Write(r.Context(), msgType, msg)
-					if err != nil {
-						logrus.Warnf("[router] Send echo failed: %s", err.Error())
-					}
-				}()
-			}
-		})
+		r.Get("/events", handleEvents)
 
 		r.Route("/devices", func(r chi.Router) {
-			r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-				err := json.NewEncoder(w).Encode(config.Global.Devices)
-				if err != nil {
-					logrus.Warnln("[router]", err.Error())
-					w.WriteHeader(http.StatusNoContent)
-					return
-				}
-				w.Header().Add("Content-Type", "application/json")
-				w.WriteHeader(http.StatusOK)
-			})
+			r.Get("/", handleDevices)
 
 			r.Route("/{host}/{section:[0-9]}", func(r chi.Router) {
 				r.Use(middlewareParseDeviceData)
 
-				r.Get("/pwm", handlerGetServerPWM)
-				r.Post("/pwm", handlerPostServerPWM)
+				r.Get("/pwm", handleGetServerPWM)
+				r.Post("/pwm", handlePostServerPWM)
 			})
 		})
 	})
@@ -113,7 +53,56 @@ func middlewareParseDeviceData(handler http.Handler) http.Handler {
 	})
 }
 
-func handlerGetServerPWM(w http.ResponseWriter, r *http.Request) {
+func handleEvents(w http.ResponseWriter, r *http.Request) {
+	logrus.Debugf("[router] register event handler %s", r.RemoteAddr)
+
+	conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
+		InsecureSkipVerify: true,
+	})
+	if err != nil {
+		logrus.Errorln("[router]", err.Error())
+		http.Error(w, "websocket connection failed", http.StatusInternalServerError)
+		return
+	}
+
+	addr := r.RemoteAddr
+
+	ctx := r.Context()
+
+	events.Global.AddClient(ctx, conn, addr)
+	defer func() {
+		conn.Close(websocket.StatusAbnormalClosure, "connection aborted")
+		events.Global.RemoveClientAddr(addr)
+	}()
+
+	for {
+		msgType, msg, err := conn.Read(r.Context())
+		if err != nil {
+			logrus.Errorf("[router] Connection read error: \"%+v\", %T", err, err)
+			return
+		}
+
+		go func() {
+			err = conn.Write(r.Context(), msgType, msg)
+			if err != nil {
+				logrus.Warnf("[router] Send echo failed: %s", err.Error())
+			}
+		}()
+	}
+}
+
+func handleDevices(w http.ResponseWriter, r *http.Request) {
+	err := json.NewEncoder(w).Encode(config.Global.Devices)
+	if err != nil {
+		logrus.Warnln("[router]", err.Error())
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func handleGetServerPWM(w http.ResponseWriter, r *http.Request) {
 	host := r.Context().Value("host").(string)
 	sectionID := r.Context().Value("section").(int)
 
@@ -134,7 +123,7 @@ func handlerGetServerPWM(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func handlerPostServerPWM(w http.ResponseWriter, r *http.Request) {
+func handlePostServerPWM(w http.ResponseWriter, r *http.Request) {
 	host := r.Context().Value("host").(string)
 	sectionID := r.Context().Value("section").(int)
 
