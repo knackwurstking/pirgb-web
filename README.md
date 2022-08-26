@@ -13,9 +13,6 @@ make
 make install # no sudo required
 ```
 
-@TODO: edit systemd files to edit sections
-@TODO: start service (as user)
-
 > replace **localhost** with hostname (or ip) where the server is running
 
 Open a browser and go to _http://**localhost**:50831/_
