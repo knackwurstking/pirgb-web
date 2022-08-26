@@ -21,11 +21,28 @@ Open a browser and go to _http://**localhost**:50831/_
 
 ### HTTP
 
+```go
+type Section struct {
+	ID        int   `json:"id" yaml:"id"`
+	Pulse     int   `json:"pulse" yaml:"pulse"`
+	LastPulse int   `json:"lastPulse"`
+	Color     []int `json:"color" yaml:"color"`
+}
+
+type Device struct {
+	Host     string     `json:"host" yaml:"host"`
+	Port     int        `json:"port" yaml:"port"`
+	Sections []*Section `json:"sections" yaml:"sections"`
+	Groups   []string   `json:"groups" yaml:"groups"`
+}
+```
+
 @TODO: endpoints table...
 
-| Method | Url | Request | Response | Description |
-| ------ | --- | ------- | -------- | ----------- |
-| GET    | /   | -       | -        | serve ui    |
+| Method | Url | Request | Response     | Description            |
+| ------ | --- | ------- | ------------ | ---------------------- |
+| GET    | /   | -       | -            | serve ui               |
+| GET    | /   | -       | `[]*Devices` | list available devices |
 
 ### Websocket
 
@@ -37,7 +54,7 @@ Open a browser and go to _http://**localhost**:50831/_
 
 #### /api/events
 
-> The server will simply echo all data received from the client.  
+> The server will simply echo all data received from the client.
 
 Data types:
 
@@ -83,4 +100,4 @@ Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-serv
 
 Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git)) is offline.
 
-**Sends data**: `BaseEventData[DeviceEventData]` (*Just like the "**online**" event*)
+**Sends data**: `BaseEventData[DeviceEventData]` (_Just like the "**online**" event_)
