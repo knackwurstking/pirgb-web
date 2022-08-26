@@ -22,6 +22,11 @@ Open a browser and go to _http://**localhost**:50831/_
 ### HTTP
 
 ```go
+type PWM struct {
+	Pulse int   `json:"pulse"`
+	RGBW  []int `json:"rgbw"`
+}
+
 type Section struct {
 	ID        int   `json:"id" yaml:"id"`
 	Pulse     int   `json:"pulse" yaml:"pulse"`
@@ -37,12 +42,12 @@ type Device struct {
 }
 ```
 
-@TODO: endpoints table...
-
-| Method | Url | Request | Response     | Description            |
-| ------ | --- | ------- | ------------ | ---------------------- |
-| GET    | /   | -       | -            | serve ui               |
-| GET    | /   | -       | `[]*Devices` | list available devices |
+| Method | Url                                 | Request | Response     | Description                                    |
+| ------ | ----------------------------------- | ------- | ------------ | ---------------------------------------------- |
+| GET    | /                                   | -       | -            | serve ui                                       |
+| GET    | /devices                            | -       | `[]*Devices` | list available devices                         |
+| GET    | /devices/{host}/{section:[0-9]}/pwm | -       | `Section`    | get pwm section data from device               |
+| POST   | /devices/{host}/{section:[0-9]}/pwm | `PWM`   | -            | update pulse and/or color for a device section |
 
 ### Websocket
 
@@ -84,20 +89,16 @@ type ChangeEventData struct {
 
 ##### _Event Name: `"change"`_
 
-**Sends data:**: `BaseEventData[ChangeEventData]`
-
-<a id="online-server-event" />
+**Returns**: `BaseEventData[ChangeEventData]`
 
 ##### _Event Name: `"online"`_
 
 Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git)) is online.
 
-**Sends data**: `BaseEventData[DeviceEventData]`
-
-<a id="offline-server-event" />
+**Returns**: `BaseEventData[DeviceEventData]`
 
 ##### _Event Name: `"offline"`_
 
 Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git)) is offline.
 
-**Sends data**: `BaseEventData[DeviceEventData]` (_Just like the "**online**" event_)
+**Returns**: `BaseEventData[DeviceEventData]` (_Just like the "**online**" event_)

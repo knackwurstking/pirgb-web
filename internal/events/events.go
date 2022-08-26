@@ -6,6 +6,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
+	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
@@ -22,7 +23,7 @@ type Client struct {
 }
 
 type global struct {
-	ChangeEvents []*EventHandler[pirgb.Section]
+	ChangeEvents []*EventHandler[servertypes.Section]
 	Register     []*Client
 }
 
@@ -62,17 +63,17 @@ func (g *global) Dispatch(eventName string, data any) {
 	case "change":
 		dispathEvent(
 			g, eventName,
-			BaseEventData[ChangeEventData]{
+			pirgb.BaseEventData[pirgb.ChangeEventData]{
 				Name: eventName,
-				Data: data.(ChangeEventData),
+				Data: data.(pirgb.ChangeEventData),
 			},
 		)
 	case "offline", "online":
 		dispathEvent(
 			g, eventName,
-			BaseEventData[DeviceEventData]{
+			pirgb.BaseEventData[pirgb.DeviceEventData]{
 				Name: eventName,
-				Data: data.(DeviceEventData),
+				Data: data.(pirgb.DeviceEventData),
 			},
 		)
 	default:
@@ -80,7 +81,7 @@ func (g *global) Dispatch(eventName string, data any) {
 	}
 }
 
-func dispathEvent[T Events](g *global, name string, data BaseEventData[T]) {
+func dispathEvent[T pirgb.Events](g *global, name string, data pirgb.BaseEventData[T]) {
 	for _, client := range g.Register {
 		go func(client *Client) {
 			ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
@@ -103,13 +104,13 @@ func dispathEvent[T Events](g *global, name string, data BaseEventData[T]) {
 }
 
 func Initialize() {
-	var changeEvents []*EventHandler[pirgb.Section]
+	var changeEvents []*EventHandler[servertypes.Section]
 
 	for _, device := range config.Global.Devices {
 		for _, section := range device.Sections {
-			func(device *config.Device, section *config.Section) {
+			func(device *pirgb.Device, section *pirgb.Section) {
 				changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)
-				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data pirgb.Section) {
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data servertypes.Section) {
 					var pulse int
 					var color []int
 
@@ -127,8 +128,8 @@ func Initialize() {
 					section.Pulse = pulse
 					section.Color = color
 
-					go Global.Dispatch(changeEvent.Name, ChangeEventData{
-						DeviceEventData: DeviceEventData{
+					go Global.Dispatch(changeEvent.Name, pirgb.ChangeEventData{
+						DeviceEventData: pirgb.DeviceEventData{
 							Host: device.Host,
 							Port: device.Port,
 							ID:   section.ID,

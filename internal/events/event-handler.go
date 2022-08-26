@@ -7,12 +7,13 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 )
 
-type EventHandler[T pirgb.EventTypes] struct {
+type EventHandler[T servertypes.EventTypes] struct {
 	Name      string // "change", ...
 	Host      string
 	Port      int
@@ -37,7 +38,7 @@ func (ev *EventHandler[T]) Connect() error {
 	}
 	ev.Conn = conn
 
-	Global.Dispatch("online", DeviceEventData{
+	Global.Dispatch("online", pirgb.DeviceEventData{
 		Host: ev.Host,
 		Port: ev.Port,
 		ID:   ev.SectionID,
@@ -97,7 +98,7 @@ func (ev *EventHandler[T]) Handler() {
 
 			if ev.IsRunning { // connection read error
 				// dispatch connection closed event to the frontend
-				Global.Dispatch("offline", DeviceEventData{
+				Global.Dispatch("offline", pirgb.DeviceEventData{
 					Host: ev.Host,
 					Port: ev.Port,
 					ID:   ev.SectionID,
@@ -137,14 +138,14 @@ func (ev *EventHandler[T]) Dispatch(data T) {
 	}
 }
 
-func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[pirgb.Section] {
-	ev := &EventHandler[pirgb.Section]{
+func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[servertypes.Section] {
+	ev := &EventHandler[servertypes.Section]{
 		Name:      "change",
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
 		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data pirgb.Section), 0),
+		OnEvent:   make([]func(data servertypes.Section), 0),
 	}
 
 	ev.Log = logrus.WithFields(logrus.Fields{
