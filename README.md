@@ -1,6 +1,6 @@
 # pirgb-web (v0.1.0)
 
-Client side web server for control [pirgb-server](http://gitlab.com/knackwurstking/pirgb-server.git).
+Client side web server, controls the [pirgb-server](http://gitlab.com/knackwurstking/pirgb-server.git).
 
 ## Getting started
 
