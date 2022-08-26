@@ -25,6 +25,7 @@ var (
 func newRouter() *chi.Mux {
 	mux := chi.NewRouter()
 	mux.Use(middleware.Logger)
+	mux.Use(middleware.Recoverer)
 	mux.Use(cors.Handler(DefaultCORS))
 
 	return mux
