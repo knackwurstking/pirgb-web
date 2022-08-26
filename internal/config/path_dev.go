@@ -6,7 +6,7 @@ package config
 const (
 	Vendor     = "knackwurstking"
 	Project    = "pirgb-web"
-	configFile = "config.dev.yaml"
+	configFile = "config.yaml"
 )
 
 func GetConfigPath() string {
