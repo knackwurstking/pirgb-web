@@ -17,11 +17,25 @@ const (
 )
 
 func GetConfigPath() string {
-	// TODO: handle user "root"
-	dir, err := os.UserConfigDir()
-	if err != nil {
-		logrus.Warnf("[config] Load config failed: %s", err.Error())
-		return dir
+	if os.Getuid() == -1 {
+		panic("Windows user detected!!!!!!")
+	}
+
+	var dir string
+
+	if os.Getenv("USER") == "root" {
+		dir = "/etc/xdg" // NOTE: not using `XDG_CONFIG_DIRS` here
+		logrus.Warnf("[config] Running with sudo, config directory set to \"%s\"", dir)
+	} else {
+		dir = os.Getenv("XDG_CONFIG_HOME")
+		if dir == "" {
+			home, err := os.UserHomeDir()
+			if err != nil {
+				logrus.Panicln(err)
+			}
+
+			dir = filepath.Join(home, ".config")
+		}
 	}
 
 	return filepath.Join(dir, Vendor, Project)
