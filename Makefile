@@ -11,5 +11,9 @@ build:
 	go build -v ./cmd/pirgb-web
 
 dev: 
-	cd frontend; yarn; cd ..
+	make clean
+	make build_frontend
 	go build -v -tags dev ./cmd/pirgb-web
+
+install:
+	# TODO: ...

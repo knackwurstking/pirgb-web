@@ -11,9 +11,10 @@ git clone https://gitlab.com/knackwurstking/pirgb-web
 cd pirgb-web
 make
 make install # no sudo required
-make edit_config # this will open the systemd file for adding parameters
-make start_service
 ```
+
+@TODO: edit systemd files to edit sections
+@TODO: start service (as user)
 
 > replace **localhost** with hostname (or ip) where the server is running
 
