@@ -127,7 +127,6 @@ type BaseEventData[T Events] struct {
 type DeviceEventData struct { // Used for "offline" and "online" events
 	Host string `json:"host"`
 	Port int    `json:"port"`
-	// TODO: ID removed
 }
 
 type ChangeEventData struct {
