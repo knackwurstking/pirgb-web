@@ -144,7 +144,7 @@ Example Request Body
 
 > **WS** _/api/events_
 
-Websocket event handler, will send events to the frontend
+Websocket event handler, send events to the frontend
 
 - _"change"_: Device section (id) color or pulse changed
 
