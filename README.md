@@ -19,86 +19,119 @@ Open a browser and go to _http://**localhost**:50831/_
 
 ## Endpoints (Notes)
 
-### HTTP
+### Index
 
-```go
-type PWM struct {
-	Pulse int   `json:"pulse"`
-	RGBW  []int `json:"rgbw"`
-}
+- [GET: /](#endpoint-ui)
+- [GET: /api/devices](#endpoint-api-devices)
+- [GET: /api/devices/{host}/{section:\[0-9\]}/pwm](#endpoint-api-get-pwm)
+- [POST: /api/devices/{host}/{section:\[0-9\]}/pwm](#endpoint-api-post-pwm)
 
-type Section struct {
-	ID        int   `json:"id" yaml:"id"`
-	Pulse     int   `json:"pulse" yaml:"pulse"`
-	LastPulse int   `json:"lastPulse"`
-	Color     []int `json:"color" yaml:"color"`
-}
+---
 
-type Device struct {
-	Host     string     `json:"host" yaml:"host"`
-	Port     int        `json:"port" yaml:"port"`
-	Sections []*Section `json:"sections" yaml:"sections"`
-	Groups   []string   `json:"groups" yaml:"groups"`
+<a id="endpoint-ui"></a>
+
+> **GET** _/_
+
+Serve the UI
+
+---
+
+<a id="endpoint-api-devices"></a>
+
+> **GET** _/api/devices_
+
+Get available devices
+
+Example Request
+
+```sh
+curl http://localhost:50831/api/devices | jq
+```
+
+Example Response
+
+```json
+[
+  {
+    "host": "pi-bed",
+    "port": 50826,
+    "sections": [
+      {
+        "id": 0,
+        "pulse": 0,
+        "lastPulse": 66,
+        "color": [255, 0, 0, 0]
+      }
+    ],
+    "groups": ["all"]
+  },
+  {
+    "host": "pi-lr",
+    "port": 50826,
+    "sections": [
+      {
+        "id": 0,
+        "pulse": 0,
+        "lastPulse": 0,
+        "color": [255, 255, 255, 255]
+      },
+      {
+        "id": 1,
+        "pulse": 0,
+        "lastPulse": 0,
+        "color": [255, 255, 255, 255]
+      }
+    ],
+    "groups": ["all", "lr"]
+  }
+]
+```
+
+---
+
+<a id="endpoint-api-get-pwm"></a>
+
+> **GET** _/api/devices/{host}/{section:[0-9]}/pwm_
+
+Example Request
+
+```sh
+curl http://localhost:50831/api/devices/pi-lr/1/pwm | jq
+```
+
+Example Response
+
+```json
+{
+  "id": 1,
+  "pulse": 0,
+  "lastPulse": 0,
+  "color": [255, 255, 255, 255]
 }
 ```
 
-| Method | Url                                 | Request | Response     | Description                                    |
-| ------ | ----------------------------------- | ------- | ------------ | ---------------------------------------------- |
-| GET    | /                                   | -       | -            | serve ui                                       |
-| GET    | /devices                            | -       | `[]*Devices` | list available devices                         |
-| GET    | /devices/{host}/{section:[0-9]}/pwm | -       | `Section`    | get pwm section data from device               |
-| POST   | /devices/{host}/{section:[0-9]}/pwm | `PWM`   | -            | update pulse and/or color for a device section |
+---
 
-### Websocket
+<a id="endpoint-api-post-pwm"></a>
 
-| Url                           | Description                              |
-| ----------------------------- | ---------------------------------------- |
-| [/api/events](#server-events) | server events: _change, online, offline_ |
+> **POST** _/api/devices/{host}/{section:[0-9]}/pwm_
 
-<a id="server-events" />
+Example Request
 
-#### /api/events
+@TODO: ...
 
-> The server will simply echo all data received from the client.
+```sh
+curl ...
+```
 
-Data types:
+Example Request Body
 
-```go
-type Events interface {
-	DeviceEventData | ChangeEventData
-}
+@TODO: ...
 
-type BaseEventData[T Events] struct {
-	Name string `json:"name"`
-	Data T      `json:"data"`
-}
-
-type DeviceEventData struct { // Used for "offline" and "online" events
-	Host string `json:"host"`
-	Port int    `json:"port"`
-	ID   int    `json:"id" yaml:"id"`
-}
-
-type ChangeEventData struct {
-	DeviceEventData
-	Pulse     int   `json:"pulse" yaml:"pulse"`
-	LastPulse int   `json:"lastPulse"`
-	Color     []int `json:"color" yaml:"color"`
+```json
+{
+	...
 }
 ```
 
-##### _Event Name: `"change"`_
-
-**Returns**: `BaseEventData[ChangeEventData]`
-
-##### _Event Name: `"online"`_
-
-Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git)) is online.
-
-**Returns**: `BaseEventData[DeviceEventData]`
-
-##### _Event Name: `"offline"`_
-
-Fired when a device ([pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git)) is offline.
-
-**Returns**: `BaseEventData[DeviceEventData]` (_Just like the "**online**" event_)
+---
