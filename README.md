@@ -10,8 +10,10 @@ Client side web server, controls the [pirgb-server](http://gitlab.com/knackwurst
 git clone https://gitlab.com/knackwurstking/pirgb-web
 cd pirgb-web
 make
-make install # no sudo required
+make install
 ```
+
+**NOTE:** _The [pirgb-server](https://gitlab.com/knackwurstking/pirgb-server.git) needs to be running before you start this server._
 
 > replace **localhost** with hostname (or ip) where the server is running
 
