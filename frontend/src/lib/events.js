@@ -18,7 +18,6 @@
  * @typedef {{
  *  host: string,
  *  port: number,
- *  id: number,
  * }} OfflineEventData
  *
  * @typedef {OfflineEventData} OnlineEventData

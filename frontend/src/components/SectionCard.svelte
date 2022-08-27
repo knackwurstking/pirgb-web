@@ -46,8 +46,7 @@
    * @param {import("../lib/events").OfflineEventData} ev.detail */
   const offlineEventListener = ({ detail }) => {
     if (detail.host !== host
-      || detail.port !== port
-      || detail.id !== sectionID) {
+      || detail.port !== port) {
 
       return
     }
@@ -62,8 +61,7 @@
    * @param {import("../lib/events").OfflineEventData} ev.detail */
   const onlineEventListener = ({ detail }) => {
     if (detail.host !== host
-      || detail.port !== port
-      || detail.id !== sectionID) {
+      || detail.port !== port) {
 
       return
     }
