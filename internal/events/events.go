@@ -132,11 +132,13 @@ func Initialize() {
 						DeviceEventData: pirgb.DeviceEventData{
 							Host: device.Host,
 							Port: device.Port,
-							ID:   section.ID,
 						},
-						Pulse:     section.Pulse,
-						LastPulse: section.LastPulse,
-						Color:     section.Color,
+						Section: pirgb.Section{
+							ID:        section.ID,
+							Pulse:     section.Pulse,
+							LastPulse: section.LastPulse,
+							Color:     section.Color,
+						},
 					})
 				})
 				changeEvents = append(changeEvents, changeEvent)

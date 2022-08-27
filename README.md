@@ -138,3 +138,53 @@ Example Request Body
 ```
 
 ---
+
+<a id="endpoint-api-post-pwm"></a>
+
+> **WS** _/api/events_
+
+Websocket event handler, will send events to the frontend
+
+- _"change"_: Device section (id) color or pulse changed
+
+```json
+{
+  "name": "change",
+  "data": {
+    "host": "pi-bed",
+    "Port": 50826,
+    "id": 0,
+    "pulse": 100,
+    "lastPulse": 0,
+    "color": [255, 255, 255, 255]
+  }
+}
+```
+
+- _"offline"_: Device (section) is offline
+
+```json
+{
+  "name": "offline",
+  "data": {
+    "host": "pi-bed",
+    "Port": 50826,
+    "id": 0
+  }
+}
+```
+
+- _"online"_: Device is online
+
+```json
+{
+  name: offline,
+  data: {
+    host: "pi-bed",
+    Port: 50826,
+    id: 0
+  }
+}
+```
+
+---

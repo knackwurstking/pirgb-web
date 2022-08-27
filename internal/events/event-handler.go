@@ -41,7 +41,6 @@ func (ev *EventHandler[T]) Connect() error {
 	Global.Dispatch("online", pirgb.DeviceEventData{
 		Host: ev.Host,
 		Port: ev.Port,
-		ID:   ev.SectionID,
 	})
 
 	return nil
@@ -101,7 +100,6 @@ func (ev *EventHandler[T]) Handler() {
 				Global.Dispatch("offline", pirgb.DeviceEventData{
 					Host: ev.Host,
 					Port: ev.Port,
-					ID:   ev.SectionID,
 				})
 
 				go ev.reconnect()
