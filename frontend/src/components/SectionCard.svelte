@@ -141,7 +141,7 @@
             if (detail.color) {
               await api.setPWM(
                 host, sectionID,
-                { pulse: currentPulse, rgbw: utils.hexToColor(detail.color) }
+                { pulse: currentPulse, color: utils.hexToColor(detail.color) }
               )
             }
           }
@@ -157,7 +157,7 @@
           if (currentPulse == 0) return
           await api.setPWM(
             host, sectionID,
-            { pulse: detail.value, rgbw: utils.hexToColor(color) }
+            { pulse: detail.value, color: utils.hexToColor(color) }
           )
         }
       }
@@ -172,9 +172,9 @@
       on:toggled={
         async ({ detail }) => {
           if (detail.checked) {
-            await api.setPWM(host, sectionID, { pulse, rgbw: utils.hexToColor(color) })
+            await api.setPWM(host, sectionID, { pulse, color: utils.hexToColor(color) })
           } else {
-            await api.setPWM(host, sectionID, { pulse: 0, rgbw: utils.hexToColor(color) })
+            await api.setPWM(host, sectionID, { pulse: 0, color: utils.hexToColor(color) })
           }
         }
       }

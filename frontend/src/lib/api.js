@@ -1,7 +1,7 @@
 /**
  * @typedef {{
  *  pulse: number,
- *  rgbw: number[],
+ *  color: number[],
  * }} PWM
  *
  * @typedef {{
