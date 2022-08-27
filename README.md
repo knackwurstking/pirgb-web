@@ -57,12 +57,7 @@ Example Response
     "host": "pi-bed",
     "port": 50826,
     "sections": [
-      {
-        "id": 0,
-        "pulse": 0,
-        "lastPulse": 66,
-        "color": [255, 0, 0, 0]
-      }
+      { "id": 0, "pulse": 0, "lastPulse": 66, "color": [255, 0, 0, 0] }
     ],
     "groups": ["all"]
   },
@@ -70,18 +65,8 @@ Example Response
     "host": "pi-lr",
     "port": 50826,
     "sections": [
-      {
-        "id": 0,
-        "pulse": 0,
-        "lastPulse": 0,
-        "color": [255, 255, 255, 255]
-      },
-      {
-        "id": 1,
-        "pulse": 0,
-        "lastPulse": 0,
-        "color": [255, 255, 255, 255]
-      }
+      { "id": 0, "pulse": 0, "lastPulse": 0, "color": [255, 255, 255, 255] },
+      { "id": 1, "pulse": 0, "lastPulse": 0, "color": [255, 255, 255, 255] }
     ],
     "groups": ["all", "lr"]
   }
@@ -103,12 +88,7 @@ curl http://localhost:50831/api/devices/pi-lr/1/pwm | jq
 Example Response
 
 ```json
-{
-  "id": 1,
-  "pulse": 0,
-  "lastPulse": 0,
-  "color": [255, 255, 255, 255]
-}
+{ "id": 1, "pulse": 0, "lastPulse": 0, "color": [255, 255, 255, 255] }
 ```
 
 ---
@@ -144,7 +124,7 @@ Example Request Body
 
 > **WS** _/api/events_
 
-Websocket event handler, send events to the frontend
+Emits events like "change", "online", "offline"
 
 - _"change"_: Device section (id) color or pulse changed
 
@@ -167,11 +147,7 @@ Websocket event handler, send events to the frontend
 ```json
 {
   "name": "offline",
-  "data": {
-    "host": "pi-bed",
-    "Port": 50826,
-    "id": 0
-  }
+  "data": { "host": "pi-bed", "Port": 50826, "id": 0 }
 }
 ```
 
@@ -179,12 +155,8 @@ Websocket event handler, send events to the frontend
 
 ```json
 {
-  name: offline,
-  data: {
-    host: "pi-bed",
-    Port: 50826,
-    id: 0
-  }
+  "name": "offline",
+  "data": { "host": "pi-bed", "Port": 50826, "id": 0 }
 }
 ```
 
