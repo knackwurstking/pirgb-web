@@ -25,6 +25,7 @@ Open a browser and go to _http://**localhost**:50831/_
 - [GET: /api/devices](#endpoint-api-devices)
 - [GET: /api/devices/{host}/{section:\[0-9\]}/pwm](#endpoint-api-get-pwm)
 - [POST: /api/devices/{host}/{section:\[0-9\]}/pwm](#endpoint-api-post-pwm)
+- [WS: /api/events](#endpoint-api-events)
 
 ---
 
@@ -139,7 +140,7 @@ Example Request Body
 
 ---
 
-<a id="endpoint-api-post-pwm"></a>
+<a id="endpoint-api-events"></a>
 
 > **WS** _/api/events_
 
