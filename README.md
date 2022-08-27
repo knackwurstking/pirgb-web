@@ -118,10 +118,11 @@ Example Response
 
 Example Request
 
-@TODO: ...
-
 ```sh
-curl ...
+curl http://localhost:50831/api/devices/pi-lr/1/pwm \
+  -X POST \
+  --header "Content-Type: application/json" \
+  --data '{"pulse": 100, "color": [255, 255, 255, 255]}'
 ```
 
 Example Request Body
