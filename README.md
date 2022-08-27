@@ -126,11 +126,13 @@ curl ...
 
 Example Request Body
 
-@TODO: ...
+* rgbw: optional
+
 
 ```json
 {
-	...
+  "pulse": 100,
+  "color": [255, 255, 255, 255]
 }
 ```
 

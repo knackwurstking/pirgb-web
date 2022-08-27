@@ -19,7 +19,7 @@ func (err *RespError) Error() string {
 
 type PWM struct {
 	Pulse int   `json:"pulse"`
-	RGBW  []int `json:"rgbw"`
+	Color []int `json:"color"`
 }
 
 type Section struct {
