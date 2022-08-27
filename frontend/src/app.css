@@ -67,3 +67,7 @@ input:focus {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.menu-button:active {
+  box-shadow: 0.08em 0.08em 0.4em 0.1em var(--special-color); /* .elevate-400 */
+}

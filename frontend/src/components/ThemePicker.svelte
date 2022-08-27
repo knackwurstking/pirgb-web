@@ -71,7 +71,7 @@
       top: 0.5rem;
       right: 1rem;
     `}
-    class="elevate-900"
+    class="menu-button elevate-900"
   >
     <ColorSwatchIcon
       style={`
