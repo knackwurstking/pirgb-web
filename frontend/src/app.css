@@ -71,3 +71,7 @@ input[type=number] {
 .menu-button:active {
   box-shadow: 0.08em 0.08em 0.4em 0.1em var(--special-color); /* .elevate-400 */
 }
+
+.menu-button:hover {
+  box-shadow: 0.18em 0.18em 0.9em 0.1em var(--special-color); /* .elevate-900 */
+}

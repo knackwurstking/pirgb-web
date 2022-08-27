@@ -50,7 +50,7 @@
       top: 0.5rem;
       left: 0.5rem;
     `}
-    class="menu-button elevate-900"
+    class="menu-button elevate-700"
   >
     <span>{selectedItem}</span>
   </PopoverButton>
