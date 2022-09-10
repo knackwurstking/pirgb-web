@@ -1,0 +1,9 @@
+clickable_minimum_required: 7.1.2
+builder: go
+kill: pirgb
+install_root_data:
+- manifest.json
+- pirgb.apparmor
+- pirgb.desktop
+- assets
+- qml

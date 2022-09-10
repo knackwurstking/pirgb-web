@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=pirgb
+Exec=pirgb %U
+Icon=assets/icon.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
