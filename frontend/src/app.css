@@ -17,6 +17,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 fieldset {
