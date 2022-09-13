@@ -19,5 +19,5 @@ ifeq ($(USER), root)
 	@exit 1
 else
 	@mkdir -p ${HOME}/.local/bin && cp ${BIN} ${HOME}/.local/bin/${BIN}
-	@mkdir -p ${HOME}/.config/systemd/user/ && cp init/${BIN}.service ${HOME}/.config/systemd/user/${BIN}.service && systemct	--user daemon-reload
+	@mkdir -p ${HOME}/.config/systemd/user/ && cp init/${BIN}.service ${HOME}/.config/systemd/user/${BIN}.service && systemctl --user daemon-reload
 endif
