@@ -1,12 +1,12 @@
 {
-    "name": "pirgb.knackwurstking",
-    "description": "pirgb ubports web app for controlling lights",
+    "name": "pirgb-web.knackwurstking",
+    "description": "A short description of your app",
     "architecture": "@CLICK_ARCH@",
-    "title": "pirgb",
+    "title": "pirgb-web",
     "hooks": {
-        "pirgb": {
-            "apparmor": "pirgb.apparmor",
-            "desktop":  "pirgb.desktop"
+        "pirgb-web": {
+            "apparmor": "pirgb-web.apparmor",
+            "desktop":  "pirgb-web.desktop"
         }
     },
     "version": "1.0.0",

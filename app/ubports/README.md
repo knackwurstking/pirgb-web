@@ -1,6 +1,6 @@
-# pirgb
+# pirgb-web
 
-just a test
+A short description of your app
 
 ## License
 
