@@ -183,6 +183,7 @@
 </fieldset>
 
 <style lang="scss">
+  // TODO: update to scss
   @use "sass:color";
   @use "../sass/theme";
 

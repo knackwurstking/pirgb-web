@@ -140,6 +140,7 @@
 </div>
 
 <style lang="scss">
+  // TODO: update to scss
   @use "../sass/theme";
 
   $border-width: theme.$border-width;
