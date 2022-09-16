@@ -8,7 +8,6 @@
   import { onMount } from "svelte"
   import { slide } from "svelte/transition"
 
-  import ThemePicker from "./components/ThemePicker.svelte"
   import SectionCard from "./components/SectionCard.svelte"
   import FlyDiv from "./components/FlyDiv.svelte"
 
@@ -59,8 +58,6 @@
     style={`
       position: absolute;
       z-index: 10;
-      background-color: var(--button-bg);
-      border: var(--border-width) var(--border-style) var(--border-color);
       padding: 0 0.25em;
       width: fit-content;
       top: 3.5rem;
@@ -87,8 +84,6 @@
   </PopoverPanel>
 </Popover>
 
-<ThemePicker />
-
 <main>
   {#if selectedItem === "Sections"}
     <FlyDiv
@@ -114,7 +109,9 @@
   {/if}
 </main>
 
-<style>
+<style lang="scss">
+  @use "./sass/theme";
+
   main {
     overflow-x: hidden;
   }
@@ -139,6 +136,6 @@
 
   .panel-item:hover,
   .panel-item:active {
-    background-color: var(--alternate-bg-color);
+    background-color: theme.$surface;
   }
 </style>

@@ -1,0 +1,77 @@
+@use "sass:color";
+@use "./theme";
+
+$borderWidth: 0.1rem;
+$borderStyle: solid;
+$borderColor: theme.$divider;
+
+:root {
+    background-color: theme.$background;
+    color: theme.$on-color;
+    font-family: FiraCode, Roboto, Inter, Avenier, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+fieldset {
+    background-color: theme.$surface;
+    color: theme.$on-surface;
+    border: $borderWidth $borderStyle $borderColor;
+    padding: 1em;
+}
+
+button {
+    $borderStyle: groove;
+
+    color: theme.$on-surface;
+    background-color: theme.$surface;
+    border: $borderWidth $borderStyle $borderColor;
+    padding: 0.5em 1.2em;
+
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+input {
+    $borderStyle: ridge;
+
+    color: theme.$on-surface;
+    background-color: theme.$surface;
+    border: $borderWidth $borderStyle $borderColor;
+    padding: 0.25em 1em;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        display: none;
+    }
+
+    &:focus
+    &:focus-visible {
+        outline: none;
+    }
+
+    &[type=number] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+}
+
+a {
+    color: theme.$accent;
+
+    &:visited {
+        color: color.adjust(theme.$accent, $lightness: -35%);
+    }
+}

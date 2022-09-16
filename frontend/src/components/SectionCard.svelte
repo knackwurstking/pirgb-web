@@ -182,7 +182,7 @@
   </section>
 </fieldset>
 
-<style>
+<style lang="scss">
   fieldset {
     margin: 1rem 0;
     display: flex;
@@ -195,7 +195,6 @@
     top: 0;
     right: 0;
     padding: 0.25rem 1.3rem;
-    border-bottom: var(--border-width) var(--border-style) var(--border-color);
     border-bottom-right-radius: 0;
   }
 

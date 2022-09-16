@@ -139,7 +139,13 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
+  @use "../sass/theme";
+
+  $borderWidth: 0.1rem;
+  $borderStyle: solid;
+  $borderColor: theme.$divider;
+
   .color-picker-holder {
     position: relative;
   }
@@ -150,11 +156,9 @@
   }
 
   .select-color {
-    border: var(--border-width, 0.0625rem) solid var(--border-color, #ccc);
     padding: 0.1875em;
     border-radius: .2rem;
     margin-right: .4rem;
-    background: var(--input-bg, #fff);
     height: 2.1875rem;
   }
 
@@ -163,7 +167,7 @@
     height: 0;
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid var(--text-color-light, #555);
+    border-top: 0.25rem solid $borderColor;
     position: relative;
     top: 0.625rem;
     margin-left: 0.25rem;
@@ -172,7 +176,7 @@
   .caret.top {
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-bottom: 0.25rem solid var(--text-color-light, #555);
+    border-bottom: 0.25rem solid theme.$divider;
     border-top: none;
   }
 
@@ -183,7 +187,7 @@
   .fake-focus, button:focus  {
       outline: 0;
       box-shadow: 0 0 0 0.0625rem var(--special-color, #18A0FB);
-      border-color: var(--border-color, #18A0FB);
+      border-color: $borderColor;
   }
   
   .color-block {
@@ -199,8 +203,7 @@
       position: absolute;
       z-index: 1;
       top: 2.5rem;
-      background: var(--input-bg, white);
-      border: var(--border-width) var(--border-style) var(--border-color, #CCC);
+      border: $borderWidth $borderStyle $borderColor;
       border-radius: .3rem;
   }
 	

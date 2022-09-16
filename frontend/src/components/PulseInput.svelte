@@ -14,7 +14,13 @@
   />
 </label>
 
-<style>
+<style lang="scss">
+  @use "../sass/theme";
+
+  $borderWidth: 0.1rem;
+  $borderStyle: solid;
+  $borderColor: theme.$divider;
+
   label {
     display: flex;
     flex-direction: column;
@@ -34,7 +40,7 @@
   label input {
     text-align: center;
     width: 5rem;
-    border-top: 0.1rem solid var(--border-color);
+    border-top: $borderWidth $borderStyle $borderColor;
     border-right: none;
     border-left: none;
   }
