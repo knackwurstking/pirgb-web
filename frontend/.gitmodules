@@ -1,4 +1,0 @@
-[submodule "src/sass"]
-    path = src/sass
-    url = https://github.com/knackwurstking/sass.git
-
