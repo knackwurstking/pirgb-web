@@ -19,7 +19,6 @@
 </label>
 
 <style lang="scss">
-  // TODO: update to scss
   @use "../sass/theme";
 
   $border-width: theme.$border-width;
@@ -32,30 +31,20 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row-reverse;
-  }
+    font-size: 1.2em;
 
-  label span {
-    margin: 0.25rem;
-    margin-left: 0.5rem;
-    width: 3em;
-  }
+    & > span {
+      margin: 0.25rem;
+      margin-left: 0.5rem;
+      width: 3em;
+      font-size: 0.85em;
+      font-style: italic;
+    }
 
-  label input {
-    font-size: inherit;
-    -webkit-appearance: none;
-    margin: 0.25rem;
-    width: 100%;
-    height: 0.5em;
-    transform: translateY(0.4em);
-    border-radius: $border-radius;
-  }
-
-  label input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: $border-width $border-style $border-color;
-    height: 1.5em;
-    width: 0.5em;
-    border-radius: $border-radius;
-    background: theme.$primary;
+    & > input {
+      font-size: inherit;
+      margin: 0.25rem;
+      width: 100%;
+    }
   }
 </style>
