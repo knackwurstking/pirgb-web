@@ -27,6 +27,7 @@
   $border-radius: theme.$border-radius;
 
   label {
+    position: relative;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row-reverse;
@@ -45,6 +46,7 @@
     width: 100%;
     height: 0.5em;
     transform: translateY(0.4em);
+    border-radius: $border-radius;
   }
 
   label input::-webkit-slider-thumb {

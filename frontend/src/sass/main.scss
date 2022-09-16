@@ -44,7 +44,6 @@ input {
     color: theme.$on-surface;
     background-color: theme.$surface;
     border: theme.$border-width ridge theme.$border-color;
-    padding: 0.25em 1em;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
@@ -59,6 +58,13 @@ input {
     &[type=number] {
         -moz-appearance: textfield;
         appearance: textfield;
+    }
+
+    &[type=range] {
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
     }
 }
 
