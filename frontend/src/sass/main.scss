@@ -44,6 +44,7 @@ input {
     color: theme.$on-surface;
     background-color: theme.$surface;
     border: theme.$border-width ridge theme.$border-color;
+    border-radius: theme.$border-radius;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
@@ -61,6 +62,20 @@ input {
     }
 
     &[type=range] {
+        -webkit-appearance: none;
+        appearance: none;
+        box-shadow: inset 0 0 0.2em theme.$border-color;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: theme.$primary;
+            width: 0.5em;
+            height: 1.5em;
+            border: theme.$border-width theme.$border-style theme.$border-color;
+            border-radius: theme.$border-radius;
+        }
+
         &:focus,
         &:focus-visible {
             outline: none;
