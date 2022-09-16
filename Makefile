@@ -1,7 +1,13 @@
 BIN=pirgb-web
 
+all: clean build
+
+clean:
+	go clean -v
+	@rm -rf frontend/dist/
+
 build_frontend:
-	@cd frontend && rm -rf dist && npm install && npm run build
+	@cd frontend && npm install && npm run build
 
 build:
 	go clean -v
