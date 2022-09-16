@@ -13,7 +13,7 @@ import (
 var (
 	//go:embed dist/*
 	//go:embed dist/assets/*
-	//go:embed dist/schemes/*
+	//go:embed dist/fonts/*
 	dist embed.FS
 )
 
