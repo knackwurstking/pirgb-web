@@ -21,10 +21,10 @@
 <style lang="scss">
   @use "../sass/theme";
 
-  $borderWidth: 0.1rem;
-  $borderStyle: solid;
-  $borderColor: theme.$divider;
-  $borderRadius: 0;
+  $border-width: theme.$border-width;
+  $border-style: theme.$border-style;
+  $border-color: theme.$border-color;
+  $border-radius: theme.$border-radius;
 
   label {
     display: flex;
@@ -49,10 +49,10 @@
 
   label input::-webkit-slider-thumb {
     -webkit-appearance: none;
-    border: $borderWidth $borderStyle $borderColor;
+    border: $border-width $border-style $border-color;
     height: 1.5em;
     width: 0.5em;
-    border-radius: $borderRadius;
+    border-radius: $border-radius;
     background: theme.$primary;
   }
 </style>

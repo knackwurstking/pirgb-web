@@ -1,13 +1,9 @@
 @use "sass:color";
 @use "./theme";
 
-$borderWidth: 0.1rem;
-$borderStyle: solid;
-$borderColor: theme.$divider;
-
 :root {
     background-color: theme.$background;
-    color: theme.$on-color;
+    color: theme.$on-background;
     font-family: FiraCode, Roboto, Inter, Avenier, Helvetica, Arial, sans-serif;
 }
 
@@ -24,18 +20,18 @@ body {
 }
 
 fieldset {
+    position: relative;
     background-color: theme.$surface;
     color: theme.$on-surface;
-    border: $borderWidth $borderStyle $borderColor;
+    border: theme.$border-width theme.$border-style theme.$border-color;
+    border-radius: theme.$border-radius;
     padding: 1em;
 }
 
 button {
-    $borderStyle: groove;
-
     color: theme.$on-surface;
     background-color: theme.$surface;
-    border: $borderWidth $borderStyle $borderColor;
+    border: theme.$border-width groove theme.$border-color;
     padding: 0.5em 1.2em;
 
     &:focus,
@@ -45,11 +41,9 @@ button {
 }
 
 input {
-    $borderStyle: ridge;
-
     color: theme.$on-surface;
     background-color: theme.$surface;
-    border: $borderWidth $borderStyle $borderColor;
+    border: theme.$border-width ridge theme.$border-color;
     padding: 0.25em 1em;
 
     &::-webkit-outer-spin-button,

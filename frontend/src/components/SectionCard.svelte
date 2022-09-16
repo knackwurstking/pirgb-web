@@ -128,7 +128,7 @@
   }
 </script>
 
-<fieldset style={`--special-color: ${color};`} class="section elevate-300">
+<fieldset style={`--special-color: ${currentPulse > 0 && online ? color : "transparent"};`}>
   <legend class="title"> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator`} class:online>offline</pre>
 
@@ -183,11 +183,22 @@
 </fieldset>
 
 <style lang="scss">
+  @use "sass:color";
+  @use "../sass/theme";
+
+  $border-width: theme.$border-width;
+  $border-style: theme.$border-style;
+  $border-color: theme.$border-color;
+  $border-radius: theme.$border-radius;
+
   fieldset {
     margin: 1rem 0;
     display: flex;
     padding-top: 2rem;
     place-items: center;
+    box-shadow: 0 0 0.85em 0.1em var(--special-color, transparent);
+    transition: box-shadow 0.5s ease-out;
+    background-color: theme.$surface;
   }
 
   fieldset legend {
@@ -195,7 +206,11 @@
     top: 0;
     right: 0;
     padding: 0.25rem 1.3rem;
+    border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: 0;
+    border-bottom-width: $border-width;
+    border-bottom-color: $border-color;
+    border-bottom-style: $border-style;
   }
 
   fieldset .online-indicator {

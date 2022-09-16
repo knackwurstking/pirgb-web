@@ -17,9 +17,9 @@
 <style lang="scss">
   @use "../sass/theme";
 
-  $borderWidth: 0.1rem;
-  $borderStyle: solid;
-  $borderColor: theme.$divider;
+  $border-width: theme.$border-width;
+  $border-style: theme.$border-style;
+  $border-color: theme.$border-color;
 
   label {
     display: flex;
@@ -40,7 +40,7 @@
   label input {
     text-align: center;
     width: 5rem;
-    border-top: $borderWidth $borderStyle $borderColor;
+    border-top: $border-width $border-style $border-color;
     border-right: none;
     border-left: none;
   }

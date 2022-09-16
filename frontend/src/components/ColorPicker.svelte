@@ -142,9 +142,9 @@
 <style lang="scss">
   @use "../sass/theme";
 
-  $borderWidth: 0.1rem;
-  $borderStyle: solid;
-  $borderColor: theme.$divider;
+  $border-width: theme.$border-width;
+  $border-style: theme.$border-style;
+  $border-color: theme.$border-color;
 
   .color-picker-holder {
     position: relative;
@@ -167,7 +167,7 @@
     height: 0;
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid $borderColor;
+    border-top: 0.25rem solid $border-color;
     position: relative;
     top: 0.625rem;
     margin-left: 0.25rem;
@@ -186,8 +186,8 @@
   
   .fake-focus, button:focus  {
       outline: 0;
-      box-shadow: 0 0 0 0.0625rem var(--special-color, #18A0FB);
-      border-color: $borderColor;
+      box-shadow: 0 0 0 0.1rem theme.$accent;
+      border-color: $border-color;
   }
   
   .color-block {
@@ -203,7 +203,7 @@
       position: absolute;
       z-index: 1;
       top: 2.5rem;
-      border: $borderWidth $borderStyle $borderColor;
+      border: $border-width $border-style $border-color;
       border-radius: .3rem;
   }
 	
