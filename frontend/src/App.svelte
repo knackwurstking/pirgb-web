@@ -1,14 +1,7 @@
 <script>
-  import {
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-  } from "@rgossiaux/svelte-headlessui"
-
   import { onMount } from "svelte"
 
   import SectionCard from "./components/SectionCard.svelte"
-  import FlyDiv from "./components/FlyDiv.svelte"
 
   import * as api from "./lib/api"
 
@@ -23,12 +16,11 @@
 
 <main>
   <!-- Sections: -->
-  <FlyDiv
+  <section
     style={`
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding-top: 3em;
     `}
   >
     {#each devices as device}
@@ -42,7 +34,7 @@
         </div>
       {/each}
     {/each}
-  </FlyDiv>
+  </section>
   <!-- Groups: -->
   <!-- Scenes: -->
 </main>
@@ -52,28 +44,9 @@
 
   main {
     overflow-x: hidden;
-  }
 
-  .panel-item-container {
-    display: flex;
-    flex-direction: column;
-    width: 10rem;
-  }
-
-  .panel-item {
-    margin: 0.25rem 0;
-    font-size: inherit;
-    font-weight: 500;
-    text-decoration: inherit;
-    padding: 0.35em 0.6em;
-    transition: background-color .5s ease, color .5s ease;
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  .panel-item:hover,
-  .panel-item:active {
-    background-color: theme.$surface;
+    & > section {
+      margin: 1em;
+    }
   }
 </style>
