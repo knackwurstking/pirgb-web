@@ -15,6 +15,7 @@
 </script>
 
 <main>
+  <!-- TODO: handle location.protocol === "file:" - laod origin from localStorage or open edit page -->
   <!-- Sections: -->
   <section
     style={`
