@@ -36,9 +36,15 @@ export default (function () {
     setDisplayValue(value);
   };
 
+  /** @type {null|((value: number) => (void|Promise<void>))} */
+  data.onValue = null;
+
   function setDisplayValue(value) {
-    data.value = parseInt(value);
     data.element.querySelector(".slider-value-display").innerText = value;
+    data.value = parseInt(value);
+    if (data.onValue) {
+      data.onValue(data.value);
+    }
   }
 
   return data;
