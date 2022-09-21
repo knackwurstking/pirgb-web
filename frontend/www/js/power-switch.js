@@ -50,5 +50,7 @@ export default (function () {
     data.element.style.transform = `scale(${factor})`;
   };
 
+  // TODO: Add onToggle: (on: boolen) => void -- button.oninput?
+
   return data;
 })();
