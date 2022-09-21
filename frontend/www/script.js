@@ -1,6 +1,7 @@
 "use strict";
 
 import ColorPicker from "./js/color-picker.js";
+import RangeSlider from "./js/range-slider.js";
 import PowerSwitch from "./js/power-switch.js";
 
 // TODO: color picker
@@ -30,7 +31,11 @@ const colorPicker = section.querySelector(".color-picker");
 colorPicker.replaceWith(ColorPicker.element);
 
 /** @type {HTMLDivElement} */
+const rangeSlider = section.querySelector(".range-slider");
+rangeSlider.replaceWith(RangeSlider.element);
+
+/** @type {HTMLDivElement} */
 const powerSwitch = section.querySelector(".power-switch");
-PowerSwitch.setScale(0.7);
+PowerSwitch.setScale(0.6);
 PowerSwitch.setColor(ColorPicker.color);
 powerSwitch.replaceWith(PowerSwitch.element);

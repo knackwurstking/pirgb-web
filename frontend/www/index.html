@@ -18,6 +18,7 @@
 
     <!-- Loading styles -->
     <link rel="stylesheet" href="js/color-picker.css" />
+    <link rel="stylesheet" href="js/range-slider.css" />
     <link rel="stylesheet" href="js/power-switch.css" />
     <link rel="stylesheet" href="styles.css" />
 
@@ -37,19 +38,7 @@
           <div class="color-picker"></div>
 
           <!-- pulse range slider -->
-          <div class="slider-container">
-            <div class="slider-value-display">0</div>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value="0"
-              class="slider"
-              oninput="
-                this.parentElement.querySelector('div').innerText = this.value;
-              "
-            />
-          </div>
+          <div class="range-slider"></div>
         </section>
 
         <section class="actions">
