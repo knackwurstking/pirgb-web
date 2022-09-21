@@ -1,9 +1,16 @@
 :root {
+  --background: rgb(0, 0, 0);
+
+  --surface: rgba(35, 35, 45, 0.7);
+  --on-surface: rgba(255, 255, 255, 0.85);
+
   --border-width: 0.05rem;
   --border-style: solid;
-  --border-color: rgba(0, 0, 0, 0.35);
+  --border-color: rgba(255, 255, 255, 0.35);
   --border-radius: 0.25rem;
+
   font-family: FiraCode;
+  background-color: var(--background);
 }
 
 * {
@@ -15,10 +22,11 @@ fieldset.section-card {
   position: relative;
   display: flex;
   margin: 1rem 0;
-  padding-top: 3rem;
+  padding-top: 2rem;
   place-items: center;
-  box-shadow: 0 0 0.85em 0.1em black;
-  background-color: grey;
+  box-shadow: 0 0 0.85em 0.1em var(--border-color);
+  background-color: var(--surface);
+  color: var(--on-surface);
   border: var(--border-width) var(--border-style) var(--border-color);
   border-radius: var(--border-radius);
 }
@@ -39,12 +47,12 @@ fieldset.section-card > section.actions {
   flex-direction: column;
   place-items: center;
   justify-content: space-evenly;
-  margin: 0.25rem;
 }
 
 fieldset.section-card > section.content {
   flex-direction: row;
   width: 100%;
+  margin: 0 0.25rem;
 }
 
 fieldset.section-card > section.actions {
@@ -58,7 +66,7 @@ fieldset.section-card > section.actions {
   display: flex;
   flex-direction: row-reverse;
   place-items: center;
-  margin: 0.25rem 0.5rem;
+  margin-left: 1rem;
 }
 
 .slider {

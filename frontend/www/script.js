@@ -1,6 +1,7 @@
 "use strict";
 
 import ColorPicker from "./js/color-picker.js";
+import PowerSwitch from "./js/power-switch.js";
 
 // TODO: color picker
 // TODO: limit the range slider min based on color value picked
@@ -27,3 +28,9 @@ section.querySelector("legend > code").innerText = "[0]";
 /** @type {HTMLDivElement} */
 const colorPicker = section.querySelector(".color-picker");
 colorPicker.replaceWith(ColorPicker.element);
+
+/** @type {HTMLDivElement} */
+const powerSwitch = section.querySelector(".power-switch");
+PowerSwitch.setScale(0.7);
+PowerSwitch.setColor(ColorPicker.color);
+powerSwitch.replaceWith(PowerSwitch.element);

@@ -88,5 +88,7 @@ export default (function () {
     return el;
   })();
 
+  data.color = "#ffffff"; // NOTE: placeholder
+
   return data;
 })();
