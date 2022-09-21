@@ -69,7 +69,7 @@ button:focus {
 }
 
 .values-dropdown-grid {
-  grid-template-columns: repeat(6, 1.5rem);
+  grid-template-columns: repeat(7, 1.5rem);
   grid-template-rows: 1.5rem 1.5rem;
   grid-gap: 0.625rem;
   display: grid;

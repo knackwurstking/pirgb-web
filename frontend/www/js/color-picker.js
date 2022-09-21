@@ -8,16 +8,70 @@ export default (function () {
    * @type {string[][]}
    */
   data.colors = [
-    ["#ff0000", "#ffff00", "#00ff00", "#00ffff", "#0000ff", "#ff00ff"], // 255 (ff)
-    ["#ff3f00", "#3fff00", "#00ff3f", "#003fff", "#3f00ff", "#ff003f"], // 63  (3f)
-    ["#ff7f00", "#7fff00", "#00ff7f", "#007fff", "#7f00ff", "#ff007f"], // 127 (7f)
-    ["#ffbf00", "#bfff00", "#00ffbf", "#00bfff", "#bf00ff", "#ff00bf"], // 191 (bf)
+    [
+      "#ff0000", // 255 (ff)
+      "#ffff00", // 255 (ff)
+      "#00ff00", // 255 (ff)
+      "#00ffff", // 255 (ff)
+      "#0000ff", // 255 (ff)
+      "#ff00ff", // 255 (ff)
+      "#ffffff",
+    ],
+    [
+      "#ff3f00", // 63  (3f)
+      "#3fff00", // 63  (3f)
+      "#00ff3f", // 63  (3f)
+      "#003fff", // 63  (3f)
+      "#3f00ff", // 63  (3f)
+      "#ff003f", // 63  (3f)
+      "#ff7fbf", // 7f,bf
+    ],
+    [
+      "#ff7f00", // 127 (7f)
+      "#7fff00", // 127 (7f)
+      "#00ff7f", // 127 (7f)
+      "#007fff", // 127 (7f)
+      "#7f00ff", // 127 (7f)
+      "#ff007f", // 127 (7f)
+      "#7fffbf", // 7f,bf
+    ],
+    [
+      "#ffbf00", // 191 (bf)
+      "#bfff00", // 191 (bf)
+      "#00ffbf", // 191 (bf)
+      "#00bfff", // 191 (bf)
+      "#bf00ff", // 191 (bf)
+      "#ff00bf", // 191 (bf)
+      "#bfff7f", // 7f,bf
+    ],
     // ...
-    ["#ff7f7f", "#ffff7f", "#7fff7f", "#7fffff", "#7f7fff", "#ff7fff"], // 7f
-    ["#ff3f7f", "#3fff7f", "#7fff3f", "#7f3fff", "#3f7fff", "#ff7f3f"], // 3f,7f
-    ["#ff3fbf", "#3fffbf", "#bfff3f", "#bf3fff", "#3fbfff", "#ffbf3f"], // 3f,bf
-    ["#ff7fbf", "#7fffbf", "#bfff7f", "#bf7fff", "#7fbfff", "#ffbf7f"], // 7f,bf
-    ["#ffffff"],
+    [
+      "#ff7f7f", // 7f
+      "#ffff7f", // 7f
+      "#7fff7f", // 7f
+      "#7fffff", // 7f
+      "#7f7fff", // 7f
+      "#ff7fff", // 7f
+      "#bf7fff", // 7f,bf
+    ],
+    [
+      "#ff3f7f", // 3f,7f
+      "#3fff7f", // 3f,7f
+      "#7fff3f", // 3f,7f
+      "#7f3fff", // 3f,7f
+      "#3f7fff", // 3f,7f
+      "#ff7f3f", // 3f,7f
+      "#7fbfff", // 7f,bf
+    ],
+    [
+      "#ff3fbf", // 3f,bf
+      "#3fffbf", // 3f,bf
+      "#bfff3f", // 3f,bf
+      "#bf3fff", // 3f,bf
+      "#3fbfff", // 3f,bf
+      "#ffbf3f", // 3f,bf
+      "#ffbf7f", // 7f,bf
+    ],
   ];
 
   const rootHTML = `
@@ -31,40 +85,7 @@ export default (function () {
     </div>
 
     <div class="values-dropdown">
-      <div class="values-dropdown-grid">
-      </div>
     </div>
-  `;
-
-  const colorGridItemHTML = `
-    <div class="values-dropdown-grid">
-      <!-- TODO: button is just a placeholder for now -->
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-      <button class="color-block">
-      </button>
-    </div>
-
   `;
 
   data.element = (function () {
@@ -73,22 +94,35 @@ export default (function () {
     el.innerHTML = rootHTML;
 
     const dd = el.querySelector(".values-dropdown");
-    el.onclick = () => {
+    el.onclick = async () => {
       dd.classList.toggle("active");
       if (dd.classList.contains("active")) {
-        dd.innerHTML = colorGridItemHTML;
+        const el = document.createElement("div");
+        el.classList.add("values-dropdown-grid");
+        appendColors(el);
+        dd.appendChild(el);
       } else {
-        // remove
-        dd.innerHTML = ``;
+        while (dd.firstChild) {
+          dd.removeChild(dd.firstChild);
+        }
       }
     };
-
-    // TODO: render colors into '.values-dropdown-grid'
 
     return el;
   })();
 
   data.color = "#ffffff"; // NOTE: placeholder
+
+  function appendColors(dst) {
+    for (let cs of data.colors) {
+      for (let c of cs) {
+        const el = document.createElement("button");
+        el.classList.add("color-block");
+        el.style.backgroundColor = c;
+        dst.appendChild(el);
+      }
+    }
+  }
 
   return data;
 })();
