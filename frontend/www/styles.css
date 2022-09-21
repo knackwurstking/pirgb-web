@@ -33,7 +33,6 @@ fieldset.section-card {
   border: var(--border-width) var(--border-style) var(--border-color);
   border-radius: var(--border-radius);
   padding: 0 !important;
-  overflow: hidden;
 }
 
 fieldset.section-card > legend {
@@ -61,7 +60,6 @@ fieldset.section-card > section.content {
 }
 
 fieldset.section-card > section.actions {
-  overflow: visible;
   width: 8rem;
 }
 
