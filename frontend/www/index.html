@@ -24,8 +24,36 @@
   </head>
   <body>
     <template id="sectionCard">
-      <p>Hello World!!</p>
+      <fieldset class="section-card">
+        <legend>
+          <span>{host}</span>
+          <code>[{nr}]</code>
+        </legend>
+
+        <section class="content">
+          <!-- TODO: color picker -->
+
+          <!-- pulse range slider -->
+          <div class="slider-container">
+            <div class="slider-value-display">0</div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              class="slider"
+              oninput="
+              this.parentElement.querySelector('div').innerText = this.value;
+            "
+            />
+          </div>
+        </section>
+
+        <!-- TODO: power toggle -->
+        <section class="actions"></section>
+      </fieldset>
     </template>
+
     <div id="sectionsContainer"></div>
   </body>
 </html>
