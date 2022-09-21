@@ -57,10 +57,12 @@ fieldset.section-card > section.actions {
 fieldset.section-card > section.content {
   flex-direction: row;
   width: 100%;
+  margin-right: 0rem;
 }
 
 fieldset.section-card > section.actions {
   width: 8rem;
+  margin-left: 0rem;
 }
 
 /* Pulse Range Slider */
