@@ -17,10 +17,11 @@
     <link rel="stylesheet" href="fonts.css" />
 
     <!-- Loading styles -->
+    <link rel="stylesheet" href="js/color-picker.css" />
     <link rel="stylesheet" href="styles.css" />
 
     <!-- Loading script -->
-    <script src="script.js" defer></script>
+    <script crossorigin type="module" src="script.js" defer></script>
   </head>
   <body>
     <template id="sectionCard">
@@ -32,6 +33,7 @@
 
         <section class="content">
           <!-- TODO: color picker -->
+          <div class="color-picker"></div>
 
           <!-- pulse range slider -->
           <div class="slider-container">
@@ -43,8 +45,8 @@
               value="0"
               class="slider"
               oninput="
-              this.parentElement.querySelector('div').innerText = this.value;
-            "
+                this.parentElement.querySelector('div').innerText = this.value;
+              "
             />
           </div>
         </section>

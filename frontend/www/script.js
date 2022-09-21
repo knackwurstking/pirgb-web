@@ -1,5 +1,7 @@
 "use strict";
 
+import ColorPicker from "./js/color-picker.js";
+
 // TODO: color picker
 // TODO: limit the range slider min based on color value picked
 // TODO: power toggle component
@@ -21,3 +23,7 @@ const section = sectionsContainer.appendChild(
 );
 section.querySelector("legend > span").innerText = "pi-bed";
 section.querySelector("legend > code").innerText = "[0]";
+
+/** @type {HTMLDivElement} */
+const colorPicker = section.querySelector(".color-picker");
+colorPicker.replaceWith(ColorPicker.element);

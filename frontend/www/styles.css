@@ -10,6 +10,7 @@
   box-sizing: border-box;
 }
 
+/* Section Card */
 fieldset.section-card {
   position: relative;
   display: flex;
@@ -42,6 +43,7 @@ fieldset.section-card > section.actions {
 }
 
 fieldset.section-card > section.content {
+  flex-direction: row;
   width: 100%;
 }
 
@@ -50,11 +52,13 @@ fieldset.section-card > section.actions {
   width: 8rem;
 }
 
+/* Pulse Range Slider */
 .slider-container {
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
   place-items: center;
+  margin: 0.25rem 0.5rem;
 }
 
 .slider {
@@ -90,6 +94,6 @@ fieldset.section-card > section.actions {
 
 .slider-value-display {
   font-size: 1.3em;
-  width: 4em;
+  width: 3em;
   text-align: center;
 }
