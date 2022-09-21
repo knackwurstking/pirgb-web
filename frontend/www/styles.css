@@ -105,3 +105,9 @@ fieldset.section-card > section.actions {
   width: 3em;
   text-align: center;
 }
+
+/* Power Switch */
+.power-switch {
+  /*-webkit-tap-highlight-color: transparent;*/
+  border-radius: 50%;
+}
