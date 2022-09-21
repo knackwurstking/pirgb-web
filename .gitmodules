@@ -1,4 +1,0 @@
-[submodule "sass"]
-	path = frontend/src/sass
-	url = https://github.com/knackwurstking/sass.git
-	branch = main
