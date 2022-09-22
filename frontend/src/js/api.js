@@ -1,27 +1,41 @@
+import Location from "./location";
+
 /**
- * @typedef {{
+ * @typedef PWM
+ * @type {{
  *  pulse: number,
  *  color: number[],
- * }} PWM
- *
- * @typedef {{
- *  id: number,
- *  pulse: number,
- *  lastPulse: number,
- *  color: number[],
- * }} Section
- *
- * @typedef {{
+ * }}
+ */
+
+/**
+ * @typedef Devices
+ * @type {Device[]}
+ */
+
+/**
+ * @typedef Device
+ * @type {{
  *  host: string,
  *  port: number,
  *  groups: string[],
  *  sections: Section[],
- * }} Device
- *
- * @typedef {Device[]} Devices
+ * }}
+ */
+
+/**
+ * @typedef Section
+ * @type {{
+ *  id: number,
+ *  pulse: number,
+ *  lastPulse: number,
+ *  color: number[],
+ * }}
  */
 
 export default (function () {
+  console.log("[api.js] initializing...");
+
   const data = {};
 
   /**
@@ -29,7 +43,7 @@ export default (function () {
    */
   data.getDevices = async function () {
     // TODO: load origin from localStorage if possible
-    let resp = await fetch("/api/devices");
+    let resp = await fetch(Location.origin + "/api/devices");
     /** @type Devices */
     let devices = [];
 
@@ -48,13 +62,16 @@ export default (function () {
    */
   data.setPWM = async function (host, section, pwmData) {
     // TODO: load origin from localStorage if possible
-    const resp = await fetch(`/api/devices/${host}/${section}/pwm`, {
-      method: "POST",
-      body: JSON.stringify(pwmData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const resp = await fetch(
+      Location.origin + `/api/devices/${host}/${section}/pwm`,
+      {
+        method: "POST",
+        body: JSON.stringify(pwmData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!resp.ok) {
       throw await data.responseError(resp);
@@ -70,7 +87,9 @@ export default (function () {
    */
   data.getPWM = async function (host, section) {
     // TODO: load origin from localStorage if possible
-    const resp = await fetch(`/api/devices/${host}/${section}/pwm`);
+    const resp = await fetch(
+      Location.origin + `/api/devices/${host}/${section}/pwm`
+    );
 
     if (!resp.ok) {
       throw await data.responseError(resp);

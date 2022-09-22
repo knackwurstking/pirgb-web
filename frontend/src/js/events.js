@@ -1,3 +1,5 @@
+import Location from "./location";
+
 /**
  * @typedef {{
  *  name: "change",
@@ -28,6 +30,7 @@
 
 export class GlobalEvents extends EventTarget {
   constructor() {
+    console.log("[events.js] initializing...");
     super();
 
     /**
@@ -86,8 +89,8 @@ export class GlobalEvents extends EventTarget {
 
     // TODO: load origin from localStorage if possible
     this.ws = new WebSocket(
-      `${location.protocol === "https:" ? "wss" : "ws"}://${
-        window.location.host
+      `${Location.protocol === "https:" ? "wss" : "ws"}://${
+        Location.hostname + ":" + Location.port
       }/api/events`
     );
 

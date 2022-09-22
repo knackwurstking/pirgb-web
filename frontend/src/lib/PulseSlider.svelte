@@ -1,0 +1,50 @@
+<script>
+  import { createEventDispatcher } from "svelte"
+  const dispatch = createEventDispatcher()
+
+  export let min
+  export let max
+  export let value = 0
+</script>
+
+<label {...$$props}>
+  <span>{value}</span>
+  <input
+    type="range"
+    {min}
+    {max}
+    bind:value
+    on:change={(ev) => dispatch("change", { value: parseInt(ev.currentTarget.value) })}
+  />
+</label>
+
+<style lang="scss">
+  @use "../sass/theme";
+
+  $border-width: theme.$border-width;
+  $border-style: theme.$border-style;
+  $border-color: theme.$border-color;
+  $border-radius: theme.$border-radius;
+
+  label {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+    font-size: 1.2em;
+
+    & > span {
+      margin: 0.25rem;
+      margin-left: 0.5rem;
+      width: 3em;
+      font-size: 0.85em;
+      font-style: italic;
+    }
+
+    & > input {
+      font-size: inherit;
+      margin: 0.25rem;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,4 +1,6 @@
 export default (function () {
+  console.log("[color.js] initializing...");
+
   const data = {};
 
   /** @param {string} color */
