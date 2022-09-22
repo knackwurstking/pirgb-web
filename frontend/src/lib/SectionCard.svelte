@@ -239,6 +239,5 @@
   section.actions {
     margin-left: 0.75rem;
     width: 7rem;
-    overflow: visible;
   }
 </style>
