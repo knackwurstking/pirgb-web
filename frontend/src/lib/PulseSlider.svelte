@@ -25,6 +25,7 @@
     flex-direction: row-reverse;
     place-items: center;
     margin-left: 1rem;
+    user-select: none;
   }
 
   .slider {

@@ -153,7 +153,7 @@
       <ColorPicker bind:color on:change={colorChange} />
     </div>
     <PulseSlider
-      style="margin: 0.5rem;width: 100%;"
+      style="margin-left: 1rem;"
       min={5} max={100}
       bind:value={pulse}
       on:change={
@@ -188,20 +188,21 @@
 
 <style>
   fieldset {
-    margin: 1rem 0;
     display: flex;
-    padding-top: 2rem;
     place-items: center;
     box-shadow: 0 0 0.85em 0.1em var(--special-color, transparent);
     transition: box-shadow 0.5s ease-out;
     background-color: var(--surface);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 0 !important;
   }
 
   fieldset legend {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.25rem 1.3rem;
+    padding: 0.2rem 1.3rem;
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: 0;
     border-bottom: var(--border);
@@ -227,9 +228,9 @@
 
   section {
     display: flex;
-    flex-direction: column;
     place-items: center;
     justify-content: space-evenly;
+    margin: 0.75rem 0 0 2rem;
   }
 
   section.content {
@@ -237,7 +238,7 @@
   }
 
   section.actions {
-    margin-left: 0.75rem;
     width: 7rem;
+    margin-left: 0rem;
   }
 </style>
