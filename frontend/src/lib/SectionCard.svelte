@@ -119,7 +119,7 @@
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [refresh]`)
 
     try {
-      if (!section) section = await api.getPWM(host, sectionID)
+      if (!section) section = await Api.getPWM(host, sectionID)
       if (!online) online = true
     } catch (error) {
       console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)

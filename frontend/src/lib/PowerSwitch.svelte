@@ -1,4 +1,5 @@
 <script>
+  // TODO: clean up here...
   import { createEventDispatcher } from "svelte"
 
   export let scale = 1
