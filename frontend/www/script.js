@@ -1,12 +1,11 @@
 "use strict";
 
-import ColorPicker from "./js/color-picker.js";
-import RangeSlider from "./js/range-slider.js";
-import PowerSwitch from "./js/power-switch.js";
+import * as events from "./lib/events.js";
 
-// TODO: color picker
-// TODO: limit the range slider min based on color value picked
-// TODO: power toggle component
+import ColorPicker from "./components/color-picker.js";
+import RangeSlider from "./components/range-slider.js";
+import PowerSwitch from "./components/power-switch.js";
+
 // TODO: from backend: init and startwebsocket handler...
 //    ...also handle suspend if possible...
 //    ...after suspend get update from server (devices/sections)
@@ -39,3 +38,6 @@ const powerSwitch = section.querySelector(".power-switch");
 PowerSwitch.setScale(0.6);
 PowerSwitch.setColor(ColorPicker.color);
 powerSwitch.replaceWith(PowerSwitch.element);
+
+// NOTE: just debugging
+console.log("events.global:", events.global);
