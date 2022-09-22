@@ -5,28 +5,38 @@
   import ColorPicker from "./ColorPicker.svelte"
   import PulseSlider from "./PulseSlider.svelte"
 
-  import * as api from "../lib/api"
-  import * as utils from "../lib/utils"
-  import * as events from "../lib/events"
+  import Api from "../js/api";
+  import Color from "../js/color";
+  import Events from "../js/events";
 
   /** @type {string} */
   export let host
+
   /** @type {number} */
   export let port
+
   /** @type {number} */
   export let sectionID 
+
   /** @type {number} */
   export let pulse = 0
   $: pulse < 0 && (pulse = 0)
+
+  /** @type {string} */
   export let color = "#ffffff"
+
+  /** @type {boolean} */
   export let online = false
 
+  /** @type {boolean} */
   let powerChecked = false
+
+  /** @type {number} */
   let currentPulse = 0
 
   /**
    * @param {Object} ev
-   * @param {import("../lib/events").ChangeEventData} ev.detail */
+   * @param {import("../js/events").ChangeEventData} ev.detail */
   const changeEventListener = ({ detail }) => {
     if (detail.host !== host
       || detail.port !== port
@@ -35,7 +45,7 @@
       return
     }
 
-    console.log(`[SectionCard] [${host}:${port} (${sectionID})] change event occured`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): "change" event occured`)
 
     // parse data ...
     refresh({ ...detail })
@@ -43,7 +53,7 @@
 
   /**
    * @param {Object} ev
-   * @param {import("../lib/events").OfflineEventData} ev.detail */
+   * @param {import("../js/events").OfflineEventData} ev.detail */
   const offlineEventListener = ({ detail }) => {
     if (detail.host !== host
       || detail.port !== port) {
@@ -58,7 +68,7 @@
 
   /**
    * @param {Object} ev
-   * @param {import("../lib/events").OfflineEventData} ev.detail */
+   * @param {import("../js/events").OfflineEventData} ev.detail */
   const onlineEventListener = ({ detail }) => {
     if (detail.host !== host
       || detail.port !== port) {
@@ -85,27 +95,25 @@
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onMount]`)
     refresh(null)
 
-    // @ts-ignore
-    events.global.addEventListener("change", changeEventListener)
-    events.global.addEventListener("offline", offlineEventListener)
-    events.global.addEventListener("online", onlineEventListener)
-    events.global.addEventListener("close", closeEventListener)
-    events.global.addEventListener("open", openEventListener)
+    Events.addEventListener("change", changeEventListener)
+    Events.addEventListener("offline", offlineEventListener)
+    Events.addEventListener("online", onlineEventListener)
+    Events.addEventListener("close", closeEventListener)
+    Events.addEventListener("open", openEventListener)
   })
 
   onDestroy(() => {
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onDestroy]`)
 
-    // @ts-ignore
-    events.global.removeEventListener("change", changeEventListener)
-    events.global.removeEventListener("offline", offlineEventListener)
-    events.global.removeEventListener("online", onlineEventListener)
-    events.global.removeEventListener("close", closeEventListener)
-    events.global.removeEventListener("open", openEventListener)
+    Events.removeEventListener("change", changeEventListener)
+    Events.removeEventListener("offline", offlineEventListener)
+    Events.removeEventListener("online", onlineEventListener)
+    Events.removeEventListener("close", closeEventListener)
+    Events.removeEventListener("open", openEventListener)
   })
 
   /**
-   * @param {import('../lib/api').Section | null} section
+   * @param {import('../js/api').Section | null} section
    */
   async function refresh(section = null) {
     console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [refresh]`)
@@ -124,29 +132,26 @@
     currentPulse = section.pulse
     powerChecked = !!currentPulse
     pulse = section.pulse || section.lastPulse || 100
-    color = utils.colorToHex(...section.color)
+    color = Color.colorToHex(...section.color)
+  }
+
+  async function colorChange({ detail }) {
+    if (detail.color) {
+      await Api.setPWM(
+        host, sectionID,
+        { pulse: currentPulse, color: Color.hexToColor(detail.color) }
+      )
+    }
   }
 </script>
 
-<fieldset style={`--special-color: ${currentPulse > 0 && online ? color : "transparent"};`}>
-  <legend class="title"> {host} <code>[{sectionID}]</code></legend>
+<fieldset style={`--special-color: ${(currentPulse > 0 && online) ? color : "transparent"};`}>
+  <legend> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
     <div style="margin: 0.5rem; margin-left: 1rem;">
-      <ColorPicker
-        bind:color
-        on:change={
-          async ({ detail }) => {
-            if (detail.color) {
-              await api.setPWM(
-                host, sectionID,
-                { pulse: currentPulse, color: utils.hexToColor(detail.color) }
-              )
-            }
-          }
-        }
-      />
+      <ColorPicker bind:color on:change={colorChange} />
     </div>
     <PulseSlider
       style="margin: 0.5rem;width: 100%;"
@@ -155,9 +160,9 @@
       on:change={
         async ({ detail }) => {
           if (currentPulse == 0) return
-          await api.setPWM(
+          await Api.setPWM(
             host, sectionID,
-            { pulse: detail.value, color: utils.hexToColor(color) }
+            { pulse: detail.value, color: Color.hexToColor(color) }
           )
         }
       }
@@ -172,9 +177,9 @@
       on:toggled={
         async ({ detail }) => {
           if (detail.checked) {
-            await api.setPWM(host, sectionID, { pulse, color: utils.hexToColor(color) })
+            await Api.setPWM(host, sectionID, { pulse, color: Color.hexToColor(color) })
           } else {
-            await api.setPWM(host, sectionID, { pulse: 0, color: utils.hexToColor(color) })
+            await Api.setPWM(host, sectionID, { pulse: 0, color: Color.hexToColor(color) })
           }
         }
       }
@@ -182,16 +187,7 @@
   </section>
 </fieldset>
 
-<style lang="scss">
-  // TODO: update to scss
-  @use "sass:color";
-  @use "../sass/theme";
-
-  $border-width: theme.$border-width;
-  $border-style: theme.$border-style;
-  $border-color: theme.$border-color;
-  $border-radius: theme.$border-radius;
-
+<style>
   fieldset {
     margin: 1rem 0;
     display: flex;
@@ -199,7 +195,7 @@
     place-items: center;
     box-shadow: 0 0 0.85em 0.1em var(--special-color, transparent);
     transition: box-shadow 0.5s ease-out;
-    background-color: theme.$surface;
+    background-color: var(--surface);
   }
 
   fieldset legend {
@@ -207,11 +203,9 @@
     top: 0;
     right: 0;
     padding: 0.25rem 1.3rem;
-    border-bottom-left-radius: $border-radius;
+    border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: 0;
-    border-bottom-width: $border-width;
-    border-bottom-color: $border-color;
-    border-bottom-style: $border-style;
+    border-bottom: var(--border);
   }
 
   fieldset .online-indicator {
@@ -232,19 +226,18 @@
     opacity: 0;
   }
 
-  section.content {
+  section {
     display: flex;
     flex-direction: column;
     place-items: center;
     justify-content: space-evenly;
+  }
+
+  section.content {
     width: 13rem;
   }
 
   section.actions {
-    display: flex;
-    flex-direction: column;
-    place-items: center;
-    justify-content: space-evenly;
     margin-left: 0.75rem;
     width: 7rem;
     overflow: visible;

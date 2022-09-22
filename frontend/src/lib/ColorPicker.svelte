@@ -45,7 +45,7 @@
   /**
    * Dispatch event on click outside of node
    */
-  export function clickOutside(node) {
+  function clickOutside(node) {
     const handleClick = (event) => {
       if (node && !node.contains(event.target) && !event.defaultPrevented) {
         node.dispatchEvent(
@@ -54,10 +54,12 @@
       }
     }
 
+    console.log("[ColorPicker.svelte] initialize click outside event", node)
     document.addEventListener("click", handleClick, true)
 
     return {
       destroy() {
+        console.log("[ColorPicker.svelte] destroy click outside event", node)
         document.removeEventListener('click', handleClick)
       }
     }
@@ -74,10 +76,6 @@
     }
 
     ddActive = !ddActive
-  }
-
-  function clickOutsideDropdown() {
-    ddActive = false
   }
 
   /** @param {string} innerValue */
@@ -108,18 +106,18 @@
     >
       <div style="display: flex;">
         <div style="background: {color};" class="color-block"></div>
-        <div style="margin-right: 0.2rem" class="caret" class:top={top}></div>
+        <!-- div style="margin-right: 0.2rem" class="caret" class:top={top}></div -->
       </div>
     </button>
   </div>
 
   {#if ddActive}
     <div
-      class="values-dropdown elevate-200"
+      class="values-dropdown"
       class:top 
       bind:clientHeight={ddHeight}
       use:clickOutside
-      on:clickoutside={clickOutsideDropdown}
+      on:clickoutside={() => (ddActive = false)}
     >
       <div class="values-dropdown-grid">
         {#each colors as val, index}
@@ -139,14 +137,7 @@
   {/if}
 </div>
 
-<style lang="scss">
-  // TODO: update to scss
-  @use "../sass/theme";
-
-  $border-width: theme.$border-width;
-  $border-style: theme.$border-style;
-  $border-color: theme.$border-color;
-
+<style>
   .color-picker-holder {
     position: relative;
   }
@@ -158,17 +149,18 @@
 
   .select-color {
     padding: 0.1875em;
-    border-radius: .2rem;
-    margin-right: .4rem;
+    border-radius: 0.2rem;
+    margin-right: 0.4rem;
     height: 2.1875rem;
   }
 
+  /*
   .caret {
     width: 0;
     height: 0;
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid $border-color;
+    border-top: 0.25rem solid var(--border-color, currentColor);
     position: relative;
     top: 0.625rem;
     margin-left: 0.25rem;
@@ -177,50 +169,53 @@
   .caret.top {
     border-left: 0.25rem solid transparent;
     border-right: 0.25rem solid transparent;
-    border-bottom: 0.25rem solid theme.$divider;
+    border-bottom: 0.25rem solid var(--border-color, currentColor);
     border-top: none;
   }
+  */
 
   .active {
-      box-shadow: inset 0 0 0 0.125rem var(--special-color, #FFF), 0 0 0.275rem 0.125rem var(--special-color, rgba(0,0,0,0.25));
+    box-shadow: inset 0 0 0 0.125rem var(--special-color, var(--border-color)),
+      0 0 0.275rem 0.125rem var(--special-color, rgba(0, 0, 0, 0.25));
   }
-  
-  .fake-focus, button:focus  {
-      outline: 0;
-      box-shadow: 0 0 0 0.1rem theme.$accent;
-      border-color: $border-color;
+
+  .fake-focus,
+  button:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem var(--special-color, var(--border-color));
+    border-color: var(--border-color, currentColor);
   }
-  
+
   .color-block {
-    border-radius: .2rem;
+    border-radius: 0.2rem;
     width: 1.5rem;
     height: 1.5rem;
     line-height: 0;
     font-size: 0;
   }
-  
+
   .values-dropdown {
-      padding: 1em;
-      position: absolute;
-      z-index: 1;
-      top: 2.5rem;
-      border: $border-width $border-style $border-color;
-      border-radius: .3rem;
+    padding: 1em;
+    position: absolute;
+    z-index: 1;
+    top: 2.5rem;
+    border: var(--border-width) var(--border-style) var(--border-color);
+    border-radius: 0.3rem;
   }
-	
+
   .values-dropdown-grid {
-      grid-template-columns: repeat(6, 1.5rem);
-      grid-template-rows: 1.5rem 1.5rem;
-      grid-gap: 0.625rem;
-      display: grid;
+    grid-template-columns: repeat(7, 1.5rem);
+    grid-template-rows: 1.5rem 1.5rem;
+    grid-gap: 0.625rem;
+    display: grid;
   }
-	
+
   .values-dropdown.top {
-      top: auto;
-      bottom: 2.5rem;
+    top: auto;
+    bottom: 2.5rem;
   }
-	
+
   .values-dropdown button {
-      border: none;
+    border: none;
   }
 </style>
