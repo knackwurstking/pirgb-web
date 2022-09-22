@@ -1,51 +1,66 @@
 <script>
-  // TODO: clean up here...
-  import { createEventDispatcher } from "svelte"
-  const dispatch = createEventDispatcher()
-
   export let min
   export let max
-  export let value = 0
+  export let value = 100
 </script>
 
-<label {...$$props}>
-  <span>{value}</span>
+<div
+  {...$$props}
+  class={"slider-container " + ($$props.class || "")}
+>
+  <div class="slider-value-display">{value}</div>
   <input
+    class="slider"
     type="range"
-    {min}
-    {max}
+    min={min}
+    max={max}
     bind:value
-    on:change={(ev) => dispatch("change", { value: parseInt(ev.currentTarget.value) })}
   />
-</label>
+</div>
 
-<style lang="scss">
-  @use "../sass/theme";
-
-  $border-width: theme.$border-width;
-  $border-style: theme.$border-style;
-  $border-color: theme.$border-color;
-  $border-radius: theme.$border-radius;
-
-  label {
-    position: relative;
+<style>
+  .slider-container {
+    width: 100%;
     display: flex;
-    flex-wrap: nowrap;
     flex-direction: row-reverse;
-    font-size: 1.2em;
+    place-items: center;
+    margin-left: 1rem;
+  }
 
-    & > span {
-      margin: 0.25rem;
-      margin-left: 0.5rem;
-      width: 3em;
-      font-size: 0.85em;
-      font-style: italic;
-    }
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+  }
 
-    & > input {
-      font-size: inherit;
-      margin: 0.25rem;
-      width: 100%;
-    }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+  }
+
+  .slider-value-display {
+    font-size: 1.3em;
+    width: 3em;
+    text-align: center;
   }
 </style>

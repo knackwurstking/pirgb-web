@@ -20,7 +20,6 @@
 
   /** @type {number} */
   export let pulse = 0
-  $: pulse < 0 && (pulse = 0)
 
   /** @type {string} */
   export let color = "#ffffff"
