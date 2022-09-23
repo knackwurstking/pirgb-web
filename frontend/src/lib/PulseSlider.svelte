@@ -5,11 +5,18 @@
   export let min;
   export let max;
   export let value = 100;
+  export let color = "var(--accent)";
+
+  /** @type {HTMLDivElement} */
+  let container
+  $: container && console.log(container.style.getPropertyValue("--special-color"))
 </script>
 
 <div
+  bind:this={container}
   {...$$props}
   class={"slider-container " + ($$props.class || "")}
+  style={`--accent: ${color}`}
 >
   <!-- div class="slider-value-display">{value}</div -->
   <input
@@ -37,7 +44,7 @@
     appearance: none;
     width: 100%;
     height: 0.15em;
-    background: var(--accent, blue);
+    background: var(--accent);
     border-radius: var(--border-radius);
     outline: none;
     opacity: 0.7;
@@ -51,7 +58,7 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: var(--accent, blue);
+    background: var(--accent);
     cursor: pointer;
   }
 
@@ -59,7 +66,7 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: var(--accent, blue);
+    background: var(--accent);
     cursor: pointer;
   }
 

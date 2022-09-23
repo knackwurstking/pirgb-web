@@ -155,6 +155,7 @@
     </div>
     <PulseSlider
       style="margin-left: 1rem;"
+      {color}
       min={5} max={100}
       bind:value={pulse}
       on:change={

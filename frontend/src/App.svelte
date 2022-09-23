@@ -24,6 +24,7 @@
         </section>
       {/each}
     {/each}
+    <div style="height: 1.5rem;"></div>
 </main>
 
 <style>
