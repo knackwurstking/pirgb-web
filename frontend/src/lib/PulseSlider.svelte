@@ -6,14 +6,9 @@
   export let max;
   export let value = 100;
   export let color = "var(--accent)";
-
-  /** @type {HTMLDivElement} */
-  let container
-  $: container && console.log(container.style.getPropertyValue("--special-color"))
 </script>
 
 <div
-  bind:this={container}
   {...$$props}
   class={"slider-container " + ($$props.class || "")}
   style={`--accent: ${color}`}
