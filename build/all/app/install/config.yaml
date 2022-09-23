@@ -1,0 +1,23 @@
+# defaults to 50826 if not set
+port: 50831
+
+# server listening for host
+host: 0.0.0.0
+
+devices:
+  - host: pi-bed
+    port: 50826 # NOTE: 50826 is the default pirgb-server port (optional)
+    groups: [all]
+
+  - host: pi-lr
+    groups: 
+      - all
+      - lr
+
+  - host: pi-bath
+    groups: 
+      - all
+
+  - host: pi-kitchen
+    groups: 
+      - all

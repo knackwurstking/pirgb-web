@@ -1,0 +1,15 @@
+{
+    "name": "pirgb-web.knackwurstking",
+    "description": "A short description of your app",
+    "architecture": "@CLICK_ARCH@",
+    "title": "pirgb-web",
+    "hooks": {
+        "pirgb-web": {
+            "apparmor": "pirgb-web.apparmor",
+            "desktop":  "pirgb-web.desktop"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "Udo Bauer <knackwurstking.tux@gmail.com>",
+    "framework" : "@CLICK_FRAMEWORK@"
+}

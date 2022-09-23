@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=pirgb-web
+Exec=webapp-container --app-id="pirgb-web.knackwurstking" $@ www/index.html
+Icon=assets/logo.svg
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
