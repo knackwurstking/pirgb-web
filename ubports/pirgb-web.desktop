@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=pirgb-web
-Exec=webapp-container --app-id="pirgb-web.knackwurstking" $@ www/index.html
+Exec=webapp-container --app-id="pirgb-web.knackwurstking" $@ http://rpi-server:50831
 Icon=assets/logo.svg
 Terminal=false
 Type=Application
