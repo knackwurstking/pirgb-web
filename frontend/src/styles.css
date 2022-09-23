@@ -3,7 +3,7 @@
   --color: rgba(255, 255, 255, 0.85);
 
   --surface: rgba(35, 35, 45, 1);
-  --accent: rgba(15, 225, 20, 0.85);
+  --accent: rgba(15, 225, 20, 1);
 
   --border-radius: 0.25rem;
   --border-width: 0.05rem;
@@ -18,6 +18,24 @@
     sans-serif;
 }
 
+body {
+  overflow: hidden;
+}
+
 * {
   box-sizing: border-box;
+}
+
+button {
+  border-radius: var(--border-radius);
+  border-width: var(--border-width);
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+input {
+  border-radius: var(--border-radius);
 }

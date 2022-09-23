@@ -1,20 +1,24 @@
 <script>
-  export let min
-  export let max
-  export let value = 100
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
+  export let min;
+  export let max;
+  export let value = 100;
 </script>
 
 <div
   {...$$props}
   class={"slider-container " + ($$props.class || "")}
 >
-  <div class="slider-value-display">{value}</div>
+  <!-- div class="slider-value-display">{value}</div -->
   <input
     class="slider"
     type="range"
     min={min}
     max={max}
     bind:value
+    on:input={() => dispatch("change", { value: value })}
   />
 </div>
 
@@ -32,9 +36,9 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 5px;
-    background: var(--accent);
-    border-radius: 5px;
+    height: 0.15em;
+    background: var(--accent, blue);
+    border-radius: var(--border-radius);
     outline: none;
     opacity: 0.7;
     -webkit-transition: 0.2s;
@@ -47,7 +51,7 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--accent, blue);
     cursor: pointer;
   }
 
@@ -55,13 +59,15 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--accent, blue);
     cursor: pointer;
   }
 
+  /*
   .slider-value-display {
     font-size: 1.3em;
     width: 3em;
     text-align: center;
   }
+  */
 </style>

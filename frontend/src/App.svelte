@@ -13,42 +13,37 @@
 </script>
 
 <main>
-  <section class="sections">
     {#each devices as device}
       {#each device.sections as section}
-        <div style="margin: 0.5rem;">
+        <section>
           <SectionCard
             host={device.host}
             port={device.port}
             sectionID={section.id}
           />
-        </div>
+        </section>
       {/each}
     {/each}
-  </section>
 </main>
 
 <style>
-  :global(body),
-  :global(html) {
-    overflow: hidden;
-  }
-
   main {
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
     padding: 0.5rem 1rem;
-    scroll-snap-type: y mandatory;
+    /*scroll-snap-type: y mandatory;*/
+    height: 100vh;
   }
 
   section {
-    scroll-snap-align: center;
-    margin: 0.5rem 0;
+    /*scroll-snap-align: center;*/
+    padding: 0.5rem 0.5rem;
     width: 100%;
-    height: 10rem;
+    height: 8rem;
   }
 
+  /*
   section:first-child {
     scroll-snap-align: start;
   }
@@ -56,4 +51,5 @@
   section:last-child {
     scroll-snap-align: end;
   }
+  */
 </style>

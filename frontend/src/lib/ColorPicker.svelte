@@ -42,31 +42,10 @@
 
   let inputHeight
 
-  /**
-   * Dispatch event on click outside of node
-   */
-  function clickOutside(node) {
-    const handleClick = (event) => {
-      if (node && !node.contains(event.target) && !event.defaultPrevented) {
-        node.dispatchEvent(
-          new CustomEvent('clickoutside', node)
-        )
-      }
-    }
-
-    console.log("[ColorPicker.svelte] initialize click outside event", node)
-    document.addEventListener("click", handleClick, true)
-
-    return {
-      destroy() {
-        console.log("[ColorPicker.svelte] destroy click outside event", node)
-        document.removeEventListener('click', handleClick)
-      }
-    }
-  }
-
   /** @param {MouseEvent} ev */
-  async function toggleDropdown(ev) {
+  function toggleDropdown(ev) {
+    console.log("[ColorPicker.svelte] toggleDropdown triggered", { ddActive })
+
     if ((ev.clientY + inputHeight) < ddHeight
       || (windowHeight - ddHeight - inputHeight - ev.clientY) > 0) {
 
@@ -79,7 +58,7 @@
   }
 
   /** @param {string} innerValue */
-  function changeValue(innerValue) {
+  async function changeValue(innerValue) {
     let change = false
     if (color !== innerValue) {
       change = true
@@ -97,27 +76,20 @@
 <svelte:window bind:innerHeight={windowHeight} on:keydown={handleKeydown} />
 
 <div class="color-picker-holder">
-  <div class="color-picker-inner">
-    <button
-      bind:clientHeight={inputHeight}
-      class="select-color"
-      class:fake-focus={ddActive}
-      on:click={toggleDropdown}
-    >
-      <div style="display: flex;">
-        <div style="background: {color};" class="color-block"></div>
-        <!-- div style="margin-right: 0.2rem" class="caret" class:top={top}></div -->
-      </div>
-    </button>
-  </div>
+  <button
+    bind:clientHeight={inputHeight}
+    class="select-color"
+    class:fake-focus={ddActive}
+    on:click={(e) => toggleDropdown(e)}
+  >
+    <div style="background: {color};" class="color-block"></div>
+  </button>
 
   {#if ddActive}
     <div
       class="values-dropdown"
       class:top 
       bind:clientHeight={ddHeight}
-      use:clickOutside
-      on:clickoutside={() => (ddActive = false)}
     >
       <div class="values-dropdown-grid">
         {#each colors as val, index}
@@ -142,52 +114,25 @@
     position: relative;
   }
 
-  .color-picker-inner {
-    display: flex;
-    height: 2.1875rem;
-  }
-
-  .select-color {
-    padding: 0.1875em;
-    border-radius: 0.2rem;
+  button.select-color {
     margin-right: 0.4rem;
     height: 2.1875rem;
+    background-color: var(--surface);
+    box-shadow: 0.05rem 0.05rem 0.1rem var(--background);
+    transform: box-shadow 0.25s ease;
   }
 
-  /*
-  .caret {
-    width: 0;
-    height: 0;
-    border-left: 0.25rem solid transparent;
-    border-right: 0.25rem solid transparent;
-    border-top: 0.25rem solid var(--border-color, currentColor);
-    position: relative;
-    top: 0.625rem;
-    margin-left: 0.25rem;
+  button.select-color:active {
+    box-shadow: 0 0 0.1rem var(--background);
   }
-
-  .caret.top {
-    border-left: 0.25rem solid transparent;
-    border-right: 0.25rem solid transparent;
-    border-bottom: 0.25rem solid var(--border-color, currentColor);
-    border-top: none;
-  }
-  */
 
   .active {
     box-shadow: inset 0 0 0 0.125rem var(--special-color, var(--border-color)),
       0 0 0.275rem 0.125rem var(--special-color, rgba(0, 0, 0, 0.25));
   }
 
-  .fake-focus,
-  button:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.1rem var(--special-color, var(--border-color));
-    border-color: var(--border-color, currentColor);
-  }
-
-  .color-block {
-    border-radius: 0.2rem;
+  div.color-block,
+  button.color-block {
     width: 1.5rem;
     height: 1.5rem;
     line-height: 0;
@@ -195,12 +140,13 @@
   }
 
   .values-dropdown {
+    z-index: 1;
     padding: 1em;
     position: absolute;
-    z-index: 1;
     top: 2.5rem;
     border: var(--border-width) var(--border-style) var(--border-color);
-    border-radius: 0.3rem;
+    border-radius: var(--border-radius);
+    background-color: var(--surface);
   }
 
   .values-dropdown-grid {

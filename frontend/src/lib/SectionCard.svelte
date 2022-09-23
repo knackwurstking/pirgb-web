@@ -20,6 +20,7 @@
 
   /** @type {number} */
   export let pulse = 0
+  $: console.log("[SectionCard.svelte] ", { host, sectionID, pulse })
 
   /** @type {string} */
   export let color = "#ffffff"
@@ -60,7 +61,7 @@
       return
     }
 
-    console.log(`[SectionCard] [${host}:${port} (${sectionID})] offline event occured`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): offline event occured`)
 
     online = false
   }
@@ -75,23 +76,23 @@
       return
     }
 
-    console.log(`[SectionCard] [${host}:${port} (${sectionID})] offline event occured`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): online event occured`)
 
     online = true 
   }
 
   const openEventListener = () => {
-    console.log(`[SectionCard] [${host}:${port} (${sectionID})] websocket open event`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket open event`)
     refresh(null)
   }
 
   const closeEventListener = () => {
-    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] websocket close event`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket close event`)
     if (online) online = false
   }
 
   onMount(() => {
-    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onMount]`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): onMount`)
     refresh(null)
 
     Events.addEventListener("change", changeEventListener)
@@ -102,7 +103,7 @@
   })
 
   onDestroy(() => {
-    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [onDestroy]`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): onDestroy`)
 
     Events.removeEventListener("change", changeEventListener)
     Events.removeEventListener("offline", offlineEventListener)
@@ -115,13 +116,13 @@
    * @param {import('../js/api').Section | null} section
    */
   async function refresh(section = null) {
-    console.log(`[SectionCard.svelte] [${host}:${port} (${sectionID})] [refresh]`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): refresh`)
 
     try {
       if (!section) section = await Api.getPWM(host, sectionID)
       if (!online) online = true
     } catch (error) {
-      console.warn(`[SectionCard.svelte] [${host}:${port}, id: ${sectionID}]`, error)
+      console.warn(`[SectionCard.svelte] ${host}:${port} (${sectionID}):`, error)
       if (online) online = false
       pulse = 100
       color = "#ffffff"
@@ -159,6 +160,7 @@
       on:change={
         async ({ detail }) => {
           if (currentPulse == 0) return
+
           await Api.setPWM(
             host, sectionID,
             { pulse: detail.value, color: Color.hexToColor(color) }
@@ -170,7 +172,7 @@
 
   <section class="actions">
     <PowerSwitch
-      scale={0.7}
+      scale={0.5}
       {color}
       bind:checked={powerChecked}
       on:toggled={
@@ -189,8 +191,9 @@
 <style>
   fieldset {
     display: flex;
+    position: relative;
     place-items: center;
-    box-shadow: 0 0 0.85em 0.1em var(--special-color, transparent);
+    box-shadow: 0.1rem 0.1rem 0.85em 0.1em var(--special-color, transparent);
     transition: box-shadow 0.5s ease-out;
     background-color: var(--surface);
     border: var(--border);
@@ -208,6 +211,7 @@
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: 0;
     border-bottom: var(--border);
+    text-shadow: 0.1em 0.1em 0.2em var(--background)
   }
 
   fieldset .online-indicator {
@@ -229,18 +233,22 @@
   }
 
   section {
+    position: relative;
     display: flex;
     place-items: center;
     justify-content: space-evenly;
-    margin: 0.75rem 0 0 2rem;
+    margin: 1.8rem 0.1rem 0.1rem 0.1rem;
+    height: calc(100% - 2rem);
+    border-radius: var(--border-radius);
   }
 
   section.content {
-    width: 13rem;
+    width: 100%;
   }
 
   section.actions {
-    width: 7rem;
-    margin-left: 0rem;
+    margin-left: 0.25rem;
+    place-items: center;
+    justify-content: center;
   }
 </style>

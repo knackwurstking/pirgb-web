@@ -53,7 +53,7 @@
     display: flex;
     justify-content: center;
     place-items: center;
-    border-radius: 50%;
+    border-radius: var(--border-radius);
   }
 
   .power-switch > .button {
