@@ -29,11 +29,31 @@
 </main>
 
 <style>
+  :global(body),
+  :global(html) {
+    overflow: hidden;
+  }
+
   main {
     overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 0.5rem 1rem;
+    scroll-snap-type: y mandatory;
   }
 
   section {
-    margin: 1rem;
+    scroll-snap-align: center;
+    margin: 0.5rem 0;
+    width: 100%;
+    height: 10rem;
+  }
+
+  section:first-child {
+    scroll-snap-align: start;
+  }
+
+  section:last-child {
+    scroll-snap-align: end;
   }
 </style>
