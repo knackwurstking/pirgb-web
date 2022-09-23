@@ -37,6 +37,10 @@
     height: 100vh;
   }
 
+  main::-webkit-scrollbar {
+    display: none;
+  }
+
   section {
     /*scroll-snap-align: center;*/
     padding: 0.5rem 0.5rem;
