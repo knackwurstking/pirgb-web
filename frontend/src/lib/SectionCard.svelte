@@ -20,7 +20,7 @@
 
   /** @type {number} */
   export let pulse = 0
-  $: console.log("[SectionCard.svelte] ", { host, sectionID, pulse })
+  //$: console.log("[SectionCard.svelte] ", { host, sectionID, pulse })
 
   /** @type {string} */
   export let color = "#ffffff"
