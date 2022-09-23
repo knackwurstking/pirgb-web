@@ -47,6 +47,7 @@
 
 <style>
   .power-switch {
+    -webkit-tap-highlight-color: transparent;
     width: 150px;
     height: 150px;
     position: relative;

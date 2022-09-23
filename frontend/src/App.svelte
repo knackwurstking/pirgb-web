@@ -31,7 +31,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.25rem;
     /*scroll-snap-type: y mandatory;*/
     height: 100vh;
   }

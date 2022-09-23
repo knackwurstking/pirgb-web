@@ -249,6 +249,5 @@
   section.actions {
     margin-left: 0.25rem;
     place-items: center;
-    justify-content: center;
   }
 </style>
