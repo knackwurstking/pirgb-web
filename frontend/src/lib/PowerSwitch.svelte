@@ -50,7 +50,6 @@
     -webkit-tap-highlight-color: transparent;
     width: 150px;
     height: 150px;
-    position: relative;
     display: flex;
     justify-content: center;
     place-items: center;
@@ -63,7 +62,6 @@
     display: flex;
     justify-content: center;
     place-items: center;
-    position: relative;
   }
 
   .power-switch > .button::after {

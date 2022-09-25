@@ -192,7 +192,6 @@
 <style>
   fieldset {
     display: flex;
-    position: relative;
     place-items: center;
     box-shadow: 0.1rem 0.1rem 0.85em 0.1em var(--special-color, transparent);
     transition: box-shadow 0.5s ease-out;
@@ -234,7 +233,6 @@
   }
 
   section {
-    position: relative;
     display: flex;
     place-items: center;
     justify-content: space-evenly;

@@ -110,10 +110,6 @@
 </div>
 
 <style>
-  .color-picker-holder {
-    position: relative;
-  }
-
   button.select-color {
     margin-right: 0.4rem;
     padding: 0.25rem;
