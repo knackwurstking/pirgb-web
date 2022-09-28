@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=pirgb-web
-Exec=webapp-container --app-id="pirgb-web.knackwurstking" $@ http://rpi-server:50831
+Exec=webapp-container --app-id="pirgb-web.knackwurstking" --local-content-can-access-remote-urls $@ www/index.html
 Icon=assets/icon.png
 Terminal=false
 Type=Application
