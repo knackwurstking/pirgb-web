@@ -27,6 +27,7 @@
 <style>
   .slider-container {
     width: 100%;
+    max-width: 16rem;
     display: flex;
     flex-direction: row-reverse;
     place-items: center;

@@ -114,7 +114,8 @@
     margin-right: 0.4rem;
     padding: 0.25rem;
     height: 2.1875rem;
-    background-color: var(--surface);
+    background-color: transparent;
+    filter: var(--surface);
     box-shadow: 0.05rem 0.05rem 0.1rem var(--background);
     transform: box-shadow 0.25s ease;
   }

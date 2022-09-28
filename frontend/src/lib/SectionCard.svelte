@@ -20,7 +20,6 @@
 
   /** @type {number} */
   export let pulse = 0
-  //$: console.log("[SectionCard.svelte] ", { host, sectionID, pulse })
 
   /** @type {string} */
   export let color = "#ffffff"
@@ -33,6 +32,8 @@
 
   /** @type {number} */
   let currentPulse = 0
+
+  let active = false
 
   /**
    * @param {Object} ev
@@ -126,6 +127,7 @@
       if (online) online = false
       pulse = 100
       color = "#ffffff"
+      active = false
       return
     }
 
@@ -133,6 +135,7 @@
     powerChecked = !!currentPulse
     pulse = section.pulse || section.lastPulse || 100
     color = Color.colorToHex(...section.color)
+    active = currentPulse > 0 && powerChecked
   }
 
   async function colorChange({ detail }) {
@@ -145,7 +148,7 @@
   }
 </script>
 
-<fieldset style={`--special-color: ${(currentPulse > 0 && online) ? color : "transparent"};`}>
+<fieldset style={`--special-color: ${(currentPulse > 0 && online) ? color : "transparent"};`} class:active>
   <legend> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator`} class:online>offline</pre>
 
@@ -191,16 +194,38 @@
 
 <style>
   fieldset {
+    --surface: transparent;
+
     display: flex;
     place-items: center;
-    box-shadow: 0.1rem 0.1rem 0.85em 0.1em var(--special-color, transparent);
     transition: box-shadow 0.5s ease-out;
     background-color: var(--surface);
     border: var(--border);
     border-radius: var(--border-radius);
     padding: 0 !important;
+    width: fit-content;
+    height: 100%;
+    transform: scale(0.95);
+transition: transform 0.25s ease;
+  }
+
+  fieldset::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+    filter: blur(2rem);
+    opacity: 0.5;
+    background-color: var(--special-color);
+    animation: pulsate 5s infinite;
+  }
+
+  fieldset.active {
+    transform: scale(1);
   }
 
   fieldset legend {
@@ -248,5 +273,18 @@
   section.actions {
     margin-left: 0.25rem;
     place-items: center;
+  }
+
+  @keyframes pulsate {
+    0% {
+      filter: blur(2rem);
+    }
+    50% {
+      filter: blur(1.5rem);
+      opacity: 0.25;
+    }
+    100% {
+      filter: blur(2rem);
+    }
   }
 </style>
