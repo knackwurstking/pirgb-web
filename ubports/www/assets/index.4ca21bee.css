@@ -1,8 +1,7 @@
 @font-face {
   font-family: FiraCode;
   src: local("FiraCode"),
-    url(./FiraCode-VariableFont_wght.ttf) format("truetype"),
-    url(/fonts/FiraCode-VariableFont_wght.ttf) format("truetype");
+    url(./FiraCode-VariableFont_wght.ttf) format("truetype");
 }
 :root {
   --background: rgba(0, 0, 0, 1);
