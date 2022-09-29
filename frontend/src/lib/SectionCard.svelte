@@ -88,8 +88,10 @@
   }
 
   const closeEventListener = () => {
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket close event`)
-    if (online) online = false
+    if (online) {
+      console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket close event`)
+      online = false
+    }
   }
 
   onMount(() => {

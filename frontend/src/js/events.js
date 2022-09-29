@@ -96,7 +96,7 @@ export class GlobalEvents extends EventTarget {
     );
 
     this.ws.onopen = () => {
-      console.log("[events] [onopen]");
+      console.log("[events] onopen");
       if (this._autoReconnectInterval) {
         clearInterval(this._autoReconnectInterval);
         this._autoReconnectInterval = null;
@@ -106,7 +106,7 @@ export class GlobalEvents extends EventTarget {
     };
 
     this.ws.onclose = () => {
-      console.log("[events] [onclose]");
+      console.log("[events] onclose");
       clearTimeout(this._heartbeatTimeout);
 
       this.ws.close();

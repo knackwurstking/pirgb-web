@@ -1,15 +1,27 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
+
   import SectionCard from "./lib/SectionCard.svelte";
-  import api from "./js/api";
+
+  import Events from "./js/events";
+  import Api from "./js/api";
 
   /** @type {import("./js/api").Devices} */
   let devices = [];
 
+  const handleOpen = () => {
+    console.log(`[App.svelte] handleOnline: get devices...`);
+    Api.getDevices().then((res) => (devices = res));
+  }
+
   onMount(() => {
-    console.log(`[App.svelte] onMount: get devices...`);
-    api.getDevices().then((res) => (devices = res));
+    Api.getDevices().then((res) => (devices = res));
+    Events.addEventListener("open", handleOpen)
   });
+
+  onDestroy(() => {
+    Events.removeEventListener("open", handleOpen)
+  })
 </script>
 
 <main>
