@@ -1,178 +1,196 @@
 <script>
-  import { onMount, onDestroy } from "svelte"
+  import { onMount, onDestroy } from "svelte";
 
-  import PowerSwitch from "./PowerSwitch.svelte"
-  import ColorPicker from "./ColorPicker.svelte"
-  import PulseSlider from "./PulseSlider.svelte"
+  import PowerSwitch from "./PowerSwitch.svelte";
+  import ColorPicker from "./ColorPicker.svelte";
+  import PulseSlider from "./PulseSlider.svelte";
 
   import Api from "../js/api";
   import Color from "../js/color";
   import Events from "../js/events";
 
   /** @type {string} */
-  export let host
+  export let host;
 
   /** @type {number} */
-  export let port
+  export let port;
 
   /** @type {number} */
-  export let sectionID 
+  export let sectionID;
 
   /** @type {number} */
-  export let pulse = 0
+  export let pulse = 0;
 
   /** @type {string} */
-  export let color = "#ffffff"
+  export let color = "#ffffff";
 
   /** @type {boolean} */
-  export let online = false
+  export let online = false;
 
   /** @type {boolean} */
-  let powerChecked = false
+  let powerChecked = false;
 
   /** @type {number} */
-  let currentPulse = 0
+  let currentPulse = 0;
 
-  let active = false
+  let active = false;
+
+  let ddActive = false;
 
   /**
    * @param {Object} ev
    * @param {import("../js/events").ChangeEventData} ev.detail */
   const changeEventListener = ({ detail }) => {
-    if (detail.host !== host
-      || detail.port !== port
-      || detail.id !== sectionID) {
-
-      return
+    if (
+      detail.host !== host ||
+      detail.port !== port ||
+      detail.id !== sectionID
+    ) {
+      return;
     }
 
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): "change" event occured`)
+    console.log(
+      `[SectionCard.svelte] ${host}:${port} (${sectionID}): "change" event occured`
+    );
 
     // parse data ...
-    refresh({ ...detail })
-  }
+    refresh({ ...detail });
+  };
 
   /**
    * @param {Object} ev
    * @param {import("../js/events").OfflineEventData} ev.detail */
   const offlineEventListener = ({ detail }) => {
-    if (detail.host !== host
-      || detail.port !== port) {
-
-      return
+    if (detail.host !== host || detail.port !== port) {
+      return;
     }
 
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): offline event occured`)
+    console.log(
+      `[SectionCard.svelte] ${host}:${port} (${sectionID}): offline event occured`
+    );
 
-    online = false
-  }
+    online = false;
+  };
 
   /**
    * @param {Object} ev
    * @param {import("../js/events").OfflineEventData} ev.detail */
   const onlineEventListener = ({ detail }) => {
-    if (detail.host !== host
-      || detail.port !== port) {
-
-      return
+    if (detail.host !== host || detail.port !== port) {
+      return;
     }
 
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): online event occured`)
+    console.log(
+      `[SectionCard.svelte] ${host}:${port} (${sectionID}): online event occured`
+    );
 
-    online = true 
-  }
+    online = true;
+  };
 
   const openEventListener = () => {
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket open event`)
-    refresh(null)
-  }
+    console.log(
+      `[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket open event`
+    );
+    refresh(null);
+  };
 
   const closeEventListener = () => {
     if (online) {
-      console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket close event`)
-      online = false
+      console.log(
+        `[SectionCard.svelte] ${host}:${port} (${sectionID}): websocket close event`
+      );
+      online = false;
     }
-  }
+  };
 
   onMount(() => {
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): onMount`)
-    refresh(null)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): onMount`);
+    refresh(null);
 
-    Events.addEventListener("change", changeEventListener)
-    Events.addEventListener("offline", offlineEventListener)
-    Events.addEventListener("online", onlineEventListener)
-    Events.addEventListener("close", closeEventListener)
-    Events.addEventListener("open", openEventListener)
-  })
+    Events.addEventListener("change", changeEventListener);
+    Events.addEventListener("offline", offlineEventListener);
+    Events.addEventListener("online", onlineEventListener);
+    Events.addEventListener("close", closeEventListener);
+    Events.addEventListener("open", openEventListener);
+  });
 
   onDestroy(() => {
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): onDestroy`)
+    console.log(
+      `[SectionCard.svelte] ${host}:${port} (${sectionID}): onDestroy`
+    );
 
-    Events.removeEventListener("change", changeEventListener)
-    Events.removeEventListener("offline", offlineEventListener)
-    Events.removeEventListener("online", onlineEventListener)
-    Events.removeEventListener("close", closeEventListener)
-    Events.removeEventListener("open", openEventListener)
-  })
+    Events.removeEventListener("change", changeEventListener);
+    Events.removeEventListener("offline", offlineEventListener);
+    Events.removeEventListener("online", onlineEventListener);
+    Events.removeEventListener("close", closeEventListener);
+    Events.removeEventListener("open", openEventListener);
+  });
 
   /**
    * @param {import('../js/api').Section | null} section
    */
   async function refresh(section = null) {
-    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): refresh`)
+    console.log(`[SectionCard.svelte] ${host}:${port} (${sectionID}): refresh`);
 
     try {
-      if (!section) section = await Api.getPWM(host, sectionID)
-      if (!online) online = true
+      if (!section) section = await Api.getPWM(host, sectionID);
+      if (!online) online = true;
     } catch (error) {
-      console.warn(`[SectionCard.svelte] ${host}:${port} (${sectionID}):`, error)
-      if (online) online = false
-      pulse = 100
-      color = "#ffffff"
-      active = false
-      return
+      console.warn(
+        `[SectionCard.svelte] ${host}:${port} (${sectionID}):`,
+        error
+      );
+      if (online) online = false;
+      pulse = 100;
+      color = "#ffffff";
+      active = false;
+      return;
     }
 
-    currentPulse = section.pulse
-    powerChecked = !!currentPulse
-    pulse = section.pulse || section.lastPulse || 100
-    color = Color.colorToHex(...section.color)
-    active = currentPulse > 0 && powerChecked
+    currentPulse = section.pulse;
+    powerChecked = !!currentPulse;
+    pulse = section.pulse || section.lastPulse || 100;
+    color = Color.colorToHex(...section.color);
+    active = currentPulse > 0 && powerChecked;
   }
 
   async function colorChange({ detail }) {
     if (detail.color) {
-      await Api.setPWM(
-        host, sectionID,
-        { pulse: currentPulse, color: Color.hexToColor(detail.color) }
-      )
+      await Api.setPWM(host, sectionID, {
+        pulse: currentPulse,
+        color: Color.hexToColor(detail.color),
+      });
     }
   }
 </script>
 
-<fieldset style={`--special-color: ${(currentPulse > 0 && online) ? color : "transparent"};`} class:active>
+<fieldset
+  style={`--special-color: ${
+    currentPulse > 0 && online ? color : "transparent"
+  };`}
+  class:active
+  class:dd-active={ddActive}
+>
   <legend> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
-    <div style="margin: 0.5rem; margin-left: 1rem;">
-      <ColorPicker bind:color on:change={colorChange} />
+    <div style="margin: 0.25rem; margin-left: 1rem;">
+      <ColorPicker bind:color on:change={colorChange} bind:ddActive />
     </div>
     <PulseSlider
-      style="margin-left: 1rem;"
       {color}
-      min={5} max={100}
+      min={5}
+      max={100}
       bind:value={pulse}
-      on:change={
-        async ({ detail }) => {
-          if (currentPulse == 0) return
+      on:change={async ({ detail }) => {
+        if (currentPulse == 0) return;
 
-          await Api.setPWM(
-            host, sectionID,
-            { pulse: detail.value, color: Color.hexToColor(color) }
-          )
-        }
-      }
+        await Api.setPWM(host, sectionID, {
+          pulse: detail.value,
+          color: Color.hexToColor(color),
+        });
+      }}
     />
   </section>
 
@@ -181,15 +199,19 @@
       scale={0.5}
       {color}
       bind:checked={powerChecked}
-      on:toggled={
-        async ({ detail }) => {
-          if (detail.checked) {
-            await Api.setPWM(host, sectionID, { pulse, color: Color.hexToColor(color) })
-          } else {
-            await Api.setPWM(host, sectionID, { pulse: 0, color: Color.hexToColor(color) })
-          }
+      on:toggled={async ({ detail }) => {
+        if (detail.checked) {
+          await Api.setPWM(host, sectionID, {
+            pulse,
+            color: Color.hexToColor(color),
+          });
+        } else {
+          await Api.setPWM(host, sectionID, {
+            pulse: 0,
+            color: Color.hexToColor(color),
+          });
         }
-      }
+      }}
     />
   </section>
 </fieldset>
@@ -198,6 +220,7 @@
   fieldset {
     --surface: transparent;
 
+    z-index: 0;
     display: flex;
     place-items: center;
     transition: box-shadow 0.5s ease-out;
@@ -208,7 +231,7 @@
     width: fit-content;
     height: 100%;
     transform: scale(0.95);
-transition: transform 0.25s ease;
+    transition: transform 0.25s ease;
   }
 
   fieldset::after {
@@ -230,6 +253,10 @@ transition: transform 0.25s ease;
     transform: scale(1);
   }
 
+  fieldset.dd-active {
+    z-index: 1;
+  }
+
   fieldset legend {
     position: absolute;
     top: 0;
@@ -238,7 +265,7 @@ transition: transform 0.25s ease;
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: 0;
     border-bottom: var(--border);
-    text-shadow: 0.1em 0.1em 0.2em var(--background)
+    text-shadow: 0.1em 0.1em 0.2em var(--background);
   }
 
   fieldset .online-indicator {
@@ -269,12 +296,13 @@ transition: transform 0.25s ease;
   }
 
   section.content {
-    width: 100%;
+    width: 165%;
   }
 
   section.actions {
     margin-left: 0.25rem;
     place-items: center;
+    width: 35%;
   }
 
   @keyframes pulsate {

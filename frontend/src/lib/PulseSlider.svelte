@@ -27,11 +27,10 @@
 <style>
   .slider-container {
     width: 100%;
-    max-width: 16rem;
+    max-width: 20vmin;
     display: flex;
     flex-direction: row-reverse;
     place-items: center;
-    margin-left: 1rem;
     user-select: none;
   }
 
@@ -51,8 +50,8 @@
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
     background: var(--accent);
     cursor: pointer;

@@ -35,7 +35,7 @@
   let top
 
   // dropdown active
-  let ddActive = false
+  export let ddActive = false
 
   // dropdown height
   let ddHeight = 158
@@ -110,6 +110,10 @@
 </div>
 
 <style>
+  .color-picker-holder {
+    position: relative;
+  }
+
   button.select-color {
     margin-right: 0.4rem;
     padding: 0.25rem;
@@ -138,7 +142,6 @@
   }
 
   .values-dropdown {
-    z-index: 1;
     padding: 1em;
     position: absolute;
     top: 2.5rem;
