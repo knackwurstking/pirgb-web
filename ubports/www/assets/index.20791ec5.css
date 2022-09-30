@@ -1,7 +1,7 @@
 @font-face {
   font-family: FiraCode;
   src: local("FiraCode"),
-    url(.FiraCode-VariableFont_wght.ttf) format("truetype");
+    url(./FiraCode-VariableFont_wght.ttf) format("truetype");
 }
 :root {
   --background: rgba(0, 0, 0, 1);
@@ -276,15 +276,15 @@ button.color-block.svelte-gyyjp9.svelte-gyyjp9 {
 .values-dropdown.svelte-gyyjp9 button.svelte-gyyjp9 {
   border: none;
 }
-.slider-container.svelte-eatv3x {
+.slider-container.svelte-mek2dw {
   width: 100%;
-  max-width: 20vmin;
+  max-width: 10rem;
   display: flex;
   flex-direction: row-reverse;
   place-items: center;
   user-select: none;
 }
-.slider.svelte-eatv3x {
+.slider.svelte-mek2dw {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -296,7 +296,7 @@ button.color-block.svelte-gyyjp9.svelte-gyyjp9 {
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
-.slider.svelte-eatv3x::-webkit-slider-thumb {
+.slider.svelte-mek2dw::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 1.5rem;
@@ -305,7 +305,7 @@ button.color-block.svelte-gyyjp9.svelte-gyyjp9 {
   background: var(--accent);
   cursor: pointer;
 }
-.slider.svelte-eatv3x::-moz-range-thumb {
+.slider.svelte-mek2dw::-moz-range-thumb {
   width: 25px;
   height: 25px;
   border-radius: 50%;
