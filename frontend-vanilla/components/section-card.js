@@ -1,3 +1,5 @@
+import "./section-card.css";
+
 /**
  * @typedev Device
  * @type {import("../lib/api").Device}
@@ -16,9 +18,10 @@ export function sectionCard(container, device, section) {
 
     fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`;
     fieldset.classList.add("sectionCard");
+    fieldset.classList.add("card");
     fieldset.innerHTML = `
         <legend>${device.host} <code>[${section.id}]</code></legend>
-        <pre class="onlineIndicator">Offline</pre>
+        <pre class="offlineIndicator">Offline</pre>
         <div class="content">
             <div style="margin: 0.25rem; margin-left: 1rem;">
                 <!-- TODO: colorPicker component -->

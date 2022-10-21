@@ -14,7 +14,7 @@ import { sectionCard } from "./components/section-card";
     // render section cards
     for (const device of devices) {
         for (const section of device.sections) {
-            sectionCard(sectionContainer, section);
+            sectionCard(sectionContainer, device, section);
         }
     }
 })();
