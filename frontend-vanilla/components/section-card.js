@@ -49,7 +49,11 @@ export function sectionCard(container, device, section) {
         </div>
     `;
 
-    colorPicker(fieldset.querySelector(".sectionCard-colorPickerContainer"))
+    colorPicker(fieldset.querySelector(".sectionCard-colorPickerContainer"), {
+        oncolorchange: (color) => {
+            console.log(`color changed to ${color} for ${device.host}[${section.id}]`)
+        }
+    })
 
     container.appendChild(fieldset)
 }

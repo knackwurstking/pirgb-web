@@ -76,8 +76,11 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
 
 /**
  * @param {HTMLDivElement} container
+ * @param {{
+ *  oncolorchange?: (color: string) => Promise<void>|void,
+ * }} options
  */
-export default function colorPicker(container) {
+export default function colorPicker(container, { oncolorchange = null }) {
     const colorPicker = document.createElement("div")
     let color = "#ffffff"
 
@@ -92,6 +95,9 @@ export default function colorPicker(container) {
             activeColor: color,
             oncolorchange: (c) => {
                 colorBlock.style.background = (color = c)
+                if (oncolorchange) {
+                    oncolorchange(c)
+                }
             }
         })
     })
