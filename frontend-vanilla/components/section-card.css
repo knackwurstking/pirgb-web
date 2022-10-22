@@ -1,4 +1,4 @@
-fieldset {
+.sectionCard {
   --color-offlineIndicator: red;
   --border-color: rgba(255, 255, 255, 0.87);
   --border-radius: 0.25rem;
@@ -9,7 +9,7 @@ fieldset {
   border-radius: var(--border-radius);
 }
 
-fieldset legend {
+.sectionCard legend {
   position: absolute;
   top: 0;
   right: 0;
@@ -17,7 +17,7 @@ fieldset legend {
   border-bottom-left-radius: var(--border-radius);
 }
 
-fieldset .sectionCard-offlineIndicator {
+.sectionCard .sectionCard-offlineIndicator {
   position: absolute;
   top: 0;
   margin-top: 0em;
