@@ -1,3 +1,5 @@
+import "./color-picker.css"
+
 /** Color set to pick from
  * @type {string[][]}
  */
@@ -23,10 +25,7 @@ export let colors = [
  */
 export function colorPickerPopup({ container = null, activeColor = null, oncolorchange = null }) {
     if (!container) {
-        container = document.querySelector("body > .popups")
-        if (!container) {
-            container = document.body
-        }
+        container = document.body
     }
 
     // create root (outside|root) container
@@ -34,16 +33,13 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
     popup.classList.add("colorPicker-popup-container")
     popup.innerHTML = `
         <div class="colorPicker-popup-content">
-            <div class="colorPicker-popup-dropdown">
-                <div class="colorPicker-popup-dropdownGrid">
-                </div>
-            </div>
+            <div class="colorPicker-popup-dropdownGrid"></div>
         </div>
     `
     // handle the outside click (close popup)
     popup.addEventListener("click", async (ev) => {
         // close popup on a outside click
-        if (ev.target === popup) {
+        if (ev.target === popup || ev.target === ddGrid) {
             popup.parentNode.removeChild(popup)
         }
     })
@@ -60,8 +56,10 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
             button.classList.add("colorPicker-popup-colorBlock")
             button.style.background = color
             button.onclick = (ev) => {
+                popup.parentNode.removeChild(popup)
+
                 if (oncolorchange) {
-                    oncolorchange(ev)
+                    oncolorchange(color)
                 }
             }
             if (color === activeColor) {
@@ -81,25 +79,19 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
  */
 export default function colorPicker(container) {
     const colorPicker = document.createElement("div")
-    let color = "rgb(255, 255, 255)"
+    let color = "#ffffff"
 
-    colorPicker.classList.add("colorPicker-container")
+    colorPicker.classList.add("colorPicker-toggle")
     colorPicker.innerHTML = `
-        <button class="colorPicker-toggle">
-            <div style="background: ${color}" class="colorPicker-colorBlock"></div>
-        </button>
+        <div class="colorPicker-colorBlock" style="background: ${color};"></div>
     `
-
-    /** @type {HTMLDivElement} */
     const colorBlock = colorPicker.querySelector(".colorPicker-colorBlock")
 
-    /** @type {HTMLButtonElement} */
-    const colorPickerToggle = colorPicker.querySelector(".colorPicker-toggle")
-    colorPickerToggle.addEventListener("click", async () => {
+    colorPicker.addEventListener("click", async () => {
         colorPickerPopup({
-            activeColor: colorBlock.style.background,
-            oncolorchange: (color) => {
-                colorBlock.style.background = color
+            activeColor: color,
+            oncolorchange: (c) => {
+                colorBlock.style.background = (color = c)
             }
         })
     })

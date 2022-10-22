@@ -1,10 +1,11 @@
 .sectionCard {
     --color-offlineIndicator: red;
-    --border-color: rgba(255, 255, 255, 0.87);
+    --border-color: rgba(255, 255, 255, 0.45);
     --border-radius: 0.25rem;
     position: relative;
     min-width: 15em;
     margin: 0.5rem 0;
+    padding: 2em 1em 1em 1em;
     border-color: var(--border-color);
     border-radius: var(--border-radius);
 }
@@ -15,6 +16,7 @@
     right: 0;
     border-bottom: 0.1rem solid var(--border-color);
     border-bottom-left-radius: var(--border-radius);
+    user-select: none;
 }
 
 .sectionCard .sectionCard-offlineIndicator {
@@ -26,4 +28,5 @@
     font-size: 0.7em;
     text-decoration: underline;
     color: var(--color-offlineIndicator);
+    user-select: none;
 }

@@ -19,7 +19,6 @@ export function sectionCard(container, device, section) {
 
     fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`
     fieldset.classList.add("sectionCard")
-    fieldset.classList.add("card")
 
     fieldset.innerHTML = `
         <legend>${device.host} <code>[${section.id}]</code></legend>
@@ -44,9 +43,7 @@ export function sectionCard(container, device, section) {
                     })
                 }}
             /-->
-        </div>
 
-        <div class="sectionCard-actions">
             <!-- TODO: powerSwitch component -->
             <div class="sectionCard-powerSwitch"></div>
         </div>
