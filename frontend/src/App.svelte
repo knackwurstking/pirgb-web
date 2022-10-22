@@ -47,7 +47,6 @@
     overflow-y: auto;
     scroll-behavior: smooth;
     padding: 2rem 0.25rem;
-    /*scroll-snap-type: y mandatory;*/
     height: 100vh;
     transition: padding 0.25s ease;
   }
@@ -61,8 +60,7 @@
     justify-content: center;
     place-items: center;
     padding: 0.5rem 0.5rem;
-    margin: 0.5rem 0;
-    width: 90vmin;
+    width: 100%;
     height: 8rem;
   }
 </style>
