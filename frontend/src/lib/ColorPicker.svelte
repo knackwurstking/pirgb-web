@@ -22,147 +22,102 @@
   // Initial value
   export let color = "#5e7abc"
 
-  // Keyboard shortcut
-  let trigger = "Escape"
-  /** @param {KeyboardEvent & { currentTarget: EventTarget & Window }} ev */
-  function handleKeydown(ev) {
-    if (ev.key == trigger) {
-      ddActive = false
-    }
-  }
+  function startColorPicker() {
+    const cp = document.createElement("div")
+    cp.classList.add("ColorPickerPopup")
+    cp.innerHTML = `
+      <div class="ColorPickerPopup-content">
+        <div class="ColorPickerPopup-ddGrid" />
+      </div>
+    `
 
-  let windowHeight
-  let top
+    const ddGrid = cp.querySelector(".ColorPickerPopup-ddGrid")
+    for (let i = 0; i < colors.length; i++) {
+      const cr = colors[i]
+      for (let i2 = 0; i2 < cr.length; i2++) {
+        const c = cr[i2]
+        const button = document.createElement("button")
+        button.id = `ColorPickerPopup-${i}-${i2}`
+        button.classList.add("ColorPickerPopup-colorBlock")
+        button.style.background = c
+        button.onclick = (ev) => {
+          cp.parentNode.removeChild(cp)
+          dispatch("colorchange", { c })
+        }
 
-  // dropdown active
-  export let ddActive = false
+        if (c === color) {
+          button.classList.add("ColorPickerPopup-active")
+        }
 
-  // dropdown height
-  let ddHeight = 158
-
-  let inputHeight
-
-  /** @param {MouseEvent} ev */
-  function toggleDropdown(ev) {
-    console.log("[ColorPicker.svelte] toggleDropdown triggered", { ddActive })
-
-    if ((ev.clientY + inputHeight) < ddHeight
-      || (windowHeight - ddHeight - inputHeight - ev.clientY) > 0) {
-
-      top = false
-    } else {
-      top = true
-    }
-
-    ddActive = !ddActive
-  }
-
-  /** @param {string} innerValue */
-  async function changeValue(innerValue) {
-    let change = false
-    if (color !== innerValue) {
-      change = true
+        ddGrid.appendChild(button)
+      }
     }
 
-    color = innerValue
-    ddActive = false
+    cp.addEventListener("click", async (ev) => {
+      if (ev.target === cp || ev.target === ddGrid) {
+        cp.parentNode.removeChild(cp)
+      }
+    })
 
-    if (change) {
-      dispatch("change", { color: innerValue })
-    }
+    document.body.appendChild(cp)
   }
 </script>
 
-<svelte:window bind:innerHeight={windowHeight} on:keydown={handleKeydown} />
-
-<div class="color-picker-holder">
-  <button
-    bind:clientHeight={inputHeight}
-    class="select-color"
-    class:fake-focus={ddActive}
-    on:click={(e) => toggleDropdown(e)}
-  >
-    <div style="background: {color};" class="color-block"></div>
-  </button>
-
-  {#if ddActive}
-    <div
-      class="values-dropdown"
-      class:top 
-      bind:clientHeight={ddHeight}
-    >
-      <div class="values-dropdown-grid">
-        {#each colors as val, index}
-          {#each val as innerValue, innerIndex}
-            <button
-              id="id-{index}-{innerIndex}"
-              class="color-block"
-              class:active={innerValue === color}
-              style="background: {innerValue}"
-              on:click={() => changeValue(innerValue)}
-            >
-            </button>
-          {/each}
-        {/each}
-      </div>
-    </div>
-  {/if}
+<div
+  class="ColorPicker"
+  on:click={async () => startColorPicker()}
+>
+  <div
+    style="background: {color};"
+    class="ColorPicker-colorBlock"
+  />
 </div>
 
 <style>
-  .color-picker-holder {
+  .ColorPicker,
+  :global(.ColorPickerPopup-colorBlock) {
+    padding: 0.15rem;
+    background: var(--surface);
+    width: 2em;
+    height: 2em;
     position: relative;
-  }
-
-  button.select-color {
-    margin-right: 0.4rem;
-    padding: 0.25rem;
-    height: 2.1875rem;
-    background-color: transparent;
-    filter: var(--surface);
-    box-shadow: 0.05rem 0.05rem 0.1rem var(--background);
-    transform: box-shadow 0.25s ease;
-  }
-
-  button.select-color:active {
-    box-shadow: 0 0 0.1rem var(--background);
-  }
-
-  .active {
-    box-shadow: inset 0 0 0 0.125rem var(--special-color, var(--border-color)),
-      0 0 0.275rem 0.125rem var(--special-color, rgba(0, 0, 0, 0.25));
-  }
-
-  div.color-block,
-  button.color-block {
-    width: 1.5rem;
-    height: 1.5rem;
-    line-height: 0;
-    font-size: 0;
-  }
-
-  .values-dropdown {
-    padding: 1em;
-    position: absolute;
-    top: 2.5rem;
-    border: var(--border-width) var(--border-style) var(--border-color);
+    border: var(--border);
     border-radius: var(--border-radius);
-    background-color: var(--surface);
+    cursor: pointer;
   }
 
-  .values-dropdown-grid {
-    grid-template-columns: repeat(7, 1.5rem);
-    grid-template-rows: 1.5rem 1.5rem;
-    grid-gap: 0.625rem;
-    display: grid;
+  .ColorPicker-colorBlock {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius);
   }
 
-  .values-dropdown.top {
-    top: auto;
-    bottom: 2.5rem;
+  :global(.ColorPickerPopup) {
+    background: rgba(35, 35, 45, 0.75);
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
   }
 
-  .values-dropdown button {
-    border: none;
+  :global(.ColorPickerPopup-ddGrid) {
+    width: 20em;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  :global(.ColorPickerPopup-colorBlock) {
+    margin: 0.25rem;
+  }
+
+  :global(.ColorPickerPopup-active) {
+    box-shadow: 0rem 0rem 0.5rem 0.05rem red;
   }
 </style>
