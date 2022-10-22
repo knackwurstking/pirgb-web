@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "FiraCode";
+  src: local("FiraCode"),
+    url("/fonts/FiraCode-VariableFont_wght.ttf") format("truetype");
+}
+
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -8,6 +14,7 @@
   color: rgba(255, 255, 255, 0.75);
   background-color: rgba(0, 0, 0, 1); /* 36, 36, 36 */
 
+  font-family: FiraCode;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
