@@ -32,6 +32,7 @@
     flex-direction: row-reverse;
     place-items: center;
     user-select: none;
+    filter: opacity(75%);
   }
 
   .slider {

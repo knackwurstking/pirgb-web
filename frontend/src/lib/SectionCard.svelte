@@ -237,16 +237,17 @@
   fieldset::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 15%;
+    left: 15%;
     z-index: -1;
-    width: 100%;
-    height: 100%;
+    width: 70%;
+    height: 70%;
     transition: opacity 0.5s ease, background-color 0.5s ease;
-    filter: blur(2rem);
-    opacity: 0.5;
+    filter: blur(2em);
+    opacity: 0.25;
     background-color: var(--special-color);
-    animation: pulsate 5s infinite;
+    animation: pulsate 8s infinite;
+    border-radius: 50%;
   }
 
   fieldset.active {
@@ -307,14 +308,19 @@
 
   @keyframes pulsate {
     0% {
-      filter: blur(2rem);
+      filter: blur(2em);
+    }
+    25% {
+      filter: blur(1.8em);
     }
     50% {
-      filter: blur(1.5rem);
-      opacity: 0.25;
+      filter: blur(1.5em);
+    }
+    75% {
+      filter: blur(1.8em);
     }
     100% {
-      filter: blur(2rem);
+      filter: blur(2em);
     }
   }
 </style>
