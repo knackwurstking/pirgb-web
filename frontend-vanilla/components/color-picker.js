@@ -54,6 +54,7 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
         const colorRow = colors[i]
         for (let i2 = 0; i2 < colorRow.length; i2++) {
             const color = colorRow[i2]
+
             const button = document.createElement("button")
             button.id = `colorPicker-popup-${i}-${i2}`
             button.classList.add("colorPicker-popup-colorBlock")
@@ -66,6 +67,7 @@ export function colorPickerPopup({ container = null, activeColor = null, oncolor
             if (color === activeColor) {
                 button.classList.add("colorPicker-popup-active")
             }
+
             ddGrid.appendChild(button)
         }
     }
@@ -81,7 +83,7 @@ export default function colorPicker(container) {
     const colorPicker = document.createElement("div")
     let color = "rgb(255, 255, 255)"
 
-    colorPicker.classlist.add("colorPicker-container")
+    colorPicker.classList.add("colorPicker-container")
     colorPicker.innerHTML = `
         <button class="colorPicker-toggle">
             <div style="background: ${color}" class="colorPicker-colorBlock"></div>
@@ -102,6 +104,6 @@ export default function colorPicker(container) {
         })
     })
 
-    container.appendChild(container)
+    container.appendChild(colorPicker)
     return colorPicker
 }

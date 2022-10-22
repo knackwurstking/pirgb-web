@@ -1,4 +1,5 @@
 import "./section-card.css"
+import colorPicker from "./color-picker"
 
 /**
  * @typedev Device
@@ -19,16 +20,16 @@ export function sectionCard(container, device, section) {
     fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`
     fieldset.classList.add("sectionCard")
     fieldset.classList.add("card")
+
     fieldset.innerHTML = `
         <legend>${device.host} <code>[${section.id}]</code></legend>
-        <pre class="offlineIndicator">Offline</pre>
-        <div class="content">
-            <div class="colorPicker" style="margin: 0.25rem; margin-left: 1rem;">
-                <!-- TODO: colorPicker component -->
-                <!--ColorPicker bind:color on:change={colorChange} bind:ddActive /-->
-            </div>
+
+        <pre class="sectionCard-offlineIndicator">Offline</pre>
+
+        <div class="sectionCard-content">
+            <div class="sectionCard-colorPickerContainer" style="margin: 0.25rem; margin-left: 1rem;"></div>
+
             <!-- TODO: pulseSlider component -->
-            <div class="colorPicker"></div>
             <!--PulseSlider
                 {color}
                 min={5}
@@ -44,12 +45,14 @@ export function sectionCard(container, device, section) {
                 }}
             /-->
         </div>
-        <div class="actions">
+
+        <div class="sectionCard-actions">
             <!-- TODO: powerSwitch component -->
-            <div class="powerSwitch">
-            </div>
+            <div class="sectionCard-powerSwitch"></div>
         </div>
     `;
+
+    colorPicker(fieldset.querySelector(".sectionCard-colorPickerContainer"))
 
     container.appendChild(fieldset)
 }
