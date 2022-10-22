@@ -1,21 +1,25 @@
 .sectionCard {
     --color-offlineIndicator: red;
     --border-color: rgba(255, 255, 255, 0.45);
-    --border-radius: 0.25rem;
+    --border-radius: 0.1rem;
+    --border-width: 0.05rem;
     position: relative;
     min-width: 15em;
     margin: 0.5rem 0;
     padding: 2em 1em 1em 1em;
     border-color: var(--border-color);
+    border-width: var(--border-width);
     border-radius: var(--border-radius);
 }
 
 .sectionCard legend {
     position: absolute;
+    padding: 0 0.15rem;
     top: 0;
     right: 0;
-    border-bottom: 0.1rem solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color);
     border-bottom-left-radius: var(--border-radius);
+    font-size: 0.9em;
     user-select: none;
 }
 

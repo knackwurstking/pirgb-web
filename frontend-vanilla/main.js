@@ -1,6 +1,6 @@
 import "./style.css"
 import Api from "./lib/api"
-import { sectionCard } from "./components/section-card"
+import sectionCard from "./components/section-card"
 
 (async () => {
     document.querySelector("#app").innerHTML = `

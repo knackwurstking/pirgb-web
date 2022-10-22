@@ -14,7 +14,7 @@ import colorPicker from "./color-picker"
  * @param {Device} device
  * @param {Section} section
  */
-export function sectionCard(container, device, section) {
+export default function sectionCard(container, device, section) {
     const fieldset = document.createElement("fieldset")
 
     fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`
@@ -23,7 +23,7 @@ export function sectionCard(container, device, section) {
     fieldset.innerHTML = `
         <legend>${device.host} <code>[${section.id}]</code></legend>
 
-        <pre class="sectionCard-offlineIndicator">Offline</pre>
+        <pre class="sectionCard-offlineIndicator">offline</pre>
 
         <div class="sectionCard-content">
             <div class="sectionCard-colorPickerContainer" style="margin: 0.25rem; margin-left: 1rem;"></div>
