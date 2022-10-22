@@ -1,4 +1,4 @@
-import "./section-card.css";
+import "./section-card.css"
 
 /**
  * @typedev Device
@@ -14,18 +14,17 @@ import "./section-card.css";
  * @param {Section} section
  */
 export function sectionCard(container, device, section) {
-    const fieldset = document.createElement("fieldset");
+    const fieldset = document.createElement("fieldset")
 
-    fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`;
-    fieldset.classList.add("sectionCard");
-    fieldset.classList.add("card");
+    fieldset.id = `sectionCard-${device.host}-${device.port}-${section.id}`
+    fieldset.classList.add("sectionCard")
+    fieldset.classList.add("card")
     fieldset.innerHTML = `
         <legend>${device.host} <code>[${section.id}]</code></legend>
         <pre class="offlineIndicator">Offline</pre>
         <div class="content">
-            <div style="margin: 0.25rem; margin-left: 1rem;">
+            <div class="colorPicker" style="margin: 0.25rem; margin-left: 1rem;">
                 <!-- TODO: colorPicker component -->
-                <div class="colorPicker"></div>
                 <!--ColorPicker bind:color on:change={colorChange} bind:ddActive /-->
             </div>
             <!-- TODO: pulseSlider component -->
@@ -36,12 +35,12 @@ export function sectionCard(container, device, section) {
                 max={100}
                 bind:value={pulse}
                 on:change={async ({ detail }) => {
-                    if (currentPulse == 0) return;
+                    if (currentPulse == 0) return
 
                     await Api.setPWM(host, sectionID, {
                         pulse: detail.value,
                         color: Color.hexToColor(color),
-                    });
+                    })
                 }}
             /-->
         </div>
@@ -52,5 +51,5 @@ export function sectionCard(container, device, section) {
         </div>
     `;
 
-    container.appendChild(fieldset);
+    container.appendChild(fieldset)
 }
