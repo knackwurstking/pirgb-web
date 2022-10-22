@@ -25,6 +25,7 @@
   function startColorPicker() {
     const cp = document.createElement("div")
     cp.classList.add("ColorPickerPopup")
+    cp.style.setProperty("--special-color", color)
     cp.innerHTML = `
       <div class="ColorPickerPopup-content">
         <div class="ColorPickerPopup-ddGrid" />
@@ -40,9 +41,9 @@
         button.id = `ColorPickerPopup-${i}-${i2}`
         button.classList.add("ColorPickerPopup-colorBlock")
         button.style.background = c
-        button.onclick = (ev) => {
+        button.onclick = () => {
           cp.parentNode.removeChild(cp)
-          dispatch("colorchange", { c })
+          dispatch("colorchange", { color: c })
         }
 
         if (c === color) {
@@ -76,10 +77,10 @@
 <style>
   .ColorPicker,
   :global(.ColorPickerPopup-colorBlock) {
-    padding: 0.15rem;
+    padding: 0.16rem;
     background: var(--surface);
-    width: 2em;
-    height: 2em;
+    width: 2.1em;
+    height: 2.1em;
     position: relative;
     border: var(--border);
     border-radius: var(--border-radius);
@@ -118,6 +119,6 @@
   }
 
   :global(.ColorPickerPopup-active) {
-    box-shadow: 0rem 0rem 0.5rem 0.05rem red;
+    box-shadow: 0rem 0rem 0.5rem 0.05rem var(--special-color, red);
   }
 </style>

@@ -33,13 +33,6 @@
   /** @type {number} */
   let currentPulse = 0;
 
-  let active = false;
-
-  let ddActive = false;
-
-  /**
-   * @param {Object} ev
-   * @param {import("../js/events").ChangeEventData} ev.detail */
   const changeEventListener = ({ detail }) => {
     if (
       detail.host !== host ||
@@ -57,9 +50,6 @@
     refresh({ ...detail });
   };
 
-  /**
-   * @param {Object} ev
-   * @param {import("../js/events").OfflineEventData} ev.detail */
   const offlineEventListener = ({ detail }) => {
     if (detail.host !== host || detail.port !== port) {
       return;
@@ -72,9 +62,6 @@
     online = false;
   };
 
-  /**
-   * @param {Object} ev
-   * @param {import("../js/events").OfflineEventData} ev.detail */
   const onlineEventListener = ({ detail }) => {
     if (detail.host !== host || detail.port !== port) {
       return;
@@ -143,7 +130,6 @@
       if (online) online = false;
       pulse = 100;
       color = "#ffffff";
-      active = false;
       return;
     }
 
@@ -151,16 +137,6 @@
     powerChecked = !!currentPulse;
     pulse = section.pulse || section.lastPulse || 100;
     color = Color.colorToHex(...section.color);
-    active = currentPulse > 0 && powerChecked;
-  }
-
-  async function colorChange({ detail }) {
-    if (detail.color) {
-      await Api.setPWM(host, sectionID, {
-        pulse: currentPulse,
-        color: Color.hexToColor(detail.color),
-      });
-    }
   }
 </script>
 
@@ -168,15 +144,21 @@
   style={`--special-color: ${
     currentPulse > 0 && online ? color : "transparent"
   };`}
-  class:active
-  class:dd-active={ddActive}
 >
   <legend> {host} <code>[{sectionID}]</code></legend>
   <pre class={`online-indicator`} class:online>offline</pre>
 
   <section class="content">
-    <div style="margin: 0.25rem; margin-left: 1rem;">
-      <ColorPicker bind:color on:change={colorChange} bind:ddActive />
+    <div style="margin: 0.25rem; margin-left: 1rem; margin-right: 1rem;">
+      <ColorPicker bind:color on:colorchange={({ detail }) => {
+        if (detail.color) {
+          console.log("oncolorchange", detail.color)
+          Api.setPWM(host, sectionID, {
+            pulse: currentPulse,
+            color: Color.hexToColor(detail.color),
+          })
+        }
+      }} />
     </div>
     <PulseSlider
       {color}
@@ -220,7 +202,6 @@
   fieldset {
     --surface: transparent;
 
-    z-index: 0;
     display: flex;
     place-items: center;
     transition: box-shadow 0.5s ease-out;
@@ -229,8 +210,8 @@
     border-radius: var(--border-radius);
     padding: 0 !important;
     width: fit-content;
+    max-width: 95vw;
     height: 100%;
-    transform: scale(0.95);
     transition: transform 0.25s ease;
   }
 
@@ -248,14 +229,6 @@
     background-color: var(--special-color);
     animation: pulsate 8s infinite;
     border-radius: 50%;
-  }
-
-  fieldset.active {
-    transform: scale(1);
-  }
-
-  fieldset.dd-active {
-    z-index: 1;
   }
 
   fieldset legend {
@@ -311,13 +284,13 @@
       filter: blur(2em);
     }
     25% {
-      filter: blur(1.8em);
+      filter: blur(1.7em);
     }
     50% {
-      filter: blur(1.5em);
+      filter: blur(1.4em);
     }
     75% {
-      filter: blur(1.8em);
+      filter: blur(1.7em);
     }
     100% {
       filter: blur(2em);
