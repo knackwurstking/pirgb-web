@@ -15,7 +15,10 @@
   };
 
   onMount(() => {
-    Api.getDevices().then((res) => (devices = res));
+    Api.getDevices().then((res) => {
+      devices = res
+      console.log(devices)
+    });
     Events.addEventListener("open", handleOpen);
   });
 
