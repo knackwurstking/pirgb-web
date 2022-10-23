@@ -2,32 +2,44 @@
   import { onMount, onDestroy } from "svelte";
 
   import SectionCard from "./lib/SectionCard.svelte";
+  import SettingsDialog from "./lib/SettingsDialog.svelte";
 
   import Events from "./js/events";
   import Api from "./js/api";
 
+  let settingsOpen = false;
+
   /** @type {import("./js/api").Devices} */
   let devices = [];
 
-  const handleOpen = () => {
+  function initialize() {
+    Api.getDevices().then((res) => {
+      devices = res;
+      console.log(devices);
+    });
+    Events.addEventListener("open", handleOpenEvent);
+  }
+
+  onMount(() => initialize());
+
+  onDestroy(() => Events.removeEventListener("open", handleOpenEvent));
+
+  const handleOpenEvent = () => {
     console.log(`[App.svelte] handleOnline: get devices...`);
     Api.getDevices().then((res) => (devices = res));
   };
-
-  onMount(() => {
-    Api.getDevices().then((res) => {
-      devices = res
-      console.log(devices)
-    });
-    Events.addEventListener("open", handleOpen);
-  });
-
-  onDestroy(() => {
-    Events.removeEventListener("open", handleOpen);
-  });
 </script>
 
+
+
 <main>
+  <button
+    id="settings"
+    on:click={() => {
+      settingsOpen = true;
+    }}
+  />
+
   {#each devices as device}
     {#each device.sections as section}
       <section>
@@ -41,15 +53,18 @@
   {/each}
 </main>
 
+<SettingsDialog bind:active={settingsOpen} />
+
 <style>
   main {
+    position: relative;
     display: flex;
     flex-direction: column;
     place-items: center;
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
-    padding: 2rem 0.25rem;
+    padding: 3rem 0.25rem;
     height: 100vh;
     transition: padding 0.25s ease;
   }
@@ -65,5 +80,17 @@
     padding: 0.5rem 0.5rem;
     width: 100%;
     height: 8rem;
+  }
+
+  button#settings {
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    opacity: 0;
+    border-top-left-radius: 50%;
   }
 </style>

@@ -94,7 +94,8 @@
   }
 
   :global(.ColorPickerPopup) {
-    background: rgba(35, 35, 45, 0.75);
+    background: var(--dialog-background);
+
     display: flex;
     position: absolute;
     top: 0;

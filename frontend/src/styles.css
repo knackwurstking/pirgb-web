@@ -5,6 +5,8 @@
   --surface: rgba(35, 35, 45, 1);
   --accent: rgba(15, 225, 20, 1);
 
+  --dialog-background: rgba(35, 35, 45, 0.75);
+
   --border-radius: 0.25rem;
   --border-width: 0.05rem;
   --border-style: solid;
@@ -48,4 +50,5 @@ button:focus-visible {
 
 input {
   border-radius: var(--border-radius);
+  font-family: FiraCode;
 }

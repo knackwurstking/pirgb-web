@@ -88,10 +88,9 @@ export class GlobalEvents extends EventTarget {
     if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout);
     this.heartbeatState = 0;
 
-    // TODO: load origin from localStorage if possible
     this.ws = new WebSocket(
       `${Location.protocol === "https:" ? "wss" : "ws"}://${
-        Location.hostname + ":" + Location.port
+        Location.config[Location.protocol].hostname + ":" + Location.config[Location.protocol].port
       }/api/events`
     );
 

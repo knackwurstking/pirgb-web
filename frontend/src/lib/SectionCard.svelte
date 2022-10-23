@@ -202,6 +202,7 @@
   fieldset {
     --surface: transparent;
 
+    z-index: 2;
     display: flex;
     place-items: center;
     transition: box-shadow 0.5s ease-out;

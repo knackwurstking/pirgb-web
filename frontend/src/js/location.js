@@ -1,16 +1,48 @@
 export default (function () {
-  // TODO: "rpi-server" 50831 and "http:" are just placeholder for now
-  // TODO: need to handle the file: protocol (open settings page for set server url)
   const data = {
-    hostname: window.location.hostname || "rpi-server",
-    port: window.location.port || 50831,
+    config: {
+      "http:": {
+        hostname: "127.0.0.1",
+        port: 50831,
+      },
+      "https:": {
+        hostname: "127.0.0.1",
+        port: 50832,
+      },
+    },
+
     protocol:
       window.location.protocol === "file:" ? "http:" : window.location.protocol,
 
     get origin() {
-      return `${this.protocol}//${this.hostname}:${this.port}`;
+      return `${this.protocol}//${this.config[this.protocol].hostname}:${
+        this.config[this.protocol].port
+      }`;
     },
+
+    saveConfig() {
+      window.localStorage.setItem("location.config", JSON.stringify(this.config))
+    }
   };
+
+  if (window.location.hostname) {
+    if (data.config["http:"].hostname !== "127.0.0.1") {
+      data.config["http:"].hostname = window.location.hostname;
+    }
+
+    if (data.config["https:"].hostname !== "127.0.0.1") {
+      data.config["https:"].hostname = window.location.hostname;
+    }
+  }
+
+  try {
+    const config = JSON.parse(window.localStorage.getItem("location.config"));
+    if (config) {
+      data.config = config;
+    }
+  } catch (err) {
+    console.warn(err);
+  }
 
   return data;
 })();
