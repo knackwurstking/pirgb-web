@@ -1,4 +1,3 @@
-// TODO: improve jsdoc stuff here (maybe write a d.ts file)
 import Location from "./location";
 
 /**

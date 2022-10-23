@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onDestroy } from "svelte";
 
   import SectionCard from "./lib/SectionCard.svelte";
   import SettingsDialog from "./lib/SettingsDialog.svelte";
@@ -7,20 +7,26 @@
   import Events from "./js/events";
   import Api from "./js/api";
 
+  let initialized = false;
+
   let settingsOpen = false;
+  $: !settingsOpen && initialize();
 
   /** @type {import("./js/api").Devices} */
   let devices = [];
 
-  function initialize() {
-    Api.getDevices().then((res) => {
-      devices = res;
-      console.log(devices);
-    });
-    Events.addEventListener("open", handleOpenEvent);
-  }
+  async function initialize() {
+    Api.getDevices().then((res) => (devices = res));
 
-  onMount(() => initialize());
+    if (!initialized) {
+      initialized = true
+      Events.addEventListener("open", handleOpenEvent)
+      return
+    }
+
+    // reconnect events if already initialized once...
+    Events.connect()
+  }
 
   onDestroy(() => Events.removeEventListener("open", handleOpenEvent));
 
