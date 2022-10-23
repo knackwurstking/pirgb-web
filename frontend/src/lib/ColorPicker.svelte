@@ -94,8 +94,7 @@
   }
 
   :global(.ColorPickerPopup) {
-    background: var(--dialog-background);
-
+    z-index: 4;
     display: flex;
     position: absolute;
     top: 0;
@@ -104,6 +103,7 @@
     left: 0;
     justify-content: center;
     align-items: center;
+    background: var(--dialog-background);
   }
 
   :global(.ColorPickerPopup-ddGrid) {

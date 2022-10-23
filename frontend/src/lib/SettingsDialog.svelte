@@ -96,7 +96,7 @@
 
 <style>
     .dialog {
-        z-index: 3;
+        z-index: 4;
         display: none;
         justify-content: center;
         align-items: center;
