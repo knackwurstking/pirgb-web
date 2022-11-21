@@ -6,7 +6,7 @@ clean:
 	go clean -v
 	@rm -rf frontend/dist/
 
-build_frontend:
+build-frontend:
 	@cd frontend && npm install && npm run build
 
 build:
@@ -14,7 +14,7 @@ build:
 	make build_frontend
 	go build -v ./cmd/pirgb-web
 
-dev: 
+build-dev: 
 	make clean
 	make build_frontend
 	go build -v -tags dev ./cmd/pirgb-web
