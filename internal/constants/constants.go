@@ -9,10 +9,8 @@ import (
 )
 
 const (
-	PORT             = 50831
-	HOST             = ""
-	SERVER_PORT      = 50826
-	APPLICATION_NAME = "pirgb-web"
+	PIRGB_SERVER_PORT = 50826
+	APPLICATION_NAME  = "pirgb-web"
 )
 
 func LoadConfig(path string) (config *Config) {

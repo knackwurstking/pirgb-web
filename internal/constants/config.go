@@ -8,8 +8,8 @@ type Config struct {
 
 func NewDefaultConfig() *Config {
 	return &Config{
-		Port:    PORT,
-		Host:    HOST,
+		Port:    50831,
+		Host:    "",
 		Devices: make(Devices, 0),
 	}
 }
