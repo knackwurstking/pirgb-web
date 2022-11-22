@@ -5,11 +5,12 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"nhooyr.io/websocket"
+	"nhooyr.io/websocket/wsjson"
+
 	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
 	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
-	"nhooyr.io/websocket"
-	"nhooyr.io/websocket/wsjson"
 )
 
 var (
@@ -56,6 +57,7 @@ func (g *global) RemoveClientAddr(addr string) {
 	g.Register = newRegister
 }
 
+// Dispatch event with data ("change"|"online"|"offline")
 func (g *global) Dispatch(eventName string, data any) {
 	logrus.Debugf("[events] dispatch \"%s\" event", eventName)
 
