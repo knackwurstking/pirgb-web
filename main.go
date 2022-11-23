@@ -32,7 +32,7 @@ func main() {
 	// initialize the router and server
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),
-		Handler: api.Initialize(
+		Handler: api.NewHandler(
 			api.NewRouter(),
 		),
 	}
