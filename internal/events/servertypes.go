@@ -1,4 +1,4 @@
-package servertypes
+package events 
 
 type Section struct {
 	ID   int   `json:"id"`

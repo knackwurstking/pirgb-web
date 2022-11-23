@@ -8,8 +8,7 @@ import (
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/config"
-	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
+	"gitlab.com/knackwurstking/pirgb-web/internal/constants"
 	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
@@ -24,7 +23,7 @@ type Client struct {
 }
 
 type global struct {
-	ChangeEvents []*EventHandler[servertypes.Section]
+	ChangeEvents []*EventHandler[Section]
 	Register     []*Client
 }
 
@@ -105,14 +104,14 @@ func dispathEvent[T pirgb.Events](g *global, name string, data pirgb.BaseEventDa
 	}
 }
 
-func Initialize() {
-	var changeEvents []*EventHandler[servertypes.Section]
+func Initialize(config *constants.Config) {
+	var changeEvents []*EventHandler[Section]
 
-	for _, device := range config.Global.Devices {
+	for _, device := range config.Devices {
 		for _, section := range device.Sections {
 			func(device *pirgb.Device, section *pirgb.Section) {
 				changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)
-				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data servertypes.Section) {
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
 					var pulse int
 					var color []int
 

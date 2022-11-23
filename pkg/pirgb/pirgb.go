@@ -23,17 +23,17 @@ type PWM struct {
 }
 
 type Section struct {
-	ID        int   `json:"id" yaml:"id"`
-	Pulse     int   `json:"pulse" yaml:"pulse"`
+	ID        int   `json:"id"`
+	Pulse     int   `json:"pulse"`
 	LastPulse int   `json:"lastPulse"`
-	Color     []int `json:"color" yaml:"color"`
+	Color     []int `json:"color"`
 }
 
 type Device struct {
-	Host     string     `json:"host" yaml:"host"`
-	Port     int        `json:"port" yaml:"port"`
-	Sections []*Section `json:"sections" yaml:"sections"`
-	Groups   []string   `json:"groups" yaml:"groups"`
+	Host     string     `json:"host"`
+	Port     int        `json:"port"`
+	Sections []*Section `json:"sections"`
+	Groups   []string   `json:"groups"`
 }
 
 func (device *Device) GetSection(sectionID int) *Section {

@@ -27,7 +27,7 @@ func init() {
 
 func main() {
 	// start data stuff (and event handlers)
-	events.Initialize()
+	events.Initialize(c)
 
 	// initialize the router and server
 	server := &http.Server{

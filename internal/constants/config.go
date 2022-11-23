@@ -1,5 +1,7 @@
 package constants
 
+import "gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
+
 type Config struct {
 	Port    int     `json:"port"`
 	Host    string  `json:"host"`
@@ -14,10 +16,4 @@ func NewDefaultConfig() *Config {
 	}
 }
 
-type Devices []Device
-
-type Device struct {
-	Host   string   `json:"host"`
-	Port   int      `json:"port"`
-	Groups []string `json:"groups"`
-}
+type Devices []*pirgb.Device

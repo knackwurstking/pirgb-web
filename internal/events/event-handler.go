@@ -6,14 +6,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sirupsen/logrus"
-	"gitlab.com/knackwurstking/pirgb-web/internal/servertypes"
-	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
+
+	"gitlab.com/knackwurstking/pirgb-web/internal/log"
+	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
-type EventHandler[T servertypes.EventTypes] struct {
+type EventHandler[T EventTypes] struct {
 	Name      string // "change", ...
 	Host      string
 	Port      int
@@ -23,14 +23,14 @@ type EventHandler[T servertypes.EventTypes] struct {
 	Done      chan struct{}
 	Conn      *websocket.Conn
 	OnEvent   []func(data T)
-	Log       *logrus.Entry
 }
 
 func (ev *EventHandler[T]) Connect() error {
-	ev.Log.Debugf("[events] Try to connect...")
+	log.Debug.Println("try to connect...")
 	conn, _, err := websocket.Dial(
 		context.Background(),
-		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d", ev.Host, ev.Port, ev.Name, ev.SectionID),
+		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d",
+			ev.Host, ev.Port, ev.Name, ev.SectionID),
 		nil,
 	)
 	if err != nil {
@@ -47,7 +47,7 @@ func (ev *EventHandler[T]) Connect() error {
 }
 
 func (ev *EventHandler[T]) reconnect() {
-	ev.Log.Debugf("[events] reconnect invoked...")
+	log.Debug.Println("reconnect invoked...")
 	var err error
 
 	for {
@@ -68,8 +68,7 @@ func (ev *EventHandler[T]) Start() error {
 		return nil
 	}
 
-	ev.Log.Debugf("[events] starting event handler")
-
+	log.Debug.Println("starting event handler")
 	ev.Connect()
 
 	ev.WaitGroup.Add(1)
@@ -78,7 +77,7 @@ func (ev *EventHandler[T]) Start() error {
 }
 
 func (ev *EventHandler[T]) Stop() {
-	ev.Log.Debugf("[events] stopping event handler")
+	log.Debug.Println("stopping event handler")
 	ev.Done <- struct{}{}
 	ev.WaitGroup.Wait()
 }
@@ -110,12 +109,12 @@ func (ev *EventHandler[T]) Handler() {
 		var err error
 		var data T
 		for {
-			ev.Log.Debugf("[events] wait for (json) data")
+			log.Debug.Println("wait for (json) data")
 
 			err = wsjson.Read(context.Background(), ev.Conn, &data)
 			if err != nil {
-				ev.Log.Warnf("[events] trouble while reading from device: %s", err.Error())
-				ev.Log.Debugf("[events] error type: %T", err)
+				log.Warn.Printf("trouble while reading from device: %s", err.Error())
+				log.Debug.Printf("error type: %T", err)
 				break
 			}
 
@@ -125,32 +124,26 @@ func (ev *EventHandler[T]) Handler() {
 	}()
 
 	<-ev.Done
-	ev.Log.Debugf("[events] EXIT Handler")
+	log.Debug.Println("EXIT Handler")
 }
 
 func (ev *EventHandler[T]) Dispatch(data T) {
-	ev.Log.Debugf("[events] dispatch event")
+	log.Debug.Println("dispatch event")
 
 	for _, handler := range ev.OnEvent {
 		go handler(data)
 	}
 }
 
-func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[servertypes.Section] {
-	ev := &EventHandler[servertypes.Section]{
+func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[Section] {
+	ev := &EventHandler[Section]{
 		Name:      "change",
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
 		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data servertypes.Section), 0),
+		OnEvent:   make([]func(data Section), 0),
 	}
-
-	ev.Log = logrus.WithFields(logrus.Fields{
-		"Host":      ev.Host,
-		"Port":      ev.Port,
-		"SectionID": ev.SectionID,
-	})
 
 	return ev
 }
