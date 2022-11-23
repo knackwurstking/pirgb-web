@@ -8,7 +8,7 @@ import (
 	"gitlab.com/knackwurstking/pirgb-web/internal/constants"
 	"gitlab.com/knackwurstking/pirgb-web/internal/events"
 	"gitlab.com/knackwurstking/pirgb-web/internal/log"
-	"gitlab.com/knackwurstking/pirgb-web/internal/router"
+	"gitlab.com/knackwurstking/pirgb-web/api/v1"
 )
 
 var (
@@ -32,7 +32,9 @@ func main() {
 	// initialize the router and server
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),
-		Handler: router.Mux,
+		Handler: api.Initialize(
+			api.NewRouter(),
+		),
 	}
 
 	log.Info.Printf("server running %s", server.Addr)
