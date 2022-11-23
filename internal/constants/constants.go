@@ -13,12 +13,13 @@ const (
 	APPLICATION_NAME  = "pirgb-web"
 )
 
-func LoadConfig(path string) (config *Config) {
+func LoadConfig() (config *Config, err error) {
 	config = NewDefaultConfig()
 	configPath, _ := os.UserConfigDir()
 
 	// read "config.json"
-	data, err := os.ReadFile(filepath.Join(configPath, APPLICATION_NAME, "config.json"))
+	data, err := os.ReadFile(filepath.Join(
+		configPath, APPLICATION_NAME, "config.json"))
 	if err != nil {
 		log.Warn.Printf("read config failed: %s", err.Error())
 		return

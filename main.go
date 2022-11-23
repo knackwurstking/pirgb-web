@@ -5,16 +5,22 @@ import (
 	"fmt"
 	"net/http"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/config"
 	"gitlab.com/knackwurstking/pirgb-web/internal/constants"
 	"gitlab.com/knackwurstking/pirgb-web/internal/events"
 	"gitlab.com/knackwurstking/pirgb-web/internal/log"
 	"gitlab.com/knackwurstking/pirgb-web/internal/router"
 )
 
+var (
+	c *constants.Config
+)
+
 func init() {
-	flag.StringVar(&constants.Host, "host", constants.Host, "whatever ...")
-	flag.IntVar(&constants.Port, "port", constants.Port, "port to bind the server to")
+	// load config
+	c, _ = constants.LoadConfig()
+
+	flag.StringVar(&c.Host, "host", c.Host, "whatever ...")
+	flag.IntVar(&c.Port, "port", c.Port, "port to bind the server to")
 
 	flag.Parse()
 }
@@ -25,7 +31,7 @@ func main() {
 
 	// initialize the router and server
 	server := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", config.Global.Host, config.Global.Port),
+		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),
 		Handler: router.Mux,
 	}
 
