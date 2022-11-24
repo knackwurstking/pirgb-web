@@ -1,4 +1,5 @@
 <script>
+    // TODO: telegram testing (authorization)
 </script>
 
 <main>
