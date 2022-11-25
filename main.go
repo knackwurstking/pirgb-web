@@ -9,6 +9,8 @@ import (
 	"gitlab.com/knackwurstking/pirgb-web/internal/events"
 	"gitlab.com/knackwurstking/pirgb-web/internal/log"
 	"gitlab.com/knackwurstking/pirgb-web/api/v1"
+
+	aliceConfig "gitlab.com/knackwurstking/pirgb-web/pkg/config"
 )
 
 var (
@@ -23,6 +25,9 @@ func init() {
 	flag.IntVar(&c.Port, "port", c.Port, "port to bind the server to")
 
 	flag.Parse()
+
+	// Add server to the alice config.json
+	aliceConfig.SetServer(&aliceConfig.Server{Name: constants.ApplicationName, Port: c.Port})
 }
 
 func main() {

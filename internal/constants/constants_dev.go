@@ -12,8 +12,11 @@ import (
 
 const (
 	PIRGB_SERVER_PORT = 50826
-	APPLICATION_NAME  = "pirgb-web"
-	VENDOR_NAME       = "knackwurstking"
+)
+
+var (
+	ApplicationName   = "pirgb-web"
+	VendorName        = "knackwurstking"
 )
 
 func LoadConfig() (config *Config, err error) {
