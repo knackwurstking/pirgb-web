@@ -11,6 +11,7 @@ import (
 const (
 	PIRGB_SERVER_PORT = 50826
 	APPLICATION_NAME  = "pirgb-web"
+	VENDOR_NAME       = "knackwurstking"
 )
 
 func LoadConfig() (config *Config, err error) {
@@ -19,7 +20,7 @@ func LoadConfig() (config *Config, err error) {
 
 	// read "config.json"
 	data, err := os.ReadFile(filepath.Join(
-		configPath, APPLICATION_NAME, "config.json"))
+		configPath, VENDOR_NAME, APPLICATION_NAME, "config.json"))
 	if err != nil {
 		log.Warn.Printf("read config failed: %s", err.Error())
 		return
