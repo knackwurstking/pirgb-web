@@ -38,7 +38,7 @@ func main() {
 	}
 
 	log.Info.Printf("server running %s", server.Addr)
-	if err := server.ListenAndServe(); err != nil {
+	if err := server.ListenAndServeTLS("cert.crt", "cert.key"); err != nil {
 		log.Error.Fatalf("server error: %s", err.Error())
 	}
 }
