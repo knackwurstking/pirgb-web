@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/log"
+	"github.com/knackwurstking/pirgb-web/internal/log"
 )
 
 var (

@@ -9,8 +9,8 @@ import (
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/log"
-	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
+	"github.com/knackwurstking/pirgb-web/internal/log"
+	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
 type EventHandler[T EventTypes] struct {

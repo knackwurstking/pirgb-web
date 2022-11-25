@@ -8,8 +8,8 @@ import (
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/constants"
-	"gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
+	"github.com/knackwurstking/pirgb-web/internal/constants"
+	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
 var (

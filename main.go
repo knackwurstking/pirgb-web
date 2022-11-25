@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"gitlab.com/knackwurstking/pirgb-web/internal/constants"
-	"gitlab.com/knackwurstking/pirgb-web/internal/events"
-	"gitlab.com/knackwurstking/pirgb-web/internal/log"
-	"gitlab.com/knackwurstking/pirgb-web/api/v1"
+	"github.com/knackwurstking/pirgb-web/internal/constants"
+	"github.com/knackwurstking/pirgb-web/internal/events"
+	"github.com/knackwurstking/pirgb-web/internal/log"
+	"github.com/knackwurstking/pirgb-web/api/v1"
 
-	aliceConfig "gitlab.com/knackwurstking/pirgb-web/pkg/config"
+	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )
 
 var (

@@ -1,6 +1,6 @@
 package constants
 
-import "gitlab.com/knackwurstking/pirgb-web/pkg/pirgb"
+import "github.com/knackwurstking/pirgb-web/pkg/pirgb"
 
 type Config struct {
 	Port    int     `json:"port"`
