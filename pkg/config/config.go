@@ -1,3 +1,4 @@
+// TODO: use "alice" repo
 package config
 
 import (
