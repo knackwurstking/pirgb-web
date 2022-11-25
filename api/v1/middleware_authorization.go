@@ -1,11 +1,16 @@
 package api
 
-import "net/http"
+import (
+	"net/http"
 
-type Auth struct {}
+	aliceApiMiddleware "github.com/knackwurstking/alice/api/v1/middleware"
+	aliceApiTypes "github.com/knackwurstking/alice/api/v1/types"
+	"github.com/knackwurstking/alice/pkg/auth"
+	"github.com/knackwurstking/pirgb-web/internal/constants"
+)
 
-func Authorization(w *ResponseWriter, r *http.Request) *Auth {
-    // TODO: check authorization (telegram - "talice")
+type Auth struct{}
 
-    return &Auth{}
+func Authorization(w *aliceApiTypes.ResponseWriter, r *http.Request) (*auth.Authorization, error) {
+	return aliceApiMiddleware.Authorization(constants.ApplicationName, constants.AuthDB, w, r)
 }
