@@ -1,0 +1,35 @@
+{
+    "port": 50831,
+    "host": "0.0.0.0",
+    "devices": [
+        {
+            "host": "pi-bed",
+            "port": 50826,
+            "groups": [
+                "all"
+            ]
+        },
+        {
+            "host": "pi-lr",
+            "port": 50826,
+            "groups": [
+                "all",
+                "lr"
+            ]
+        },
+        {
+            "host": "pi-bath",
+            "port": 50826,
+            "groups": [
+                "all"
+            ]
+        },
+        {
+            "host": "pi-kitchen",
+            "port": 50826,
+            "groups": [
+                "all"
+            ]
+        }
+    ]
+}
