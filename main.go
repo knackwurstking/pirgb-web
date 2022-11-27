@@ -7,8 +7,8 @@ import (
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
 	"github.com/knackwurstking/pirgb-web/internal/events"
-	"github.com/knackwurstking/pirgb-web/internal/log"
-	"github.com/knackwurstking/pirgb-web/api/v1"
+
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 
 	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )
@@ -36,7 +36,7 @@ func main() {
 
 	// initialize the router and server
 	server := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),
+		Addr: fmt.Sprintf("%s:%d", c.Host, c.Port),
 		Handler: api.NewHandler(
 			api.NewRouter(),
 		),
