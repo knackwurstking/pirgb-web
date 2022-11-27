@@ -9,7 +9,7 @@ import (
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
-	"github.com/knackwurstking/pirgb-web/internal/log"
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 

@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/knackwurstking/pirgb-web/internal/log"
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 )
 
 const (
@@ -15,8 +15,8 @@ const (
 )
 
 var (
-	ApplicationName   = "pirgb-web"
-	VendorName        = "knackwurstking"
+	ApplicationName = "pirgb-web"
+	VendorName      = "knackwurstking"
 )
 
 func LoadConfig() (config *Config, err error) {

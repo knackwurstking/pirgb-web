@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
@@ -58,7 +58,7 @@ func (g *global) RemoveClientAddr(addr string) {
 
 // Dispatch event with data ("change"|"online"|"offline")
 func (g *global) Dispatch(eventName string, data any) {
-	logrus.Debugf("[events] dispatch \"%s\" event", eventName)
+	log.Debug.Printf("dispatch \"%s\" event", eventName)
 
 	switch eventName {
 	case "change":
@@ -78,7 +78,7 @@ func (g *global) Dispatch(eventName string, data any) {
 			},
 		)
 	default:
-		logrus.Fatalf("Unknown event name \"%s\"", eventName)
+		log.Error.Fatalf("Unknown event name \"%s\"", eventName)
 	}
 }
 
@@ -91,10 +91,7 @@ func dispathEvent[T pirgb.Events](g *global, name string, data pirgb.BaseEventDa
 			err := wsjson.Write(ctx, client.Conn, data)
 
 			if err != nil {
-				logrus.WithFields(logrus.Fields{
-					"eventName": name,
-					"conn":      client.Conn,
-				}).Warnln("[Events]", err.Error())
+				log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
 
 				// Remove client address from register
 				client.Conn.Close(websocket.StatusAbnormalClosure, "read failed, close connection, remove client from register")
