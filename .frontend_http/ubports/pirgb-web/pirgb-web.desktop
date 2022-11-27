@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Pirgb Web
-Exec=webapp-container --local-content-can-access-remote-urls --app-id="pirgb-web.knackwurstking" $@ www/index.html
-Icon=assets/icon.png
-Terminal=false
-Type=Application
-X-Ubuntu-Touch=true
