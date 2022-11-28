@@ -5,7 +5,7 @@ import { setupCounter } from './counter.js'
 import router from "./router.js"
 
 document.querySelector('#app').innerHTML = `
-    <nav style="display: none;">
+    <nav style="z-index: 999;">
         <section id="router">
             <section class="route" id="sections">Sections</section>
             <section class="route" id="groups">Groups</section>
