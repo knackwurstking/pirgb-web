@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"simple-pwa-example/pkg/log"
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 )
 
 // Logger - endpoint logger

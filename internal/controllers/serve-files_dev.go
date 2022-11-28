@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/knackwurstking/pirgb-web/pkg/log"
+	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
 var (
@@ -60,9 +61,11 @@ func ServeFiles(pattern string, mux *http.ServeMux) *http.ServeMux {
 	for _, file := range FrontentFiles {
 		fp := pattern + "/" + strings.TrimLeft(file, "/")
 		log.Debug.Printf("Endpoint: \"%s\"", fp)
-		mux.HandleFunc(fp, func(w http.ResponseWriter, r *http.Request) {
-			http.ServeFile(w, r, filepath.Join("views", "dist", file))
-		})
+		mux.HandleFunc(fp, middleware.Logger(
+			func(w http.ResponseWriter, r *http.Request) {
+				http.ServeFile(w, r, filepath.Join("views", "dist", file))
+			},
+		))
 	}
 
 	return mux
