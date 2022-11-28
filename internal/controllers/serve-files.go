@@ -15,6 +15,7 @@ var (
 )
 
 func init() {
+	// TODO: using embeded in production ("views/fontend.go")
 	CreateFrontentFiles()
 }
 
