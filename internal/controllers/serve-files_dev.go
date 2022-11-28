@@ -34,7 +34,7 @@ func CreateFrontentFiles() {
 			if file.Type().IsDir() {
 				createFrontentFiles(filepath.Join(path, file.Name()))
 			} else {
-				FrontentFiles = append(FrontentFiles, filepath.Join(path, file.Name()))
+				FrontentFiles = append(FrontentFiles, strings.Replace(filepath.Join(path, file.Name()), DistDir, "", 1))
 			}
 		}
 	}
@@ -54,12 +54,13 @@ func ServeFiles(pattern string, mux *http.ServeMux) *http.ServeMux {
 		mux.HandleFunc(pattern, indexHandler)
 	}
 
-	log.Debug.Printf("Endpoint: \"%s\"", pattern)
+	log.Debug.Printf("Endpoint: \"%s\"", pattern+"/")
 	mux.HandleFunc(pattern+"/", indexHandler)
 
 	for _, file := range FrontentFiles {
-		log.Debug.Printf("Endpoint: \"%s\"", pattern)
-		mux.HandleFunc(pattern+"/"+file, func(w http.ResponseWriter, r *http.Request) {
+		fp := pattern + "/" + strings.TrimLeft(file, "/")
+		log.Debug.Printf("Endpoint: \"%s\"", fp)
+		mux.HandleFunc(fp, func(w http.ResponseWriter, r *http.Request) {
 			http.ServeFile(w, r, filepath.Join("views", "dist", file))
 		})
 	}
