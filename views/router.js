@@ -17,10 +17,12 @@ export default {
     },
 
     enable() {
+        console.log("[router] enable")
         self.addEventListener("popstate", this.popstate)
     },
 
     disable() {
+        console.log("[router] disable")
         self.removeEventListener("popstate", this.popstate)
     },
 }

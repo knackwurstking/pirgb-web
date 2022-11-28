@@ -34,14 +34,12 @@ document.querySelector('#app').innerHTML = `
 `
 
 // setup router
-window.onload = () => {
-    console.log("[main] enable router")
-    router.enable()
-}
+router.enable()
 
 for (let route of document.querySelectorAll("#app nav section#router .route")) {
     route.addEventListener("click", (event) => router.push(event))
 }
+
 
 // setup nav
 
