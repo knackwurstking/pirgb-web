@@ -1,4 +1,4 @@
-package views
+package frontend
 
 import (
 	"embed"

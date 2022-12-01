@@ -5,12 +5,10 @@ package controllers
 import (
 	"net/http"
 
-	frontent "github.com/knackwurstking/pirgb-web/views"
+	frontend "github.com/knackwurstking/pirgb-web/frontend_svelte"
 )
 
-var (
-	FS = frontent.GetFS()
-)
+var FS = frontend.GetFS()
 
 func ServeFiles(pattern string, mux *http.ServeMux) *http.ServeMux {
 	mux.Handle("/", http.FileServer(FS))
