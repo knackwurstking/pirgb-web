@@ -6,7 +6,8 @@ import (
 	"net/http"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
-	"github.com/knackwurstking/pirgb-web/internal/controllers"
+	v1 "github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
+	"github.com/knackwurstking/pirgb-web/internal/controllers/fileserver"
 	"github.com/knackwurstking/pirgb-web/internal/events"
 
 	"github.com/knackwurstking/pirgb-web/pkg/log"
@@ -14,9 +15,7 @@ import (
 	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )
 
-var (
-	c *constants.Config
-)
+var c *constants.Config
 
 func init() {
 	// load config
@@ -38,7 +37,8 @@ func main() {
 	// initialize the router and server
 	mux := http.NewServeMux()
 
-	controllers.ServeFiles("/", mux)
+	fileserver.ServeFiles("/", mux)
+	v1.ServeApi("/api/v1", mux)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),

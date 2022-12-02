@@ -1,6 +1,6 @@
 //go:build !dev
 
-package controllers
+package fileserver
 
 import (
 	"net/http"
