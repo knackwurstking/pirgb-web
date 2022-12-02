@@ -27,8 +27,10 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		func(w http.ResponseWriter, r *http.Request) {
 			switch path := r.URL.Path; {
 			case h.ReDeviceSection.MatchString(path):
+				// TODO: ...
 				w.WriteHeader(http.StatusOK)
 			default:
+				// TODO: ...
 				w.WriteHeader(http.StatusNotFound)
 			}
 		},
@@ -38,7 +40,9 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func ServeApi(pattern string, mux *http.ServeMux) *http.ServeMux {
 	mux.HandleFunc(
 		pattern+"/events",
-		middleware.Logger(func(w http.ResponseWriter, r *http.Request) {}),
+		middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
+			// TODO: ...
+		}),
 	)
 	mux.Handle(pattern+"/devices", NewDeviceHandler())
 	return mux
