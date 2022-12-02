@@ -3,6 +3,8 @@ package v1
 import (
 	"net/http"
 	"regexp"
+
+	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
 type DeviceHandler struct {
@@ -21,21 +23,23 @@ func NewDeviceHandler() *DeviceHandler {
 }
 
 func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	switch path := r.URL.Path; {
-	case h.ReDeviceSection.MatchString(path):
-		w.WriteHeader(http.StatusOK)
-	default:
-		w.WriteHeader(http.StatusNotFound)
-	}
+	middleware.Logger(
+		func(w http.ResponseWriter, r *http.Request) {
+			switch path := r.URL.Path; {
+			case h.ReDeviceSection.MatchString(path):
+				w.WriteHeader(http.StatusOK)
+			default:
+				w.WriteHeader(http.StatusNotFound)
+			}
+		},
+	)(w, r)
 }
 
 func ServeApi(pattern string, mux *http.ServeMux) *http.ServeMux {
-	mux.HandleFunc(pattern+"/events", func(w http.ResponseWriter, r *http.Request) {})
-	mux.Handle(pattern+"/devices", NewDeviceHandler())
-
 	mux.HandleFunc(
-		pattern+"/devices/:host/:section",
-		func(w http.ResponseWriter, r *http.Request) {},
+		pattern+"/events",
+		middleware.Logger(func(w http.ResponseWriter, r *http.Request) {}),
 	)
+	mux.Handle(pattern+"/devices", NewDeviceHandler())
 	return mux
 }
