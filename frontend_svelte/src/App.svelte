@@ -19,7 +19,7 @@
     <Counter />
   </div>
 
-  <div class="card p-8">
+  <div class="p-8">
     <Alert>
       <span class="font-medium">Info Alert!</span> Change a few things ...
     </Alert>
