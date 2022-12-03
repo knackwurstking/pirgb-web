@@ -36,7 +36,7 @@ func main() {
 	events.Initialize(c)
 
 	// initialize the router and server
-	mux := controllers.NewRegExpHandler()
+	mux := controllers.NewRegexHandler()
 
 	fileserver.ServeFiles("/", mux)
 	v1.ServeApi("/api/v1", mux)
