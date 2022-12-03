@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"regexp"
 
+	"github.com/knackwurstking/pirgb-web/internal/controllers"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
@@ -41,7 +42,7 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	)(w, r)
 }
 
-func ServeApi(pattern string, mux *http.ServeMux) *http.ServeMux {
+func ServeApi(pattern string, mux *controllers.RegExpHandler) *controllers.RegExpHandler {
 	mux.HandleFunc(
 		pattern+"/events",
 		middleware.Logger(func(w http.ResponseWriter, r *http.Request) {

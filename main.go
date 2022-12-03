@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
+	"github.com/knackwurstking/pirgb-web/internal/controllers"
 	v1 "github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
 	"github.com/knackwurstking/pirgb-web/internal/controllers/fileserver"
 	"github.com/knackwurstking/pirgb-web/internal/events"
@@ -35,7 +36,7 @@ func main() {
 	events.Initialize(c)
 
 	// initialize the router and server
-	mux := http.NewServeMux()
+	mux := controllers.NewRegExpHandler()
 
 	fileserver.ServeFiles("/", mux)
 	v1.ServeApi("/api/v1", mux)
