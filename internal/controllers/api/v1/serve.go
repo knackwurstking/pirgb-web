@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"regexp"
 
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
@@ -12,7 +13,7 @@ type DeviceHandler struct {
 }
 
 func NewDeviceHandler() *DeviceHandler {
-	reDeviceSection, err := regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9])`)
+	reDeviceSection, err := regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9]{1})`)
 	if err != nil {
 		panic(err)
 	}
@@ -27,10 +28,13 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		func(w http.ResponseWriter, r *http.Request) {
 			switch path := r.URL.Path; {
 			case h.ReDeviceSection.MatchString(path):
+				subStrings := h.ReDeviceSection.FindStringSubmatch(path)
+				log.Debug.Printf("%#v", subStrings)
+
 				// TODO: ...
+
 				w.WriteHeader(http.StatusOK)
 			default:
-				// TODO: ...
 				w.WriteHeader(http.StatusNotFound)
 			}
 		},
