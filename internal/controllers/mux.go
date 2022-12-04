@@ -17,7 +17,6 @@ func (r *Route) IsRegex() bool {
 	return r.RegexPattern != nil
 }
 
-// TODO: implement middleware (ex: Logger)
 type RegexHandler struct {
 	Routes     []*Route
 	Middleware []http.Handler
@@ -52,12 +51,13 @@ func (h *RegexHandler) HandleFunc(
 }
 
 func (h *RegexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// TODO: iter routes - match pattern run handler return or if nothing found `http.NotFound(w, r)`
 	for _, route := range h.Routes {
 		if route.IsRegex() {
-			// TODO: ...
+			// TODO: run regexp check on path...
+			// ...
 		} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") { // TODO: Ignore ending "/"
-			// TODO: ...
+			route.Handler.ServeHTTP(w, r)
+			return
 		}
 	}
 
