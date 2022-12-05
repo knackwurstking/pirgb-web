@@ -42,7 +42,7 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	)(w, r)
 }
 
-func ServeApi(pattern string, mux *controllers.RegExpHandler) *controllers.RegExpHandler {
+func ServeApi(pattern string, mux *controllers.RegexHandler) *controllers.RegexHandler {
 	mux.HandleFunc(
 		pattern+"/events",
 		middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
