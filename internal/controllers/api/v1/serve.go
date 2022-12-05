@@ -50,7 +50,7 @@ func ServeApi(pattern string, mux *controllers.RegexHandler) *controllers.RegexH
 		}),
 	)
 
-	regex, _ := regexp.Compile(pattern + "/devices/(.*)")
+	regex, _ := regexp.Compile(pattern + "/devices(.*)")
 	mux.HandleRegEx(regex, NewDeviceHandler())
 
 	return mux
