@@ -11,7 +11,7 @@ func ServeApi(pattern string, mux *router.RegexRouter) *router.RegexRouter {
 	mux.HandleFunc(pattern+"/events", handler.Events)
 
 	regex, _ := regexp.Compile(pattern + "/devices(.*)")
-	mux.HandleRegEx(regex, handler.NewDeviceHandler(pattern+"/device"))
+	mux.HandleRegEx(regex, handler.NewDeviceHandler(pattern+"/devices"))
 
 	return mux
 }

@@ -4,7 +4,9 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"sync"
 
+	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
@@ -53,19 +55,33 @@ func (h *RegexRouter) HandleFunc(
 func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
 		var found bool
+		var wg sync.WaitGroup
 		for _, route := range h.Routes {
 			if route.IsRegex() {
-				// TODO: run regexp check on path...
-				// ...
+				if route.RegexPattern.MatchString(r.URL.Path) {
+					wg.Add(1)
+					func(route *Route, wg *sync.WaitGroup) {
+						defer wg.Done()
+						if !found {
+							found = true
+						}
+						route.Handler.ServeHTTP(w, r)
+					}(route, &wg)
+				}
 			} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-				// TODO: run goroutine - sync.WaitGroup => wait for finish before return
-				func(route *Route) {
-					found = true
+				log.Debug.Printf("running: %+v, %+v", route.Pattern, r.URL.Path)
+				wg.Add(1)
+				func(route *Route, wg *sync.WaitGroup) {
+					defer wg.Done()
+					if !found {
+						found = true
+					}
 					route.Handler.ServeHTTP(w, r)
-				}(route)
+				}(route, &wg)
 			}
 		}
 
+		wg.Wait()
 		if !found {
 			w.WriteHeader(http.StatusNotFound)
 		}
