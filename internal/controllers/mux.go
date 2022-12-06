@@ -56,7 +56,7 @@ func (h *RegexHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			// TODO: run regexp check on path...
 			// ...
 		} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") { // TODO: Ignore ending "/"
-			route.Handler.ServeHTTP(w, r)
+			go route.Handler.ServeHTTP(w, r)
 			return
 		}
 	}
