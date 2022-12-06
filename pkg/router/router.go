@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"sync"
 
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
@@ -53,35 +52,16 @@ func (h *RegexRouter) HandleFunc(
 
 func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
-		var found bool
-		var wg sync.WaitGroup
 		for _, route := range h.Routes {
 			if route.IsRegex() {
 				if route.RegexPattern.MatchString(r.URL.Path) {
-					wg.Add(1)
-					func(route *Route, wg *sync.WaitGroup) {
-						defer wg.Done()
-						if !found {
-							found = true
-						}
-						route.Handler.ServeHTTP(w, r)
-					}(route, &wg)
+					route.Handler.ServeHTTP(w, r)
+					return
 				}
 			} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-				wg.Add(1)
-				func(route *Route, wg *sync.WaitGroup) {
-					defer wg.Done()
-					if !found {
-						found = true
-					}
-					route.Handler.ServeHTTP(w, r)
-				}(route, &wg)
+				route.Handler.ServeHTTP(w, r)
+				return
 			}
-		}
-
-		wg.Wait()
-		if !found {
-			w.WriteHeader(http.StatusNotFound)
 		}
 	})(w, r)
 }

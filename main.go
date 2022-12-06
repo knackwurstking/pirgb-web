@@ -38,8 +38,8 @@ func main() {
 	// initialize the router and server
 	mux := router.NewRegexRouter()
 
-	fileserver.ServeFiles("/", mux)
 	v1.ServeApi("/api/v1", mux)
+	fileserver.ServeFiles("/", mux)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),

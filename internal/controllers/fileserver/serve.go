@@ -13,8 +13,6 @@ import (
 var FS = frontend.GetFS()
 
 func ServeFiles(pattern string, mux *router.RegexRouter) *router.RegexRouter {
-	mux.Handle("/", http.FileServer(FS))
-
 	rePattern, _ := regexp.Compile(pattern + "(.*)")
 	mux.HandleRegEx(rePattern, http.FileServer(FS))
 
