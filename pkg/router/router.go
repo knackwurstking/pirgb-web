@@ -6,7 +6,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
@@ -69,7 +68,6 @@ func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 					}(route, &wg)
 				}
 			} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-				log.Debug.Printf("running: %+v, %+v", route.Pattern, r.URL.Path)
 				wg.Add(1)
 				func(route *Route, wg *sync.WaitGroup) {
 					defer wg.Done()

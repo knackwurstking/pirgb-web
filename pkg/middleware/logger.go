@@ -19,7 +19,6 @@ func Logger(h http.HandlerFunc) http.HandlerFunc {
 				time.Since(start).String())
 		}(ww, time.Now())
 
-		log.Debug.Printf("Logger serve http %#v", ww)
 		h.ServeHTTP(ww, r)
 	}
 }
