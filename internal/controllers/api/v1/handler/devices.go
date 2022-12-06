@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/knackwurstking/pirgb-web/pkg/log"
-	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
 var (
@@ -41,23 +40,19 @@ func NewDeviceHandler(pattern string) *DeviceHandler {
 }
 
 func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	middleware.Logger(
-		func(w http.ResponseWriter, r *http.Request) {
-			switch path := strings.Replace(r.URL.Path, h.Pattern, "", 1); {
-			case path == "" || path == "/":
-				// TODO: ...
+	switch path := strings.Replace(r.URL.Path, h.Pattern, "", 1); {
+	case path == "" || path == "/":
+		// TODO: ...
 
-				w.WriteHeader(http.StatusOK)
-			case h.RegexDeviceSection.MatchString(path):
-				subStrings := h.RegexDeviceSection.FindStringSubmatch(path)
-				log.Debug.Printf("%#v", subStrings)
+		w.WriteHeader(http.StatusOK)
+	case h.RegexDeviceSection.MatchString(path):
+		subStrings := h.RegexDeviceSection.FindStringSubmatch(path)
+		log.Debug.Printf("%#v", subStrings)
 
-				// TODO: ...
+		// TODO: ...
 
-				w.WriteHeader(http.StatusOK)
-			default:
-				w.WriteHeader(http.StatusNotFound)
-			}
-		},
-	)(w, r)
+		w.WriteHeader(http.StatusOK)
+	default:
+		w.WriteHeader(http.StatusNotFound)
+	}
 }

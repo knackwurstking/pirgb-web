@@ -52,18 +52,22 @@ func (h *RegexRouter) HandleFunc(
 
 func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
+		var found bool
 		for _, route := range h.Routes {
 			if route.IsRegex() {
 				// TODO: run regexp check on path...
 				// ...
 			} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-				go func(route *Route) {
+				// TODO: run goroutine - sync.WaitGroup => wait for finish before return
+				func(route *Route) {
+					found = true
 					route.Handler.ServeHTTP(w, r)
 				}(route)
-				return
 			}
 		}
 
-		w.WriteHeader(http.StatusNotFound)
+		if !found {
+			w.WriteHeader(http.StatusNotFound)
+		}
 	})(w, r)
 }
