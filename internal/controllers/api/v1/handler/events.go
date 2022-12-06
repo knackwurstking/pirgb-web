@@ -3,5 +3,5 @@ package handler
 import "net/http"
 
 func Events(w http.ResponseWriter, r *http.Request) {
-	// TODO: ...
+	w.WriteHeader(http.StatusOK)
 }

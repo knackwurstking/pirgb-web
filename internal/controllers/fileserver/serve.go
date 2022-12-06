@@ -7,12 +7,12 @@ import (
 	"regexp"
 
 	frontend "github.com/knackwurstking/pirgb-web/frontend_svelte"
-	"github.com/knackwurstking/pirgb-web/internal/controllers"
+	"github.com/knackwurstking/pirgb-web/pkg/router"
 )
 
 var FS = frontend.GetFS()
 
-func ServeFiles(pattern string, mux *controllers.RegexHandler) *controllers.RegexHandler {
+func ServeFiles(pattern string, mux *router.RegexRouter) *router.RegexRouter {
 	mux.Handle("/", http.FileServer(FS))
 
 	rePattern, _ := regexp.Compile(pattern + "(.*)")

@@ -7,12 +7,12 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/knackwurstking/pirgb-web/internal/controllers"
+	"github.com/knackwurstking/pirgb-web/pkg/router"
 )
 
 var DistDir = filepath.Join("frontend_svelte", "dist")
 
-func ServeFiles(pattern string, mux *controllers.RegexHandler) *controllers.RegexHandler {
+func ServeFiles(pattern string, mux *router.RegexRouter) *router.RegexRouter {
 	mux.Handle(pattern, http.FileServer(http.Dir(DistDir)))
 
 	rePattern, _ := regexp.Compile(pattern + "(.*)")

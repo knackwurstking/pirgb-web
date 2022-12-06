@@ -1,5 +1,5 @@
 package middleware
 
-type Middleware interface {
-	// TODO: middleware type to use in custom regex router
-}
+import "net/http"
+
+type Middleware func(h http.HandlerFunc) http.HandlerFunc
