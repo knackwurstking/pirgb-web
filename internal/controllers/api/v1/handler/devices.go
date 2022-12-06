@@ -11,11 +11,18 @@ import (
 
 var (
 	RegexDeviceSection *regexp.Regexp
+	RegexDevice        *regexp.Regexp
 )
 
 func init() {
 	var err error
-	RegexDeviceSection, err = regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9]{1})`)
+
+	RegexDevice, err = regexp.Compile(`/([a-zA-z0-9 ]+)/?`)
+	if err != nil {
+		log.Error.Panicln(err)
+	}
+
+	RegexDeviceSection, err = regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9]{1})/?`)
 	if err != nil {
 		log.Error.Panicln(err)
 	}
