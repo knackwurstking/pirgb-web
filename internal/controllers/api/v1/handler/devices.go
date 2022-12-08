@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
@@ -113,13 +114,14 @@ func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		if device := constants.Config.Devices.Get(host); device == nil {
-			w.WriteHeader(http.StatusNotFound)
-		} else {
+		if device := constants.Config.Devices.Get(host); device != nil {
 			w.Header().Add("Content-Type", "application/json")
 			_ = json.NewEncoder(w).Encode(device)
 			w.WriteHeader(http.StatusOK)
+			return
 		}
+
+		w.WriteHeader(http.StatusNotFound)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
@@ -128,11 +130,25 @@ func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Request) {
+	ps := h.RegexDeviceSection.FindStringSubmatch(r.URL.Path)
+	host := ps[0]
+	sectionID, _ := strconv.Atoi(ps[1])
+
 	switch r.Method {
 
 	case http.MethodGet:
-		// TODO: ...
-		w.WriteHeader(http.StatusOK)
+		device := constants.Config.Devices.Get(host)
+		if device != nil {
+			section := device.GetSection(sectionID)
+			if section != nil {
+				w.Header().Add("Content-Type", "application/json")
+				_ = json.NewEncoder(w).Encode(section)
+				w.WriteHeader(http.StatusOK)
+				return
+			}
+		}
+
+		w.WriteHeader(http.StatusNotFound)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
