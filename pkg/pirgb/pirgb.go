@@ -79,51 +79,53 @@ func (device *Device) SetPWM(sectionID int, pwm PWM) error {
 	return nil
 }
 
-// GetPWM data from section for device
-func (device *Device) GetPWM(sectionID int) (section *Section, err error) {
+// GetPWM data from section for device (data will be set to sectionID)
+func (device *Device) GetPWM(sectionID int) error {
 	// get pwm section data from device
 	resp, err := http.Get(device.URL("pwm", fmt.Sprintf("%d", sectionID)))
 	if err != nil {
-		return
+		return err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return section, &RespError{Resp: resp}
+		return &RespError{Resp: resp}
 	}
 
+	var section *Section
 	for _, section = range device.Sections {
 		if section.ID == sectionID {
-			// parse response
-			var sectionData Section
-			if err = json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
-				return
-			}
-
-			// parse pulse and color
-			var pulse int
-			var color []int
-			for _, pin := range sectionData.Pins {
-				if pin.Pulse > 0 {
-					pulse = pin.Pulse
-				}
-
-				color = append(color, pin.ColorValue)
-			}
-
-			// set data to section
-			section.Pulse = pulse
-			section.Color = color
-
 			break
 		}
+
 	}
 
 	if section.ID != sectionID {
-		return nil, fmt.Errorf("section \"%d\" for \"%s\" not found", sectionID, device.Host)
+		return fmt.Errorf("section \"%d\" for \"%s\" not found", sectionID, device.Host)
 	}
 
-	return
+	// parse response
+	var sectionData Section
+	if err = json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
+		return err
+	}
+
+	// parse pulse and color
+	var pulse int
+	var color []int
+	for _, pin := range sectionData.Pins {
+		if pin.Pulse > 0 {
+			pulse = pin.Pulse
+		}
+
+		color = append(color, pin.ColorValue)
+	}
+
+	// set data to section
+	section.Pulse = pulse
+	section.Color = color
+
+	return nil
 }
 
 type Events interface {
