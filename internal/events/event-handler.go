@@ -13,10 +13,19 @@ import (
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
+const (
+	EventNameChange  = "change"
+	EventNameOnline  = "online"
+	EventNameOffline = "offline"
+)
+
+// EventDataTypes possible for EventHandler
 type EventDataTypes interface {
 	pirgb.Section
 }
 
+// EventHandler handles pirgb-server events like "change"
+// (dispatches "change", "online" and "offline" events to Global)
 type EventHandler[T EventDataTypes] struct {
 	Name      string // "change", ...
 	Host      string
@@ -30,9 +39,13 @@ type EventHandler[T EventDataTypes] struct {
 }
 
 // NewChangeEventHandler handles "change" server events (when pwm data changes)
-func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[pirgb.Section] {
+func NewChangeEventHandler(
+	host string,
+	port int,
+	sectionID int,
+) *EventHandler[pirgb.Section] {
 	ev := &EventHandler[pirgb.Section]{
-		Name:      "change",
+		Name:      EventNameChange,
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
@@ -45,6 +58,7 @@ func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[p
 
 func (ev *EventHandler[T]) Connect() error {
 	log.Debug.Printf("connect (%+v)", ev)
+
 	conn, _, err := websocket.Dial(
 		context.Background(),
 		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d",
@@ -56,16 +70,14 @@ func (ev *EventHandler[T]) Connect() error {
 	}
 	ev.Conn = conn
 
-	Global.Dispatch("online", pirgb.DeviceEvent{
-		Host: ev.Host,
-		Port: ev.Port,
-	})
-
+	Global.Dispatch(EventNameOnline,
+		pirgb.DeviceEvent{Host: ev.Host, Port: ev.Port})
 	return nil
 }
 
 func (ev *EventHandler[T]) reconnect() {
 	log.Debug.Printf("reconnect invoked (%+v)", ev)
+
 	var err error
 
 	for {
@@ -87,7 +99,7 @@ func (ev *EventHandler[T]) Start() error {
 	}
 
 	log.Debug.Printf("starting event handler (%+v)", ev)
-	ev.Connect()
+	_ = ev.Connect()
 
 	ev.WaitGroup.Add(1)
 	go ev.Handler()
@@ -102,47 +114,51 @@ func (ev *EventHandler[T]) Stop() {
 
 func (ev *EventHandler[T]) Handler() {
 	ev.IsRunning = true
+
 	defer func() {
 		ev.IsRunning = false
 		ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
 		ev.WaitGroup.Done()
 	}()
 
-	go func() {
-		defer func() {
-			ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
-
-			if ev.IsRunning { // connection read error
-				// dispatch connection closed event to the frontend
-				Global.Dispatch("offline", pirgb.DeviceEvent{
-					Host: ev.Host,
-					Port: ev.Port,
-				})
-
-				go ev.reconnect()
-				ev.Done <- struct{}{}
-			}
-		}()
-
-		var err error
-		var data T
-		for {
-			log.Debug.Printf("wait for (JSON) data (%+v)", ev)
-
-			err = wsjson.Read(context.Background(), ev.Conn, &data)
-			if err != nil {
-				log.Warn.Printf("trouble while reading from device: %s", err.Error())
-				log.Debug.Printf("error type: %T", err)
-				break
-			}
-
-			// do something
-			ev.Dispatch(data)
-		}
-	}()
+	go ev.readHandler()
 
 	<-ev.Done
 	log.Debug.Printf("EXIT Handler (%+v)", ev)
+}
+
+func (ev *EventHandler[T]) readHandler() {
+	defer func() {
+		ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
+
+		if !ev.IsRunning { // connection read error
+			return
+		}
+
+		// dispatch connection closed event to the frontend
+		Global.Dispatch(EventNameOffline,
+			pirgb.DeviceEvent{Host: ev.Host, Port: ev.Port})
+
+		go ev.reconnect()
+
+		ev.Done <- struct{}{}
+	}()
+
+	var err error
+	var data T
+	for {
+		log.Debug.Printf("wait for (JSON) data (%+v)", ev)
+
+		err = wsjson.Read(context.Background(), ev.Conn, &data)
+		if err != nil {
+			log.Warn.Printf("trouble while reading from device: %s", err.Error())
+			log.Debug.Printf("error type: %T", err)
+			break
+		}
+
+		// do something
+		ev.Dispatch(data)
+	}
 }
 
 func (ev *EventHandler[T]) Dispatch(data T) {

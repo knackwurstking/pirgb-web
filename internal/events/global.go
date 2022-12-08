@@ -53,13 +53,13 @@ func (g *global) Dispatch(eventName string, data any) {
 	log.Debug.Printf("dispatch \"%s\" event (%#v)", eventName, data)
 
 	switch eventName {
-	case "change":
-		dispathEvent(eventName, pirgb.BaseEvent[pirgb.ChangeEvent]{
+	case EventNameChange:
+		dispatchEvent(eventName, pirgb.BaseEvent[pirgb.ChangeEvent]{
 			Name: eventName,
 			Data: data.(pirgb.ChangeEvent),
 		})
-	case "offline", "online":
-		dispathEvent(eventName, pirgb.BaseEvent[pirgb.DeviceEvent]{
+	case EventNameOnline, EventNameOffline:
+		dispatchEvent(eventName, pirgb.BaseEvent[pirgb.DeviceEvent]{
 			Name: eventName,
 			Data: data.(pirgb.DeviceEvent),
 		})
