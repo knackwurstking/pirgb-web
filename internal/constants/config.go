@@ -3,17 +3,15 @@ package constants
 import "github.com/knackwurstking/pirgb-web/pkg/pirgb"
 
 type Config struct {
-	Port    int     `json:"port"`
-	Host    string  `json:"host"`
-	Devices Devices `json:"devices"`
+	Port    int           `json:"port"`
+	Host    string        `json:"host"`
+	Devices pirgb.Devices `json:"devices"`
 }
 
 func NewDefaultConfig() *Config {
 	return &Config{
 		Port:    50831,
 		Host:    "",
-		Devices: make(Devices, 0),
+		Devices: make(pirgb.Devices, 0),
 	}
 }
-
-type Devices []*pirgb.Device
