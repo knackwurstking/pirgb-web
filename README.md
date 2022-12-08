@@ -1,4 +1,4 @@
-# pirgb-web (v0.1.0)
+# pirgb-web (v0.1.0) - Out of Date
 
 Client side web server, controls the [pirgb-server](http://gitlab.com/knackwurstking/pirgb-server.git).
 
