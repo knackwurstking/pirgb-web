@@ -62,7 +62,7 @@ func (d Devices) Scan() {
 					}
 				}(id, &deviceWG)
 			}
-			wg.Wait()
+			deviceWG.Wait()
 		}(device, &wg)
 	}
 
