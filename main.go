@@ -36,7 +36,7 @@ func main() {
 
 	// router
 	v1.ServeApi("/api/v1", mux)
-	fileserver.ServeFiles("/", mux)
+	fileserver.ServeFiles(`/?`, mux)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", constants.Config.Host, constants.Config.Port),

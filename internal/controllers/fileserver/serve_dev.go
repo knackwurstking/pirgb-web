@@ -10,7 +10,7 @@ import (
 	"github.com/knackwurstking/pirgb-web/pkg/router"
 )
 
-var DistDir = filepath.Join("frontend_svelte", "dist")
+var DistDir = filepath.Join("frontend", "dist")
 
 func ServeFiles(pattern string, mux *router.RegexRouter) *router.RegexRouter {
 	rePattern, _ := regexp.Compile(pattern + "(.*)")

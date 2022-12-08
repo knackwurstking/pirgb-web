@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"regexp"
 
-	frontend "github.com/knackwurstking/pirgb-web/frontend_svelte"
+	"github.com/knackwurstking/pirgb-web/frontend"
 	"github.com/knackwurstking/pirgb-web/pkg/router"
 )
 

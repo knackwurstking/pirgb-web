@@ -58,15 +58,7 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// "/api/v1/devices/"
 	case path == "" || path == "/":
-
-		switch r.Method {
-		case http.MethodGet:
-			h.handler(w, r)
-			w.WriteHeader(http.StatusOK)
-
-		default:
-			w.WriteHeader(http.StatusNotFound)
-		}
+		h.handler(w, r)
 
 	// "/api/v1/devices/:device"
 	case h.RegexDevice.MatchString(path):
@@ -143,14 +135,17 @@ func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Requ
 		device := constants.Config.Devices.Get(host)
 		if device == nil {
 			w.WriteHeader(http.StatusNotFound)
+			return
 		}
 
 		section := device.GetSection(sectionID)
 		if section == nil {
 			w.WriteHeader(http.StatusNotFound)
+			return
 		}
 
 		h.WriteJSON(w, section)
+
 	default:
 		w.WriteHeader(http.StatusNotFound)
 
@@ -194,6 +189,8 @@ func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.R
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		w.WriteHeader(http.StatusOK)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
