@@ -94,13 +94,17 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *DeviceHandler) WriteJSON(w http.ResponseWriter, data any) {
+	w.Header().Add("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(data)
+	w.WriteHeader(http.StatusOK)
+}
+
 func (h *DeviceHandler) handler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodGet:
-		w.Header().Add("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(constants.Config.Devices)
-		w.WriteHeader(http.StatusOK)
+		h.WriteJSON(w, constants.Config.Devices)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
@@ -115,9 +119,7 @@ func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		if device := constants.Config.Devices.Get(host); device != nil {
-			w.Header().Add("Content-Type", "application/json")
-			_ = json.NewEncoder(w).Encode(device)
-			w.WriteHeader(http.StatusOK)
+			h.WriteJSON(w, device)
 			return
 		}
 
@@ -141,9 +143,7 @@ func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Requ
 		if device != nil {
 			section := device.GetSection(sectionID)
 			if section != nil {
-				w.Header().Add("Content-Type", "application/json")
-				_ = json.NewEncoder(w).Encode(section)
-				w.WriteHeader(http.StatusOK)
+				h.WriteJSON(w, section)
 				return
 			}
 		}
@@ -157,11 +157,22 @@ func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Requ
 }
 
 func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.Request) {
+	ps := h.RegexDeviceSectionPWM.FindStringSubmatch(r.URL.Path)
+	host := ps[0]
+	sectionID, _ := strconv.Atoi(ps[1])
+
 	switch r.Method {
 
 	case http.MethodGet:
-		// TODO: ...
-		w.WriteHeader(http.StatusOK)
+		device := constants.Config.Devices.Get(host)
+		if device != nil {
+			section := device.GetSection(sectionID)
+			if section != nil {
+				h.WriteJSON(w, section)
+			}
+		}
+
+		w.WriteHeader(http.StatusNotFound)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)

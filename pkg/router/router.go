@@ -28,8 +28,17 @@ func NewRegexRouter() *RegexRouter {
 	}
 }
 
-func (h *RegexRouter) HandleRegEx(pattern *regexp.Regexp, handler http.Handler) {
-	h.Routes = append(h.Routes, &Route{RegexPattern: pattern, Handler: handler})
+func (h *RegexRouter) HandleRegEx(
+	pattern *regexp.Regexp,
+	handler http.Handler,
+) {
+	h.Routes = append(
+		h.Routes,
+		&Route{
+			RegexPattern: pattern,
+			Handler:      handler,
+		},
+	)
 }
 
 func (h *RegexRouter) Handle(pattern string, handler http.Handler) {
@@ -47,21 +56,31 @@ func (h *RegexRouter) HandleFunc(
 	pattern string,
 	handler func(http.ResponseWriter, *http.Request),
 ) {
-	h.Routes = append(h.Routes, &Route{Pattern: pattern, Handler: http.HandlerFunc(handler)})
+	h.Routes = append(
+		h.Routes,
+		&Route{
+			Pattern: pattern,
+			Handler: http.HandlerFunc(handler),
+		},
+	)
 }
 
 func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	middleware.Logger(func(w http.ResponseWriter, r *http.Request) {
-		for _, route := range h.Routes {
-			if route.IsRegex() {
-				if route.RegexPattern.MatchString(r.URL.Path) {
-					route.Handler.ServeHTTP(w, r)
-					return
+	middleware.Logger(
+		middleware.CORS(
+			func(w http.ResponseWriter, r *http.Request) {
+				for _, route := range h.Routes {
+					if route.IsRegex() {
+						if route.RegexPattern.MatchString(r.URL.Path) {
+							route.Handler.ServeHTTP(w, r)
+							return
+						}
+					} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
+						route.Handler.ServeHTTP(w, r)
+						return
+					}
 				}
-			} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-				route.Handler.ServeHTTP(w, r)
-				return
-			}
-		}
-	})(w, r)
+			},
+		),
+	)(w, r)
 }
