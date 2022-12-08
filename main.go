@@ -55,6 +55,6 @@ func main() {
 }
 
 func startDeviceScan() {
-	// TODO: scan devices for section data
-	// ...
+	c.Devices.Scan()
+	// TODO: after scan finished, start events handler
 }
