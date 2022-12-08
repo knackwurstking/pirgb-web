@@ -1,7 +1,5 @@
 package events
 
-// TODO: clean up this mess here
-
 import (
 	"context"
 	"time"
@@ -18,74 +16,8 @@ var (
 	Global global
 )
 
-type Client struct {
-	Context context.Context
-	Conn    *websocket.Conn
-	Addr    string
-}
-
-type global struct {
-	ChangeEvents []*EventHandler[Section]
-	Register     []*Client
-}
-
-// AddClient to the register
-func (g *global) AddClient(ctx context.Context, conn *websocket.Conn, addr string) {
-	for _, client := range g.Register {
-		if client.Addr == addr {
-			client.Conn.Close(websocket.StatusAbnormalClosure, "recreate connection")
-			client.Conn = conn
-			client.Context = ctx
-			return
-		}
-	}
-
-	g.Register = append(g.Register, &Client{
-		Context: ctx,
-		Conn:    conn,
-		Addr:    addr,
-	})
-}
-
-// RemoveClientAddr from the register
-func (g *global) RemoveClientAddr(addr string) {
-	var newRegister []*Client
-	for _, client := range g.Register {
-		if client.Addr != addr {
-			newRegister = append(newRegister, client)
-		}
-	}
-	g.Register = newRegister
-}
-
-// Dispatch event with data ("change"|"online"|"offline")
-func (g *global) Dispatch(eventName string, data any) {
-	log.Debug.Printf("dispatch \"%s\" event", eventName)
-
-	switch eventName {
-	case "change":
-		dispathEvent(
-			g, eventName,
-			pirgb.BaseEventData[pirgb.ChangeEventData]{
-				Name: eventName,
-				Data: data.(pirgb.ChangeEventData),
-			},
-		)
-	case "offline", "online":
-		dispathEvent(
-			g, eventName,
-			pirgb.BaseEventData[pirgb.DeviceEventData]{
-				Name: eventName,
-				Data: data.(pirgb.DeviceEventData),
-			},
-		)
-	default:
-		log.Error.Fatalf("Unknown event name \"%s\"", eventName)
-	}
-}
-
-func dispathEvent[T pirgb.Events](g *global, name string, data pirgb.BaseEventData[T]) {
-	for _, client := range g.Register {
+func dispathEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
+	for _, client := range Global.Register {
 		go func(client *Client) {
 			ctx, cancel := context.WithTimeout(client.Context, time.Duration(time.Second*5))
 			defer cancel()
@@ -97,12 +29,13 @@ func dispathEvent[T pirgb.Events](g *global, name string, data pirgb.BaseEventDa
 
 				// Remove client address from register
 				client.Conn.Close(websocket.StatusAbnormalClosure, "read failed, close connection, remove client from register")
-				g.RemoveClientAddr(client.Addr)
+				Global.RemoveClientAddr(client.Addr)
 			}
 		}(client)
 	}
 }
 
+// FIX: ...
 func Initialize(config *constants.Config) {
 	var changeEvents []*EventHandler[Section]
 

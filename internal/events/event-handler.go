@@ -29,6 +29,20 @@ type EventHandler[T EventDataTypes] struct {
 	OnEvent   []func(data T)
 }
 
+// NewChangeEventHandler handles "change" server events (when pwm data changes)
+func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[pirgb.Section] {
+	ev := &EventHandler[pirgb.Section]{
+		Name:      "change",
+		Host:      host,
+		Port:      port,
+		SectionID: sectionID,
+		Done:      make(chan struct{}),
+		OnEvent:   make([]func(data pirgb.Section), 0),
+	}
+
+	return ev
+}
+
 func (ev *EventHandler[T]) Connect() error {
 	log.Debug.Println("try to connect...")
 	conn, _, err := websocket.Dial(
@@ -137,17 +151,4 @@ func (ev *EventHandler[T]) Dispatch(data T) {
 	for _, handler := range ev.OnEvent {
 		go handler(data)
 	}
-}
-
-func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[pirgb.Section] {
-	ev := &EventHandler[pirgb.Section]{
-		Name:      "change",
-		Host:      host,
-		Port:      port,
-		SectionID: sectionID,
-		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data pirgb.Section), 0),
-	}
-
-	return ev
 }
