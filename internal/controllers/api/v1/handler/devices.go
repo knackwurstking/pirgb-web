@@ -9,6 +9,7 @@ import (
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
+	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
 var (
@@ -140,16 +141,16 @@ func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Requ
 
 	case http.MethodGet:
 		device := constants.Config.Devices.Get(host)
-		if device != nil {
-			section := device.GetSection(sectionID)
-			if section != nil {
-				h.WriteJSON(w, section)
-				return
-			}
+		if device == nil {
+			w.WriteHeader(http.StatusNotFound)
 		}
 
-		w.WriteHeader(http.StatusNotFound)
+		section := device.GetSection(sectionID)
+		if section == nil {
+			w.WriteHeader(http.StatusNotFound)
+		}
 
+		h.WriteJSON(w, section)
 	default:
 		w.WriteHeader(http.StatusNotFound)
 
@@ -161,20 +162,38 @@ func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.R
 	host := ps[0]
 	sectionID, _ := strconv.Atoi(ps[1])
 
+	device := constants.Config.Devices.Get(host)
+	if device == nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	section := device.GetSection(sectionID)
+	if section == nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	switch r.Method {
 
 	case http.MethodGet:
-		device := constants.Config.Devices.Get(host)
-		if device != nil {
-			section := device.GetSection(sectionID)
-			if section != nil {
-				h.WriteJSON(w, section)
-			}
+		h.WriteJSON(w, section)
+
+	case http.MethodPost:
+		var pwm pirgb.PWM
+
+		defer r.Body.Close()
+		err := json.NewDecoder(r.Body).Decode(&pwm)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 		}
 
-		w.WriteHeader(http.StatusNotFound)
-
-	// TODO: handle the POST method - set pwm
+		err = device.SetPWM(sectionID, pwm)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
