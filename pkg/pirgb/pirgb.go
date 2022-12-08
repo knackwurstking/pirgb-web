@@ -69,19 +69,20 @@ func (device *Device) SetPWM(sectionID int, pwm PWM) error {
 	return nil
 }
 
-func (device *Device) GetPWM(sectionID int) error {
+// GetPWM data from section for device
+func (device *Device) GetPWM(sectionID int) (section *Section, err error) {
 	// get pwm section data from device
 	resp, err := http.Get(device.URL("pwm", fmt.Sprintf("%d", sectionID)))
 	if err != nil {
-		return err
+		return
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return &RespError{Resp: resp}
+		return section, &RespError{Resp: resp}
 	}
 
-	for _, section := range device.Sections {
+	for _, section = range device.Sections {
 		if section.ID == sectionID {
 			// parse response
 			var sectionData struct {
@@ -91,8 +92,8 @@ func (device *Device) GetPWM(sectionID int) error {
 					ColorValue int `json:"colorValue"`
 				} `json:"pins"`
 			}
-			if err := json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
-				return nil
+			if err = json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
+				return
 			}
 
 			// parse pulse and color
@@ -109,10 +110,16 @@ func (device *Device) GetPWM(sectionID int) error {
 			// set data to section
 			section.Pulse = pulse
 			section.Color = color
+
+			break
 		}
 	}
 
-	return nil
+	if section.ID != sectionID {
+		return nil, fmt.Errorf("section \"%d\" for \"%s\" not found", sectionID, device.Host)
+	}
+
+	return
 }
 
 type Events interface {
