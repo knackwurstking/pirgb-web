@@ -35,10 +35,10 @@ func dispathEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
 	}
 }
 
-func Start(c *constants.Config) {
+func Start() {
 	var changeEvents []*EventHandler[pirgb.Section]
 
-	for _, device := range c.Devices {
+	for _, device := range constants.Config.Devices {
 		for _, section := range device.Sections {
 			func(device *pirgb.Device, section *pirgb.Section) {
 				changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)

@@ -16,19 +16,17 @@ import (
 	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )
 
-var c *constants.Config
-
 func init() {
 	// load config
-	c, _ = constants.LoadConfig()
+	constants.LoadConfig()
 
-	flag.StringVar(&c.Host, "host", c.Host, "whatever ...")
-	flag.IntVar(&c.Port, "port", c.Port, "port to bind the server to")
+	flag.StringVar(&constants.Config.Host, "host", constants.Config.Host, "whatever ...")
+	flag.IntVar(&constants.Config.Port, "port", constants.Config.Port, "port to bind the server to")
 
 	flag.Parse()
 
 	// Add server to the alice config.json
-	aliceConfig.SetServer(&aliceConfig.Server{Name: constants.ApplicationName, Port: c.Port})
+	aliceConfig.SetServer(&aliceConfig.Server{Name: constants.ApplicationName, Port: constants.Config.Port})
 	go startDeviceScan()
 }
 
@@ -37,11 +35,11 @@ func main() {
 	mux := router.NewRegexRouter()
 
 	// router
-	v1.ServeApi("/api/v1", mux, c.Devices)
+	v1.ServeApi("/api/v1", mux)
 	fileserver.ServeFiles("/", mux)
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", c.Host, c.Port),
+		Addr:    fmt.Sprintf("%s:%d", constants.Config.Host, constants.Config.Port),
 		Handler: mux,
 	}
 
@@ -53,6 +51,6 @@ func main() {
 
 func startDeviceScan() {
 	log.Debug.Println("start device scan...")
-	c.Devices.Scan()
-	events.Start(c)
+	constants.Config.Devices.Scan()
+	events.Start()
 }

@@ -17,24 +17,25 @@ const (
 var (
 	ApplicationName = "pirgb-web"
 	VendorName      = "knackwurstking"
+	Config          *config
 )
 
-func LoadConfig() (config *Config, err error) {
-	config = NewDefaultConfig()
+func LoadConfig() error {
+	Config = NewDefaultConfig()
 
 	// read "config.json"
 	data, err := os.ReadFile("config.json")
 	if err != nil {
 		log.Warn.Printf("read config failed: %s", err.Error())
-		return
+		return err
 	}
 
 	// parse json
-	err = json.Unmarshal(data, &config)
+	err = json.Unmarshal(data, &Config)
 	if err != nil {
 		log.Warn.Printf("parse json config failed: %s", err.Error())
-		return
+		return err
 	}
 
-	return
+	return err
 }
