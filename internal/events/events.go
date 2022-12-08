@@ -1,5 +1,7 @@
 package events
 
+// TODO: clean up this mess here
+
 import (
 	"context"
 	"time"

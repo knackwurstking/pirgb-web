@@ -13,7 +13,11 @@ import (
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
-type EventHandler[T EventTypes] struct {
+type EventDataTypes interface {
+	pirgb.Section
+}
+
+type EventHandler[T EventDataTypes] struct {
 	Name      string // "change", ...
 	Host      string
 	Port      int
@@ -135,14 +139,14 @@ func (ev *EventHandler[T]) Dispatch(data T) {
 	}
 }
 
-func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[Section] {
-	ev := &EventHandler[Section]{
+func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[pirgb.Section] {
+	ev := &EventHandler[pirgb.Section]{
 		Name:      "change",
 		Host:      host,
 		Port:      port,
 		SectionID: sectionID,
 		Done:      make(chan struct{}),
-		OnEvent:   make([]func(data Section), 0),
+		OnEvent:   make([]func(data pirgb.Section), 0),
 	}
 
 	return ev
