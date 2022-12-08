@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	"regexp"
 	"strings"
 
+	"github.com/knackwurstking/pirgb-web/internal/constants"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 )
 
@@ -92,15 +94,11 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *DeviceHandler) handler(w http.ResponseWriter, r *http.Request) {
-
 	switch r.Method {
 
 	case http.MethodGet:
 		w.Header().Add("Content-Type", "application/json")
-
-		// TODO: return all devices data
-		// ...
-
+		_ = json.NewEncoder(w).Encode(constants.Config.Devices)
 		w.WriteHeader(http.StatusOK)
 
 	default:
@@ -110,13 +108,47 @@ func (h *DeviceHandler) handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
-	// TODO: ...
+	host := h.RegexDevice.FindStringSubmatch(r.URL.Path)[0]
+
+	switch r.Method {
+
+	case http.MethodGet:
+		if device := constants.Config.Devices.Get(host); device == nil {
+			w.WriteHeader(http.StatusNotFound)
+		} else {
+			w.Header().Add("Content-Type", "application/json")
+			_ = json.NewEncoder(w).Encode(device)
+			w.WriteHeader(http.StatusOK)
+		}
+
+	default:
+		w.WriteHeader(http.StatusNotFound)
+
+	}
 }
 
 func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Request) {
-	// TODO: ...
+	switch r.Method {
+
+	case http.MethodGet:
+		// TODO: ...
+		w.WriteHeader(http.StatusOK)
+
+	default:
+		w.WriteHeader(http.StatusNotFound)
+
+	}
 }
 
 func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.Request) {
-	// TODO: ...
+	switch r.Method {
+
+	case http.MethodGet:
+		// TODO: ...
+		w.WriteHeader(http.StatusOK)
+
+	default:
+		w.WriteHeader(http.StatusNotFound)
+
+	}
 }
