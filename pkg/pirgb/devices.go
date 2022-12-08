@@ -65,6 +65,8 @@ func (d Devices) Scan() {
 			wg.Wait()
 		}(device, &wg)
 	}
+
+	wg.Wait()
 }
 
 func (d *Devices) Get(host string) *Device {
