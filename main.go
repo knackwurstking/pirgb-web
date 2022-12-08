@@ -55,6 +55,9 @@ func main() {
 }
 
 func startDeviceScan() {
+	log.Debug.Println("start device scan...")
 	c.Devices.Scan()
-	// TODO: after scan finished, start events handler
+
+	// TODO: after scan finished, start events handler...
+	// ...
 }
