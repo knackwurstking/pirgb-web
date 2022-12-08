@@ -174,6 +174,8 @@ func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.R
 
 		w.WriteHeader(http.StatusNotFound)
 
+	// TODO: handle the POST method - set pwm
+
 	default:
 		w.WriteHeader(http.StatusNotFound)
 
