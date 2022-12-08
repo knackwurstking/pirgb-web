@@ -35,15 +35,14 @@ func dispathEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
 	}
 }
 
-// FIX: ...
-func Initialize(config *constants.Config) {
-	var changeEvents []*EventHandler[Section]
+func Start(c *constants.Config) {
+	var changeEvents []*EventHandler[pirgb.Section]
 
-	for _, device := range config.Devices {
+	for _, device := range c.Devices {
 		for _, section := range device.Sections {
 			func(device *pirgb.Device, section *pirgb.Section) {
 				changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)
-				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data Section) {
+				changeEvent.OnEvent = append(changeEvent.OnEvent, func(data pirgb.Section) {
 					var pulse int
 					var color []int
 
@@ -61,8 +60,8 @@ func Initialize(config *constants.Config) {
 					section.Pulse = pulse
 					section.Color = color
 
-					go Global.Dispatch(changeEvent.Name, pirgb.ChangeEventData{
-						DeviceEventData: pirgb.DeviceEventData{
+					go Global.Dispatch(changeEvent.Name, pirgb.ChangeEvent{
+						DeviceEvent: pirgb.DeviceEvent{
 							Host: device.Host,
 							Port: device.Port,
 						},

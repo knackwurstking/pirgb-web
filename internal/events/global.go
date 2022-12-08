@@ -50,7 +50,7 @@ func (g *global) RemoveClientAddr(addr string) {
 
 // Dispatch event with data ("change"|"online"|"offline")
 func (g *global) Dispatch(eventName string, data any) {
-	log.Debug.Printf("dispatch \"%s\" event", eventName)
+	log.Debug.Printf("dispatch \"%s\" event (%#v)", eventName, data)
 
 	switch eventName {
 	case "change":

@@ -33,9 +33,6 @@ func init() {
 }
 
 func main() {
-	// start data stuff (and event handlers)
-	events.Initialize(c)
-
 	// initialize the router and server
 	mux := router.NewRegexRouter()
 
@@ -57,7 +54,5 @@ func main() {
 func startDeviceScan() {
 	log.Debug.Println("start device scan...")
 	c.Devices.Scan()
-
-	// TODO: after scan finished, start events handler...
-	// ...
+	events.Start(c)
 }

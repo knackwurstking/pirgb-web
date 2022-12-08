@@ -44,7 +44,7 @@ func NewChangeEventHandler(host string, port int, sectionID int) *EventHandler[p
 }
 
 func (ev *EventHandler[T]) Connect() error {
-	log.Debug.Println("try to connect...")
+	log.Debug.Printf("connect (%+v)", ev)
 	conn, _, err := websocket.Dial(
 		context.Background(),
 		fmt.Sprintf("ws://%s:%d/ws/event/%s/%d",
@@ -56,7 +56,7 @@ func (ev *EventHandler[T]) Connect() error {
 	}
 	ev.Conn = conn
 
-	Global.Dispatch("online", pirgb.DeviceEventData{
+	Global.Dispatch("online", pirgb.DeviceEvent{
 		Host: ev.Host,
 		Port: ev.Port,
 	})
@@ -65,7 +65,7 @@ func (ev *EventHandler[T]) Connect() error {
 }
 
 func (ev *EventHandler[T]) reconnect() {
-	log.Debug.Println("reconnect invoked...")
+	log.Debug.Printf("reconnect invoked (%+v)", ev)
 	var err error
 
 	for {
@@ -86,7 +86,7 @@ func (ev *EventHandler[T]) Start() error {
 		return nil
 	}
 
-	log.Debug.Println("starting event handler")
+	log.Debug.Printf("starting event handler (%+v)", ev)
 	ev.Connect()
 
 	ev.WaitGroup.Add(1)
@@ -95,7 +95,7 @@ func (ev *EventHandler[T]) Start() error {
 }
 
 func (ev *EventHandler[T]) Stop() {
-	log.Debug.Println("stopping event handler")
+	log.Debug.Printf("stopping event handler (%+v)", ev)
 	ev.Done <- struct{}{}
 	ev.WaitGroup.Wait()
 }
@@ -114,7 +114,7 @@ func (ev *EventHandler[T]) Handler() {
 
 			if ev.IsRunning { // connection read error
 				// dispatch connection closed event to the frontend
-				Global.Dispatch("offline", pirgb.DeviceEventData{
+				Global.Dispatch("offline", pirgb.DeviceEvent{
 					Host: ev.Host,
 					Port: ev.Port,
 				})
@@ -127,7 +127,7 @@ func (ev *EventHandler[T]) Handler() {
 		var err error
 		var data T
 		for {
-			log.Debug.Println("wait for (json) data")
+			log.Debug.Printf("wait for (JSON) data (%+v)", ev)
 
 			err = wsjson.Read(context.Background(), ev.Conn, &data)
 			if err != nil {
@@ -142,11 +142,11 @@ func (ev *EventHandler[T]) Handler() {
 	}()
 
 	<-ev.Done
-	log.Debug.Println("EXIT Handler")
+	log.Debug.Printf("EXIT Handler (%+v)", ev)
 }
 
 func (ev *EventHandler[T]) Dispatch(data T) {
-	log.Debug.Println("dispatch event")
+	log.Debug.Printf("dispatch event (%+v)", ev)
 
 	for _, handler := range ev.OnEvent {
 		go handler(data)
