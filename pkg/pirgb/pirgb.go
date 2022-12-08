@@ -23,10 +23,20 @@ type PWM struct {
 }
 
 type Section struct {
-	ID        int   `json:"id"`
-	Pulse     int   `json:"pulse"`
-	LastPulse int   `json:"lastPulse"`
-	Color     []int `json:"color"`
+	ID        int          `json:"id"`
+	Pulse     int          `json:"pulse,omitempty"`
+	LastPulse int          `json:"lastPulse,omitempty"`
+	Color     []int        `json:"color,omitempty"`
+	Pins      []SectionPin `json:"pins,omitempty"`
+}
+
+type SectionPin struct {
+	Pin        int  `json:"pin"`
+	Range      int  `json:"range"`
+	Pulse      int  `json:"pulse"`
+	ColorValue int  `json:"colorValue"`
+	ColorPulse int  `json:"colorPulse"`
+	IsRunning  bool `json:"isRunning"`
 }
 
 type Device struct {
@@ -85,13 +95,7 @@ func (device *Device) GetPWM(sectionID int) (section *Section, err error) {
 	for _, section = range device.Sections {
 		if section.ID == sectionID {
 			// parse response
-			var sectionData struct {
-				ID   int `json:"id"`
-				Pins []struct {
-					Pulse      int `json:"pulse"`
-					ColorValue int `json:"colorValue"`
-				} `json:"pins"`
-			}
+			var sectionData Section
 			if err = json.NewDecoder(resp.Body).Decode(&sectionData); err != nil {
 				return
 			}
@@ -123,7 +127,7 @@ func (device *Device) GetPWM(sectionID int) (section *Section, err error) {
 }
 
 type Events interface {
-	DeviceEventData | ChangeEventData
+	DeviceEvent | ChangeEvent
 }
 
 type BaseEventData[T Events] struct {
@@ -131,12 +135,12 @@ type BaseEventData[T Events] struct {
 	Data T      `json:"data"`
 }
 
-type DeviceEventData struct { // Used for "offline" and "online" events
+type DeviceEvent struct { // Used for "offline" and "online" events
 	Host string `json:"host"`
 	Port int    `json:"port"`
 }
 
-type ChangeEventData struct {
-	DeviceEventData
+type ChangeEvent struct {
+	DeviceEvent
 	Section
 }
