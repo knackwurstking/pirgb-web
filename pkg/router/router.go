@@ -74,17 +74,23 @@ func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (h *RegexRouter) serveHandlerFunc(w http.ResponseWriter, r *http.Request) {
 	for _, route := range h.Routes {
-		if route.IsRegex() {
-			if h.handleRegexRoute(route, w, r) {
-				return
-			}
-		} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-			route.Handler.ServeHTTP(w, r)
+		if !route.IsRegex() {
+			h.handleRoute(route, w, r)
+			continue
+		}
+
+		if h.handleRegexRoute(route, w, r) {
 			return
 		}
 	}
 
 	w.WriteHeader(http.StatusNotFound)
+}
+
+func (h *RegexRouter) handleRoute(route *Route, w http.ResponseWriter, r *http.Request) {
+	if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
+		route.Handler.ServeHTTP(w, r)
+	}
 }
 
 func (h *RegexRouter) handleRegexRoute(route *Route, w http.ResponseWriter, r *http.Request) (match bool) {
