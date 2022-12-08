@@ -30,7 +30,6 @@ func init() {
 	// Add server to the alice config.json
 	aliceConfig.SetServer(&aliceConfig.Server{Name: constants.ApplicationName, Port: c.Port})
 	go startDeviceScan()
-	go startEventHandler()
 }
 
 func main() {
@@ -57,8 +56,5 @@ func main() {
 
 func startDeviceScan() {
 	// TODO: scan devices for section data
-}
-
-func startEventHandler() {
-	// TODO: start event handler for devices (sections)
+	// ...
 }
