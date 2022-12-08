@@ -66,21 +66,23 @@ func (h *RegexRouter) HandleFunc(
 }
 
 func (h *RegexRouter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	middleware.Logger(
-		middleware.CORS(
-			func(w http.ResponseWriter, r *http.Request) {
-				for _, route := range h.Routes {
-					if route.IsRegex() {
-						if route.RegexPattern.MatchString(r.URL.Path) {
-							route.Handler.ServeHTTP(w, r)
-							return
-						}
-					} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
-						route.Handler.ServeHTTP(w, r)
-						return
-					}
-				}
-			},
-		),
-	)(w, r)
+	handler := middleware.Logger(h.serveHandlerFunc)
+	handler = middleware.CORS(handler)
+	handler(w, r)
+}
+
+func (h *RegexRouter) serveHandlerFunc(w http.ResponseWriter, r *http.Request) {
+	for _, route := range h.Routes {
+		if route.IsRegex() {
+			h.handleRegexRoute(route, w, r)
+		} else if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
+			route.Handler.ServeHTTP(w, r)
+		}
+	}
+}
+
+func (h *RegexRouter) handleRegexRoute(route *Route, w http.ResponseWriter, r *http.Request) {
+	if route.RegexPattern.MatchString(r.URL.Path) {
+		route.Handler.ServeHTTP(w, r)
+	}
 }
