@@ -97,7 +97,10 @@ func (h *DeviceHandler) handler(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodGet:
 		w.Header().Add("Content-Type", "application/json")
+
 		// TODO: return all devices data
+		// ...
+
 		w.WriteHeader(http.StatusOK)
 
 	default:

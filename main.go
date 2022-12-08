@@ -37,7 +37,7 @@ func main() {
 	mux := router.NewRegexRouter()
 
 	// router
-	v1.ServeApi("/api/v1", mux)
+	v1.ServeApi("/api/v1", mux, c.Devices)
 	fileserver.ServeFiles("/", mux)
 
 	server := &http.Server{
