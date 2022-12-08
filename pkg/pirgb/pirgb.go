@@ -130,7 +130,7 @@ type Events interface {
 	DeviceEvent | ChangeEvent
 }
 
-type BaseEventData[T Events] struct {
+type BaseEvent[T Events] struct {
 	Name string `json:"name"`
 	Data T      `json:"data"`
 }
