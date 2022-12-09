@@ -48,7 +48,7 @@
     display: flex;
     place-items: center;
     justify-content: flex-end;
-    border-bottom: 1px solid currentColor;
+    border-bottom: 1px solid var(--color-border);
   }
 
   nav button.link {

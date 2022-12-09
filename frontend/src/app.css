@@ -6,6 +6,8 @@
     --color-link: rgba(255, 255, 255, 0.85);
     --color-link--active: var(--color-accent);
 
+    --color-border: rgba(255, 255, 255, 0.35);
+
     background-color: var(--color-background);
     color: var(--color-primary);
     font-size: 100%;
