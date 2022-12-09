@@ -1,0 +1,10 @@
+:root {
+    --color-bg: rgba(0, 0, 0, 1);
+    --color-fg: rgba(255, 255, 255, 0.85);
+
+    --color-link: rgba(255, 255, 255, 0.85);
+    --color-link--active: rgba(0, 255, 0, 0.85);
+
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+}
