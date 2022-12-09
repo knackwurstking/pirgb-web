@@ -6,14 +6,11 @@
   import Groups from "./pages/Groups.svelte";
   import Settings from "./pages/Settings.svelte";
 
-  let url = location.pathname;
+  let currentUrl = location.pathname;
 
-  /**
-   * @param {string} _url
-   */
-  function navigate(_url) {
-    _navigate(url);
-    url = _url;
+  /** @param {string} url */
+  function navigate(url) {
+    _navigate((currentUrl = url));
   }
 </script>
 
@@ -22,17 +19,17 @@
     <nav>
       <button
         class="link"
-        class:active={url === "/sections"}
+        class:active={currentUrl === "/sections"}
         on:click={() => navigate("/sections")}
       >Home</button>
       <button
         class="link"
-        class:active={url === "/groups"}
+        class:active={currentUrl === "/groups"}
         on:click={() => navigate("/groups")}
       >Groups</button>
       <button
         class="link"
-        class:active={url === "/settings"}
+        class:active={currentUrl === "/settings"}
         on:click={() => navigate("/settings")}
       >Settings</button>
     </nav>
