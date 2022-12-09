@@ -28,12 +28,9 @@ func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
 		}
 
 		// wsjson write error handling
+		defer client.Conn.Close(websocket.StatusAbnormalClosure,
+			websocket.StatusAbnormalClosure.String())
 		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
-
-		// Remove client address from register
-		client.Conn.Close(websocket.StatusAbnormalClosure,
-			"read failed, close connection, remove client from register")
-
 		Global.RemoveClientAddr(client.Addr)
 	}
 

@@ -93,9 +93,9 @@ func (ev *EventHandler[T]) reconnect() {
 	go ev.Handler()
 }
 
-func (ev *EventHandler[T]) Start() error {
+func (ev *EventHandler[T]) Start() {
 	if ev.IsRunning {
-		return nil
+		return
 	}
 
 	log.Debug.Printf("starting event handler (%+v)", ev)
@@ -103,7 +103,6 @@ func (ev *EventHandler[T]) Start() error {
 
 	ev.WaitGroup.Add(1)
 	go ev.Handler()
-	return nil
 }
 
 func (ev *EventHandler[T]) Stop() {
@@ -117,7 +116,8 @@ func (ev *EventHandler[T]) Handler() {
 
 	defer func() {
 		ev.IsRunning = false
-		ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
+		ev.Conn.Close(websocket.StatusNormalClosure,
+			websocket.StatusNormalClosure.String())
 		ev.WaitGroup.Done()
 	}()
 
@@ -129,7 +129,8 @@ func (ev *EventHandler[T]) Handler() {
 
 func (ev *EventHandler[T]) readHandler() {
 	defer func() {
-		ev.Conn.Close(websocket.StatusNormalClosure, "bye bye")
+		ev.Conn.Close(websocket.StatusNormalClosure,
+			websocket.StatusNormalClosure.String())
 
 		if !ev.IsRunning { // connection read error
 			return
