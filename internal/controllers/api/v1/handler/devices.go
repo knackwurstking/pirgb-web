@@ -21,17 +21,17 @@ var (
 func init() {
 	var err error
 
-	RegexDevice, err = regexp.Compile(`/([a-zA-z0-9 ]+)/?`)
+	RegexDevice, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/?$`)
 	if err != nil {
 		log.Error.Panicln(err)
 	}
 
-	RegexDeviceSection, err = regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9]{1})/?`)
+	RegexDeviceSection, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/([0-9]{1})/?$`)
 	if err != nil {
 		log.Error.Panicln(err)
 	}
 
-	RegexDeviceSectionPWM, err = regexp.Compile(`/([a-zA-z0-9 ]+)/([0-9]{1})/pwm/?`)
+	RegexDeviceSectionPWM, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/([0-9]{1})/pwm/?$`)
 	if err != nil {
 		log.Error.Panicln(err)
 	}
@@ -48,7 +48,7 @@ func NewDeviceHandler(pattern string) *DeviceHandler {
 	return &DeviceHandler{
 		RegexDevice:           RegexDevice,
 		RegexDeviceSection:    RegexDeviceSection,
-		RegexDeviceSectionPWM: RegexDeviceSection,
+		RegexDeviceSectionPWM: RegexDeviceSectionPWM,
 		Pattern:               pattern,
 	}
 }
@@ -60,26 +60,17 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case path == "" || path == "/":
 		h.handler(w, r)
 
-	// "/api/v1/devices/:device"
-	case h.RegexDevice.MatchString(path):
-		subStrings := h.RegexDevice.FindStringSubmatch(path)
-		log.Debug.Printf("%#v", subStrings)
-
-		h.handlerDevice(w, r)
+	// "/api/v1/devices/:device/:section/pwm"
+	case h.RegexDeviceSectionPWM.MatchString(path):
+		h.handlerDeviceSectionPWM(w, r)
 
 	// "/api/v1/devices/:device/:section"
 	case h.RegexDeviceSection.MatchString(path):
-		subStrings := h.RegexDeviceSection.FindStringSubmatch(path)
-		log.Debug.Printf("%#v", subStrings)
-
 		h.handlerDeviceSection(w, r)
 
-	// "/api/v1/devices/:device/:section"
-	case h.RegexDeviceSectionPWM.MatchString(path):
-		subStrings := h.RegexDeviceSectionPWM.FindStringSubmatch(path)
-		log.Debug.Printf("%#v", subStrings)
-
-		h.handlerDeviceSectionPWM(w, r)
+	// "/api/v1/devices/:device"
+	case h.RegexDevice.MatchString(path):
+		h.handlerDevice(w, r)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
@@ -106,7 +97,7 @@ func (h *DeviceHandler) handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
-	host := h.RegexDevice.FindStringSubmatch(r.URL.Path)[0]
+	host := h.RegexDevice.FindStringSubmatch(r.URL.Path)[1]
 
 	switch r.Method {
 
@@ -126,8 +117,8 @@ func (h *DeviceHandler) handlerDevice(w http.ResponseWriter, r *http.Request) {
 
 func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Request) {
 	ps := h.RegexDeviceSection.FindStringSubmatch(r.URL.Path)
-	host := ps[0]
-	sectionID, _ := strconv.Atoi(ps[1])
+	host := ps[1]
+	sectionID, _ := strconv.Atoi(ps[2])
 
 	switch r.Method {
 
@@ -154,8 +145,8 @@ func (h *DeviceHandler) handlerDeviceSection(w http.ResponseWriter, r *http.Requ
 
 func (h *DeviceHandler) handlerDeviceSectionPWM(w http.ResponseWriter, r *http.Request) {
 	ps := h.RegexDeviceSectionPWM.FindStringSubmatch(r.URL.Path)
-	host := ps[0]
-	sectionID, _ := strconv.Atoi(ps[1])
+	host := ps[1]
+	sectionID, _ := strconv.Atoi(ps[2])
 
 	device := constants.Config.Devices.Get(host)
 	if device == nil {
