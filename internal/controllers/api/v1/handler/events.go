@@ -32,7 +32,7 @@ func Events(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			err = conn.Write(r.Context(), msgType, msg)
 			if err != nil {
-				log.Warn.Printf("Send heardbeat failed: %s", err.Error())
+				log.Warn.Printf("Send heartbeat failed: %s", err.Error())
 			}
 		}()
 	}
