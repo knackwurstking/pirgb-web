@@ -1,11 +1,21 @@
 /// <reference types="svelte" />
 /// <reference types="vite/client" />
 
+interface Pin {
+    pin: number; 
+    range: number;
+    pulse: number;
+    colorValue: number;
+    colorPulse: number;
+    isRunning: boolean;
+}
+
 interface Section {
   id: number;
   pulse?: number;
   lastPulse?: number;
-  // TODO: ...
+  color?: number[];
+  pins?: SectionPin[];
 }
 
 interface Device {
