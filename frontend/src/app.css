@@ -1,12 +1,13 @@
 :root {
-    --color-bg: rgba(0, 0, 0, 1);
-    --color-fg: rgba(255, 255, 255, 0.85);
+    --color-background: rgba(0, 0, 0, 1);
+    --color-primary: rgba(255, 255, 255, 0.85);
+    --color-accent: rgba(0, 255, 0, 0.85);
 
     --color-link: rgba(255, 255, 255, 0.85);
-    --color-link--active: rgba(0, 255, 0, 0.85);
+    --color-link--active: var(--color-accent);
 
-    background-color: var(--color-bg);
-    color: var(--color-fg);
+    background-color: var(--color-background);
+    color: var(--color-primary);
     font-size: 100%;
 }
 

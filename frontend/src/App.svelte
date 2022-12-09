@@ -56,7 +56,9 @@
     border: none;
     outline: none;
     margin: 4px 16px;
+    padding: 6px 16px;
     color: var(--color-link);
+    transition: color 0.25s linear;
   }
 
   nav button.link.active {
