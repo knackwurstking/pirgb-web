@@ -1,8 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { navigate } from "svelte-routing";
+
+  export let navigate;
 
   onMount(() => {
-    navigate("/sections");
+    if (navigate) navigate("/sections");
   });
 </script>

@@ -37,7 +37,7 @@
       <Route path="/sections" component={Sections} />
       <Route path="/groups" component={Groups} />
       <Route path="/settings" component={Settings} />
-      <Route path="/" component={Home} />
+      <Route path="/"><Home {navigate} /></Route>
     </div>
   </Router>
 </main>
