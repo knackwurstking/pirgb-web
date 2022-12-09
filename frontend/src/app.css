@@ -7,4 +7,9 @@
 
     background-color: var(--color-bg);
     color: var(--color-fg);
+    font-size: 100%;
+}
+
+body {
+    font-size: 1rem;
 }

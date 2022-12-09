@@ -44,7 +44,7 @@
 
 <style>
   nav {
-    height: 50px;
+    height: calc(1rem + 25px);
     display: flex;
     place-items: center;
     justify-content: flex-end;
