@@ -1,5 +1,5 @@
 <script>
-  import { Router, Route, links, navigate as _navigate } from "svelte-routing";
+  import { Router, Route, links, navigate as svelteNavigate } from "svelte-routing";
 
   import Home from "./pages/Home.svelte";
   import Sections from "./pages/Sections.svelte";
@@ -10,7 +10,7 @@
 
   /** @param {string} url */
   function navigate(url) {
-    _navigate((currentUrl = url));
+    svelteNavigate((currentUrl = url));
   }
 </script>
 
