@@ -1,5 +1,10 @@
 <script>
-  import { Router, Route, links, navigate as svelteNavigate } from "svelte-routing";
+  import {
+    Router,
+    Route,
+    links,
+    navigate as svelteNavigate,
+  } from "svelte-routing";
 
   import Home from "./pages/Home.svelte";
   import Sections from "./pages/Sections.svelte";
@@ -20,18 +25,18 @@
       <button
         class="link"
         class:active={currentUrl === "/sections"}
-        on:click={() => navigate("/sections")}
-      >Home</button>
+        on:click={() => navigate("/sections")}>Home</button
+      >
       <button
         class="link"
         class:active={currentUrl === "/groups"}
-        on:click={() => navigate("/groups")}
-      >Groups</button>
+        on:click={() => navigate("/groups")}>Groups</button
+      >
       <button
         class="link"
         class:active={currentUrl === "/settings"}
-        on:click={() => navigate("/settings")}
-      >Settings</button>
+        on:click={() => navigate("/settings")}>Settings</button
+      >
     </nav>
     <div>
       <Route path="/sections" component={Sections} />
