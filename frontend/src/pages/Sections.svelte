@@ -1,9 +1,28 @@
 <script>
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
+  //import {  } from "svelte-heros-v2";
+
+  import events from "../lib/events";
+
+  /** @param {CustomEvent<DeviceEvent>} ev */
+  const onOnline = (ev) => {
+    // TODO: request sections
+  };
+
+  /** @param {CustomEvent<ChangeEvent>} ev */
+  const onChange = (ev) => {
+    // TODO: update sections data?
+  };
 
   onMount(() => {
-    console.log("/sections");
-    // TODO: request sections from backend
+    // TODO: read sections from cache
+    events.addEventListener("online", onOnline);
+    events.addEventListener("change", onChange);
+  });
+
+  onDestroy(() => {
+    events.removeEventListener("online", onOnline);
+    events.removeEventListener("change", onChange);
   });
 </script>
 
