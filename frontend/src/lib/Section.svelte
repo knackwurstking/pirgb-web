@@ -18,6 +18,10 @@
 
 <style>
   div.section {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin: 8px 0;
     border: 1px solid red;
     width: 100%;
   }

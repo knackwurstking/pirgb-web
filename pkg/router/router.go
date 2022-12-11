@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/middleware"
 )
 
@@ -91,8 +90,6 @@ func (h *RegexRouter) handleRoute(route *Route, w http.ResponseWriter, r *http.R
 		return
 	}
 
-	log.Debug.Printf("handle route: %+v (%+v)", r.URL, route)
-
 	if strings.TrimRight(route.Pattern, "/") == strings.TrimRight(r.URL.Path, "/") {
 		route.Handler.ServeHTTP(w, r)
 		return true
@@ -105,8 +102,6 @@ func (h *RegexRouter) handleRegexRoute(route *Route, w http.ResponseWriter, r *h
 	if !route.IsRegex() {
 		return
 	}
-
-	log.Debug.Printf("handle regex route: %+v (%+v)", r.URL, route)
 
 	if match = route.RegexPattern.MatchString(r.URL.Path); match {
 		route.Handler.ServeHTTP(w, r)

@@ -38,7 +38,7 @@
         on:click={() => navigate("/settings")}>Settings</button
       >
     </nav>
-    <div>
+    <div class="container">
       <Route path="/sections" component={Sections} />
       <Route path="/groups" component={Groups} />
       <Route path="/settings" component={Settings} />

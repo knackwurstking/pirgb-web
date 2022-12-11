@@ -57,12 +57,17 @@
     // ...
   };
 
-  onMount(() => {
-    events.addEventListener("open", onOpen);
+  onMount(async () => {
     events.addEventListener("close", onClose);
     events.addEventListener("online", onOnline);
     events.addEventListener("offline", onOffline);
     events.addEventListener("change", onChange);
+
+    try {
+      await onOpen()
+    } finally {
+      events.addEventListener("open", onOpen);
+    }
   });
 
   onDestroy(() => {
@@ -74,7 +79,7 @@
   });
 </script>
 
-<div class="sections-list">
+<li class="sections-list">
   {#each devices as device}
     <div class="device">
       {#each device.sections as section}
@@ -88,10 +93,10 @@
       {/each}
     </div>
   {/each}
-</div>
+</li>
 
 <style>
-  div.sections-list {
+  li.sections-list {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -99,5 +104,11 @@
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
+  }
+
+  div.device {
+    position: relative;
+    width: 60px;
+    margin: 0 8px;
   }
 </style>
