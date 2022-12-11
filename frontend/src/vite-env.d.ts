@@ -18,10 +18,12 @@ interface Section {
   pins?: Pin[];
 }
 
+type Sections = Section[];
+
 interface Device {
   host: string;
   port: number;
-  sections: Section[];
+  sections: Sections;
   groups: string[];
 }
 
