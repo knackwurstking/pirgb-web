@@ -55,7 +55,25 @@
   /** @param {CustomEvent<ChangeEvent>} event */
   const onChange = async (event) => {
     console.log(`wss: change`, event);
-    // TODO: update section data for host:port and sectionId
+
+    const change = event.detail;
+    for (const device of devices) {
+      if (device.host !== change.host || device.port !== change.port) {
+        continue
+      }
+
+      for (const section of device.sections) {
+        if (section.id === change.id) {
+          if (section.element) {
+            // update section 
+            section.element.color = change.color;
+            section.element.pulse = change.pulse;
+            section.element.lastPulse = change.lastPulse;
+            section.element.online = true;
+          }
+        }
+      }
+    }
   };
 
   onMount(async () => {
