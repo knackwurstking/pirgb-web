@@ -42,19 +42,20 @@
 
   /** @param {CustomEvent<DeviceEvent>} event */
   const onOnline = async (event) => {
-    console.log(`wss: online`);
-    console.log("devcies:", devices);
+    console.log(`wss: online`, event);
+    // TODO: ...
   };
 
   /** @param {CustomEvent<DeviceEvent>} event */
   const onOffline = async (event) => {
-    console.log(`wss: offline`);
+    console.log(`wss: offline`, event);
+    // TODO: ...
   };
 
   /** @param {CustomEvent<ChangeEvent>} event */
   const onChange = async (event) => {
-    console.log(`wss: change`);
-    // ...
+    console.log(`wss: change`, event);
+    // TODO: ...
   };
 
   onMount(async () => {
