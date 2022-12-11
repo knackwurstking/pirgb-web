@@ -7,11 +7,17 @@ export default defineConfig({
   plugins: [svelte(), VitePWA({ registerType: "autoUpdate" })],
   server: {
     proxy: {
-      "/api/v1": {
+      "/api/v1/devices": {
         target: "https://localhost:50831",
         changeOrigin: true,
         secure: false,
-      }
-    }
-  }
+      },
+      "/api/v1/events": {
+        target: "https://localhost:50831",
+        ws: true,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

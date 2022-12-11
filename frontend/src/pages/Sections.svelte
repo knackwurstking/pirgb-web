@@ -6,13 +6,15 @@
 
   import events from "../lib/events";
 
-  /** @type {Sections} */
-  let sections = [];
+  /** @type {Devices} */
+  let devices = [];
 
   /** @type {boolean} */
   let open = false;
 
   const onOpen = async () => {
+    console.log(`wss: open`);
+
     open = true;
     const resp = await fetch("/api/v1/devices");
 
@@ -30,32 +32,28 @@
       return;
     }
 
-    // parse sections
-    const _sections = [];
-
-    for (const device of respData) {
-      _sections.push(...device.sections);
-    }
-
-    sections = _sections;
+    devices = respData;
   };
 
   const onClose = async () => {
+    console.log(`wss: close`);
     open = false;
   };
 
   /** @param {CustomEvent<DeviceEvent>} event */
   const onOnline = async (event) => {
-    // ...
+    console.log(`wss: online`);
+    console.log("devcies:", devices);
   };
 
   /** @param {CustomEvent<DeviceEvent>} event */
   const onOffline = async (event) => {
-    // ...
+    console.log(`wss: offline`);
   };
 
   /** @param {CustomEvent<ChangeEvent>} event */
   const onChange = async (event) => {
+    console.log(`wss: change`);
     // ...
   };
 
@@ -77,8 +75,18 @@
 </script>
 
 <div class="sections-list">
-  {#each sections as section}
-    <Section {section} {open} />
+  {#each devices as device}
+    <div class="device">
+      {#each device.sections as section}
+        <Section
+          bind:this={section.element}
+          host={device.host}
+          port={device.port}
+          {section}
+          {open}
+        />
+      {/each}
+    </div>
   {/each}
 </div>
 

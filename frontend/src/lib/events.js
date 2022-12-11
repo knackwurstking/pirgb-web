@@ -50,10 +50,7 @@ export class GlobalEvents extends EventTarget {
 
   /** Connect to server: "/api/events" */
   connect() {
-    if (this.ws) {
-      this.ws.close();
-    }
-
+    if (this.ws) this.ws.close();
     if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout);
     this.heartbeatState = 0;
 
@@ -73,7 +70,7 @@ export class GlobalEvents extends EventTarget {
       console.log("[events] onclose");
       clearTimeout(this._heartbeatTimeout);
 
-      this.ws.close();
+      if (this.ws) this.ws.close();
       this.ws = null;
 
       this.dispatchCustomEvent("close", null);

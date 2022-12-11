@@ -1,4 +1,9 @@
 <script>
+  /** @type {string} */
+  export let host;
+  /** @type {number} */
+  export let port;
+
   /** @type {Section} */
   export let section;
 

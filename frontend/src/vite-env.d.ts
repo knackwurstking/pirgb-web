@@ -16,6 +16,7 @@ interface Section {
   lastPulse?: number;
   color?: number[];
   pins?: Pin[];
+  element?: any;
 }
 
 type Sections = Section[];

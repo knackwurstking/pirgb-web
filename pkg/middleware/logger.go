@@ -9,7 +9,7 @@ import (
 
 // Logger - endpoint logger
 func Logger(h http.HandlerFunc) http.HandlerFunc {
-	log := func(w *ResponseWriter, r *http.Request, start time.Time) {
+	logger := func(w *ResponseWriter, r *http.Request, start time.Time) {
 		log.Info.Printf("%-6s %s from %s - %d %s - %s",
 			r.Method, r.URL.Path, r.RemoteAddr,
 			w.Status, http.StatusText(w.Status),
@@ -18,7 +18,7 @@ func Logger(h http.HandlerFunc) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ww := GetCachedResponse(w)
-		defer log(ww, r, time.Now())
+		defer logger(ww, r, time.Now())
 
 		h.ServeHTTP(ww, r)
 	}

@@ -1,7 +1,12 @@
 // Package middleware provides middleware for the net/http module.
 package middleware
 
-import "net/http"
+import (
+	"bufio"
+	"errors"
+	"net"
+	"net/http"
+)
 
 var (
 	// Cache stores all created ResponseWriter objects
@@ -23,6 +28,14 @@ func NewResponseWriter(responseWriter http.ResponseWriter) *ResponseWriter {
 
 	Cache = append(Cache, w)
 	return w
+}
+
+func (w *ResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+	h, ok := w.ResponseWriter.(http.Hijacker)
+	if !ok {
+		return nil, nil, errors.New("hijack not supported")
+	}
+	return h.Hijack()
 }
 
 // WriteHeader overwrites the default WriteHeader method to keep track of the status code
