@@ -22,7 +22,7 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          pulse: section.lastPulse || 100,
+          pulse: section.pulse || section.lastPulse || 100,
         }),
       }
     );
@@ -55,11 +55,11 @@
 <div class="section" class:open class:online>
   <h3>{host}:{port} [ID: {section.id}]</h3>
   <pre>Color: {section.color}</pre>
-  <pre>Pulse: {section.pulse}</pre>
+  <pre>Pulse: {section.pulse || 100}</pre>
   <pre>Last Pulse: {section.lastPulse}</pre>
   <div class="actions">
-    <button class="off" on:click={toggleOn}>OFF</button>
-    <button class="on" on:click={toggleOff}>ON</button>
+    <button class="off" on:click={toggleOff}>OFF</button>
+    <button class="on" on:click={toggleOn}>ON</button>
   </div>
 </div>
 
