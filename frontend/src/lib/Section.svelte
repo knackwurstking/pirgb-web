@@ -64,7 +64,7 @@
 <div class="section" class:open class:online>
   <h3>{host}:{port} [ID: {sectionId}]</h3>
   <pre>Color: {color}</pre>
-  <pre>Pulse: {pulse || 100}</pre>
+  <pre>Pulse: {pulse || 0}</pre>
   <pre>Last Pulse: {lastPulse}</pre>
   <div class="actions">
     <button class="off" on:click={toggleOff} disabled={!online}>OFF</button>
