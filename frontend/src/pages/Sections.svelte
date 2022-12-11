@@ -55,7 +55,7 @@
   /** @param {CustomEvent<ChangeEvent>} event */
   const onChange = async (event) => {
     console.log(`wss: change`, event);
-    // TODO: ...
+    // TODO: update section data for host:port and sectionId
   };
 
   onMount(async () => {
