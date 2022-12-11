@@ -88,8 +88,12 @@
           bind:this={section.element}
           host={device.host}
           port={device.port}
-          {section}
+          sectionId={section.id}
+          color={section.color}
+          pulse={section.pulse}
+          lastPulse={section.lastPulse}
           {open}
+          online={true}
         />
       {/each}
     </div>
