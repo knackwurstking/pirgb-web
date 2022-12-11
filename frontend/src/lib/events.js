@@ -54,7 +54,8 @@ export class GlobalEvents extends EventTarget {
     if (this._heartbeatTimeout) clearTimeout(this._heartbeatTimeout);
     this.heartbeatState = 0;
 
-    this.ws = new WebSocket(`wss://${location.host}/api/v1/events`);
+    // TODO: change this in production
+    this.ws = new WebSocket(`wss://localhost:50831/api/v1/events`);
 
     this.ws.onopen = () => {
       console.log("[events] onopen");
