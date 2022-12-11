@@ -12,12 +12,6 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      "/api/v1/events": {
-        target: "https://localhost:50831",
-        ws: true,
-        changeOrigin: true,
-        secure: false,
-      },
     },
   },
 });
