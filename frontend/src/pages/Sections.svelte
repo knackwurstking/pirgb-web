@@ -1,6 +1,5 @@
 <script>
     import { onMount, onDestroy } from "svelte";
-    //import {  } from "svelte-heros-v2";
 
     import Section from "../lib/Section.svelte";
 
@@ -69,6 +68,7 @@
                 section.element.pulse = event.detail.pulse;
                 section.element.lastPulse = event.detail.lastPulse;
                 section.element.online = true;
+                section.element.pins = event.detail.pins;
             }
         }
     };
@@ -125,6 +125,7 @@
                     color={section.color}
                     pulse={section.pulse}
                     lastPulse={section.lastPulse}
+                    pins={section.pins}
                     {open}
                     online={true}
                 />
