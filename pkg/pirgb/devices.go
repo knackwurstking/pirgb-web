@@ -172,6 +172,7 @@ func (device *Device) GetPWM(sectionID int) error {
 	// set data to section
 	section.Pulse = pulse
 	section.Color = color
+	section.Pins = sectionData.Pins
 
 	return nil
 }
