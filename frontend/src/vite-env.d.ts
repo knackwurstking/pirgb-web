@@ -10,7 +10,7 @@ interface Pin {
   isRunning: boolean;
 }
 
-interface Section {
+interface SectionData {
   id: number;
   pulse?: number;
   lastPulse?: number;
@@ -19,7 +19,7 @@ interface Section {
   element?: any;
 }
 
-type Sections = Section[];
+type Sections = SectionData[];
 
 interface Device {
   host: string;
