@@ -12,8 +12,6 @@
     let open = false;
 
     const onOpen = async () => {
-        console.log(`wss: open`);
-
         open = true;
         const resp = await fetch("/api/v1/devices");
 
@@ -35,25 +33,36 @@
     };
 
     const onClose = async () => {
-        console.log(`wss: close`);
         open = false;
     };
 
     /** @param {CustomEvent<DeviceEvent>} event */
     const onOnline = async (event) => {
-        console.log(`wss: online`, event);
-        // TODO: ...
+        console.log(`[Sections] online`, event.detail);
+
+        const sections = getSections(event.detail.host, event.detail.port);
+        for (const section of sections) {
+            if (section.element && !section.element.online) {
+                section.element.online = true;
+            }
+        }
     };
 
     /** @param {CustomEvent<DeviceEvent>} event */
     const onOffline = async (event) => {
-        console.log(`wss: offline`, event);
-        // TODO: ...
+        console.log(`[Sections] offline`, event.detail);
+
+        const sections = getSections(event.detail.host, event.detail.port);
+        for (const section of sections) {
+            if (section.element && section.element.online) {
+                section.element.online = false;
+            }
+        }
     };
 
     /** @param {CustomEvent<ChangeEvent>} event */
     const onChange = async (event) => {
-        console.log(`wss: change`, event);
+        console.log(`[Sections] change`, event.detail);
 
         const section = getSection(
             event.detail.host,
@@ -89,6 +98,20 @@
         }
 
         return null;
+    }
+
+    /**
+     * @param {string} host
+     * @param {number} port
+     * @returns {SectionData[]}
+     */
+    function getSections(host, port) {
+        const result = [];
+        for (const device of devices) {
+            if (device.host === host && device.port === port)
+                result.push(...device.sections);
+        }
+        return result;
     }
 
     onMount(async () => {

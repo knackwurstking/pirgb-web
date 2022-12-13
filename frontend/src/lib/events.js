@@ -122,7 +122,7 @@ export class GlobalEvents extends EventTarget {
     this.ws.send("heartbeat");
     this._heartbeatTimeout = setTimeout(
       this.heartbeat.bind(this),
-      this.heartbeatTimeoutValue
+      this.heartbeatTimeoutValue,
     );
   }
 
