@@ -6,10 +6,9 @@ import (
 	"net/http"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
-	v1 "github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
+	"github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
 	"github.com/knackwurstking/pirgb-web/internal/controllers/fileserver"
 	"github.com/knackwurstking/pirgb-web/internal/events"
-
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/router"
 
@@ -26,7 +25,9 @@ func init() {
 	flag.Parse()
 
 	// Add server to the alice config.json
-	aliceConfig.SetServer(&aliceConfig.Server{Name: constants.ApplicationName, Port: constants.Config.Port})
+	aliceConfig.SetServer(
+		&aliceConfig.Server{Name: constants.ApplicationName, Port: constants.Config.Port},
+	)
 	go startDeviceScan()
 }
 
