@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script>
-    import {} from "svelte-heros-v2";
+    //import {} from "svelte-heros-v2";
 
     /** @type {string} */
     export let host;
