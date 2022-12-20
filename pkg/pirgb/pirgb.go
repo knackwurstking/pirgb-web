@@ -47,8 +47,9 @@ type BaseEvent[T Events] struct {
 
 // DeviceEvent - device is "online", "offline"
 type DeviceEvent struct { // Used for "offline" and "online" events
-	Host string `json:"host"`
-	Port int    `json:"port"`
+	Host   string `json:"host"`
+	Port   int    `json:"port"`
+	Online bool   `json:"online"`
 }
 
 // ChangeEvent - device (section) pwm state changed

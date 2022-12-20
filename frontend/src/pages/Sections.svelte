@@ -149,8 +149,8 @@
                     pulse={section.pulse}
                     lastPulse={section.lastPulse}
                     pins={section.pins}
+                    online={!!device.online}
                     {open}
-                    online={true}
                 />
             {/each}
         </div>

@@ -3,6 +3,7 @@ package events
 import (
 	"context"
 
+	"github.com/knackwurstking/pirgb-web/internal/constants"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
@@ -59,9 +60,11 @@ func (g *global) Dispatch(eventName string, data any) {
 			Data: data.(pirgb.ChangeEvent),
 		})
 	case EventNameOnline, EventNameOffline:
+		data := data.(pirgb.DeviceEvent)
+		constants.Config.Devices.Get(data.Host).Online = eventName == EventNameOnline
 		dispatchEvent(eventName, pirgb.BaseEvent[pirgb.DeviceEvent]{
 			Name: eventName,
-			Data: data.(pirgb.DeviceEvent),
+			Data: data,
 		})
 	default:
 		log.Error.Fatalf("Unknown event name \"%s\"", eventName)

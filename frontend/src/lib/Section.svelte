@@ -65,6 +65,8 @@
     }
 </script>
 
+<!-- TODO: online indicator -->
+
 <div class="section" class:open class:online>
     <h3>
         <span style="color: var(--color-accent);">{host}</span>:{port} [ID:
@@ -107,6 +109,10 @@
 
     div.section.open {
         --color-section-border: var(--color-border);
+    }
+
+    div.section:not(.online) {
+        --color-section-border: rgba(255, 255, 0, 0.75);
     }
 
     div.section h3 {

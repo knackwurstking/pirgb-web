@@ -26,6 +26,7 @@ interface Device {
   port: number;
   sections: Sections;
   groups: string[];
+  online: boolean;
 }
 
 type Devices = Device[];

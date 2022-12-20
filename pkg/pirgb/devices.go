@@ -45,6 +45,7 @@ func (d *Devices) ScanDevice(device *Device, wg *sync.WaitGroup) {
 	log.Debug.Printf("scan device \"%s\"", url)
 
 	resp, err := http.Get(url)
+	device.Online = err == nil
 	if err != nil {
 		log.Error.Printf("%s: %s", url, err.Error())
 		device.Sections = make([]*Section, 0)
@@ -90,6 +91,7 @@ func (d *Devices) Get(host string) *Device {
 type Device struct {
 	Host     string     `json:"host"`
 	Port     int        `json:"port"`
+	Online   bool       `json:"online"`
 	Sections []*Section `json:"sections"`
 	Groups   []string   `json:"groups"`
 }
