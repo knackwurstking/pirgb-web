@@ -18,6 +18,7 @@
     export let lastPulse;
     /** @type {Pin[]} */
     export let pins;
+    $: console.log("pins:", pins);
 
     /** @type {boolean} */
     export let open = false;
@@ -77,7 +78,7 @@
         <pre>Pulse: {pulse || 0}</pre>
     </section>
     <section class="info-pins">
-        {#each pins as pin}
+        {#each (pins || []) as pin}
             <section class="pin">
                 <code>Pin:{pin.pin}</code>
                 <code>Pulse:{pin.pulse}</code>
