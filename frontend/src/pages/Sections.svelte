@@ -63,7 +63,6 @@
     /** @param {CustomEvent<ChangeEvent>} event */
     const onChange = async (event) => {
         console.log(`[Sections] change`, event.detail);
-        // FIX: Missing pins data?
 
         const section = getSection(
             event.detail.host,

@@ -18,7 +18,6 @@
     export let lastPulse;
     /** @type {Pin[]} */
     export let pins;
-    $: console.log("pins:", pins);
 
     /** @type {boolean} */
     export let open = false;

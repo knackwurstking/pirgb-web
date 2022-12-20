@@ -16,29 +16,6 @@ var (
 	Global global
 )
 
-func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
-	dispatch := func(client *Client) {
-		ctx, cancel := context.WithTimeout(client.Context,
-			time.Duration(time.Second*5))
-		defer cancel()
-
-		err := wsjson.Write(ctx, client.Conn, data)
-		if err == nil {
-			return
-		}
-
-		// wsjson write error handling
-		defer client.Conn.Close(websocket.StatusAbnormalClosure,
-			websocket.StatusAbnormalClosure.String())
-		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
-		Global.RemoveClientAddr(client.Addr)
-	}
-
-	for _, client := range Global.Register {
-		go dispatch(client)
-	}
-}
-
 func Start() {
 	var changeEvents []*EventHandler[pirgb.Section]
 
@@ -58,18 +35,6 @@ func Start() {
 	for _, changeEvent := range Global.ChangeEvents {
 		changeEvent.Start()
 	}
-}
-
-func changeEventHandler(
-	device *pirgb.Device,
-	section *pirgb.Section,
-) *EventHandler[pirgb.Section] {
-	changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)
-	changeEvent.OnEvent = append(changeEvent.OnEvent, func(event pirgb.Section) {
-		onChangeEventHandler(event, device, section)
-	})
-
-	return changeEvent
 }
 
 func onChangeEventHandler(event pirgb.Section, device *pirgb.Device, section *pirgb.Section) {
@@ -100,6 +65,42 @@ func onChangeEventHandler(event pirgb.Section, device *pirgb.Device, section *pi
 			Pulse:     section.Pulse,
 			LastPulse: section.LastPulse,
 			Color:     section.Color,
+			Pins:      section.Pins,
 		},
 	})
+}
+
+func changeEventHandler(
+	device *pirgb.Device,
+	section *pirgb.Section,
+) *EventHandler[pirgb.Section] {
+	changeEvent := NewChangeEventHandler(device.Host, device.Port, section.ID)
+	changeEvent.OnEvent = append(changeEvent.OnEvent, func(event pirgb.Section) {
+		onChangeEventHandler(event, device, section)
+	})
+
+	return changeEvent
+}
+
+func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
+	dispatch := func(client *Client) {
+		ctx, cancel := context.WithTimeout(client.Context,
+			time.Duration(time.Second*5))
+		defer cancel()
+
+		err := wsjson.Write(ctx, client.Conn, data)
+		if err == nil {
+			return
+		}
+
+		// wsjson write error handling
+		defer client.Conn.Close(websocket.StatusAbnormalClosure,
+			websocket.StatusAbnormalClosure.String())
+		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
+		Global.RemoveClientAddr(client.Addr)
+	}
+
+	for _, client := range Global.Register {
+		go dispatch(client)
+	}
 }

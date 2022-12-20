@@ -19,11 +19,11 @@ type PWM struct {
 }
 
 type Section struct {
-	ID        int   `json:"id"`
-	Pulse     int   `json:"pulse,omitempty"`
-	LastPulse int   `json:"lastPulse,omitempty"`
-	Color     []int `json:"color,omitempty"`
-	Pins      []Pin `json:"pins,omitempty"`
+	ID        int    `json:"id"`
+	Pulse     int    `json:"pulse,omitempty"`
+	LastPulse int    `json:"lastPulse,omitempty"`
+	Color     []int  `json:"color,omitempty"`
+	Pins      []*Pin `json:"pins,omitempty"`
 }
 
 type Pin struct {
