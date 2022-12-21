@@ -2,6 +2,7 @@
 
 <script>
     //import {} from "svelte-heros-v2";
+    import StatusLED from "./StatusLED.svelte";
 
     /** @type {string} */
     export let host;
@@ -59,7 +60,7 @@
 
         if (!resp.ok) {
             console.warn(
-                `toggle "${host}/${sectionId}" on failed: ${resp.status} (${resp.statusText})`
+                `toggle "${host}/${sdddddddddddctionId}" on failed: ${resp.status} (${resp.statusText})`
             );
         }
     }
@@ -68,6 +69,7 @@
 <!-- TODO: online indicator -->
 
 <div class="section" class:open class:online>
+    <StatusLED active={online} />
     <h3>
         <span style="color: var(--color-accent);">{host}</span>:{port} [ID:
         <span style="color: var(--color-accent);">{sectionId}</span>]
