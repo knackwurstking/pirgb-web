@@ -67,7 +67,13 @@
 </script>
 
 <div class="section" class:open class:online>
-    <StatusLED active={online} />
+    <StatusLED
+        style={`
+            top: 8px;
+            left: 8px;
+        `}
+        active={online}
+    />
 
     <h3>
         <span style="color: var(--color-accent);">{host}</span>:{port} [ID:
