@@ -60,26 +60,27 @@
 
         if (!resp.ok) {
             console.warn(
-                `toggle "${host}/${sdddddddddddctionId}" on failed: ${resp.status} (${resp.statusText})`
+                `toggle "${host}/${sectionId}" on failed: ${resp.status} (${resp.statusText})`
             );
         }
     }
 </script>
 
-<!-- TODO: online indicator -->
-
 <div class="section" class:open class:online>
     <StatusLED active={online} />
+
     <h3>
         <span style="color: var(--color-accent);">{host}</span>:{port} [ID:
         <span style="color: var(--color-accent);">{sectionId}</span>]
     </h3>
+
     <section class="info">
         <pre>Color: {color}</pre>
         <pre>Pulse: {pulse || 0}</pre>
     </section>
+
     <section class="info-pins">
-        {#each (pins || []) as pin}
+        {#each pins || [] as pin}
             <section class="pin">
                 <code>Pin:{pin.pin}</code>
                 <code>Pulse:{pin.pulse}</code>
@@ -90,6 +91,7 @@
             </section>
         {/each}
     </section>
+
     <div class="actions">
         <button class="off" on:click={toggleOff} disabled={!online}>OFF</button>
         <button class="on" on:click={toggleOn} disabled={!online}>ON</button>

@@ -4,9 +4,7 @@
     export let inactiveColor = "red";
 </script>
 
-<div class="status-led-container" class:active>
-
-</div>
+<div class="status-led-container" class:active />
 
 <style>
     /* TODO: inactive styles */
