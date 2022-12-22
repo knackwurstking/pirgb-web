@@ -12,6 +12,7 @@
     import Settings from "./pages/Settings.svelte";
 
     let currentUrl = location.pathname;
+    let open = false;
 
     /** @param {string} url */
     function navigate(url) {
@@ -22,6 +23,8 @@
 <main use:links>
     <Router>
         <nav>
+            <!-- TODO: status indicator for connection open/close -->
+
             <button
                 class="link"
                 class:active={currentUrl === "/sections"}
@@ -39,7 +42,9 @@
             >
         </nav>
         <div class="container">
-            <Route path="/sections" component={Sections} />
+            <Route path="/sections">
+                <Sections bind:open />
+            </Route>
             <Route path="/groups" component={Groups} />
             <Route path="/settings" component={Settings} />
             <Route path="/"><Home {navigate} /></Route>

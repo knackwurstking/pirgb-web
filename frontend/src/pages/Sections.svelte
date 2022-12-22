@@ -9,7 +9,7 @@
     let devices = [];
 
     /** @type {boolean} */
-    let open = false;
+    export let open = false;
 
     const onOpen = async () => {
         open = true;
