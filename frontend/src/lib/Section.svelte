@@ -99,9 +99,15 @@
     </section>
 
     <div class="actions">
-        <button class="off" on:click={toggleOff} disabled={!online}>OFF</button>
-        <button class="on" on:click={toggleOn} disabled={!online}>ON</button>
-        <input type="number" bind:value={inputPulse} />
+        <div class="row color">
+            <!-- TODO: Add color (rgbw) inputs -->
+        </div>
+
+        <div class="row pulse">
+            <button class="off" on:click={toggleOff} disabled={!online}>OFF</button>
+            <button class="on" on:click={toggleOn} disabled={!online}>ON</button>
+            <input type="number" bind:value={inputPulse} />
+        </div>
     </div>
 </div>
 
@@ -147,27 +153,27 @@
     div.section div.actions {
         padding: 4px 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
     }
 
     /* actions section */
-
-    div.section div.actions button.on,
-    div.section div.actions button.off {
+    div.section div.actions .row.pulse button.on,
+    div.section div.actions .row.pulse button.off {
         width: 10ch;
         height: 4ch;
         margin: 4px 8px;
     }
 
-    div.section div.actions button.off {
+    div.section div.actions .row.pulse button.off {
         background: rgba(255, 0, 0, 0.9);
     }
 
-    div.section div.actions button.on {
+    div.section div.actions .row.pulse button.on {
         background: rgba(0, 255, 0, 0.9);
     }
 
-    div.section div.actions input {
+    div.section div.actions .row input {
         width: 8ch;
         height: 4ch;
         margin: 4px 8px;
