@@ -23,11 +23,10 @@
         height: calc(1rem + 8px);
     }
 
-    .status-led--outer.active .status-led--inner {
+    .status-led--outer .status-led--inner {
         border-radius: 50%;
         width: 100%;
         height: 100%;
         filter: blur(0.125rem);
-        /* TODO: pulse animation blur value up and down */
     }
 </style>

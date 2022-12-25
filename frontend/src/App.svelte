@@ -11,6 +11,8 @@
     import Groups from "./pages/Groups.svelte";
     import Settings from "./pages/Settings.svelte";
 
+    import StatusLED from "./lib/StatusLED.svelte";
+
     let currentUrl = location.pathname;
     let open = false;
 
@@ -24,6 +26,7 @@
     <Router>
         <nav>
             <!-- TODO: status indicator for connection open/close -->
+            <StatusLED bind:active={open} />
 
             <button
                 class="link"

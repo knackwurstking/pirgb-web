@@ -101,12 +101,16 @@
     <div class="actions">
         <div class="row color">
             <!-- TODO: Add color (rgbw) inputs -->
-            <b>@ToDo:</b> <i>Color Picker:</i> &#x3c;R&#x3e; &#x3c;G&#x3e; &#x3c;B&#x3e; &#x3c;W&#x3e;
+            <b>@ToDo:</b> <i>Color Picker:</i> &#x3c;R&#x3e; &#x3c;G&#x3e; &#x3c;B&#x3e;
+            &#x3c;W&#x3e;
         </div>
 
         <div class="row pulse">
-            <button class="off" on:click={toggleOff} disabled={!online}>OFF</button>
-            <button class="on" on:click={toggleOn} disabled={!online}>ON</button>
+            <button class="off" on:click={toggleOff} disabled={!online}
+                >OFF</button
+            >
+            <button class="on" on:click={toggleOn} disabled={!online}>ON</button
+            >
             <input type="number" bind:value={inputPulse} />
         </div>
     </div>
@@ -114,7 +118,7 @@
 
 <style>
     div.section {
-        --color-section-border: rgba(255, 0, 0, 0.75);
+        --color-section-border: var(--color-border);
         position: relative;
         width: 100%;
         height: fit-content;
@@ -122,14 +126,6 @@
         border: 1px solid var(--color-section-border);
         width: 100%;
         text-align: center;
-    }
-
-    div.section.open {
-        --color-section-border: var(--color-border);
-    }
-
-    div.section:not(.online) {
-        --color-section-border: rgba(255, 255, 0, 0.75);
     }
 
     div.section h3 {
