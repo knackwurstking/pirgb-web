@@ -11,8 +11,7 @@
     /** @type {boolean} */
     export let open = false;
 
-    const onOpen = async () => {
-        open = true;
+    async function fetchDevices() {
         const resp = await fetch("/api/v1/devices");
 
         if (!resp.ok) {
@@ -30,6 +29,11 @@
         }
 
         devices = respData;
+    }
+
+    const onOpen = async () => {
+        open = true;
+        fetchDevices();
     };
 
     const onClose = async () => {
@@ -121,7 +125,7 @@
         events.addEventListener("change", onChange);
 
         try {
-            await onOpen();
+            await fetchDevices();
         } finally {
             events.addEventListener("open", onOpen);
         }
