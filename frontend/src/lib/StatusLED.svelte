@@ -4,7 +4,11 @@
     export let inactiveColor = "red";
 </script>
 
-<div class="status-led--outer" class:active {...$$restProps}>
+<div
+    class={"status-led--outer" + ($$props.class ? " " + $$props.class : "")}
+    class:active
+    {...$$restProps}
+>
     <div
         style={`
             background-color: ${active ? activeColor : inactiveColor};

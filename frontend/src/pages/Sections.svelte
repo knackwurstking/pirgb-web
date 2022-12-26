@@ -11,26 +11,6 @@
     /** @type {boolean} */
     export let open = false;
 
-    async function fetchDevices() {
-        const resp = await fetch("/api/v1/devices");
-
-        if (!resp.ok) {
-            console.warn(
-                `request devices from "${resp.url}" failed with ${resp.status} (${resp.statusText})`
-            );
-            return;
-        }
-
-        /** @type {Devices} */
-        const respData = await resp.json();
-        if (!Array.isArray(respData)) {
-            console.warn(`unexpected data returned from ${resp.url}`);
-            return;
-        }
-
-        devices = respData;
-    }
-
     const onOpen = async () => {
         open = true;
         fetchDevices();
@@ -85,6 +65,26 @@
             }
         }
     };
+
+    async function fetchDevices() {
+        const resp = await fetch("/api/v1/devices");
+
+        if (!resp.ok) {
+            console.warn(
+                `request devices from "${resp.url}" failed with ${resp.status} (${resp.statusText})`
+            );
+            return;
+        }
+
+        /** @type {Devices} */
+        const respData = await resp.json();
+        if (!Array.isArray(respData)) {
+            console.warn(`unexpected data returned from ${resp.url}`);
+            return;
+        }
+
+        devices = respData;
+    }
 
     /**
      * @param {string} host
