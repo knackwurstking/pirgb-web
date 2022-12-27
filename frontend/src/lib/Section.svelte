@@ -26,6 +26,16 @@
     /** @type {boolean} */
     export let online = false;
 
+    /* Color values */
+    /** @type {number} */
+    export let cR = 255;
+    /** @type {number} */
+    export let cG = 255;
+    /** @type {number} */
+    export let cB = 255;
+    /** @type {number} */
+    export let cW = 255;
+
     /** @type {number} */
     let inputPulse = pulse || lastPulse || 100;
 
@@ -100,11 +110,10 @@
 
     <div class="actions">
         <div class="row color">
-            <!-- TODO: Adding current rgbw color values -->
-            <input type="number" placeholder="R" />
-            <input type="number" placeholder="G" />
-            <input type="number" placeholder="G" />
-            <input type="number" placeholder="W" />
+            <input type="number" bind:value={cR} min={0} max={255} placeholder="R" />
+            <input type="number" bind:value={cG} min={0} max={255} placeholder="G" />
+            <input type="number" bind:value={cB} min={0} max={255} placeholder="B" />
+            <input type="number" bind:value={cW} min={0} max={255} placeholder="W" />
         </div>
 
         <div class="row pulse">
