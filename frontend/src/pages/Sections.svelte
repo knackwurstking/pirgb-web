@@ -126,6 +126,7 @@
 
         try {
             await fetchDevices();
+            open = true;
         } finally {
             events.addEventListener("open", onOpen);
         }

@@ -26,7 +26,7 @@
     <Router>
         <nav>
             <div class="left">
-                <StatusLED bind:active={open} />
+                <StatusLED active={open} />
             </div>
 
             <div class="right">
