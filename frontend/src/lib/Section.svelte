@@ -134,6 +134,12 @@
 
     /* info section */
 
+    div.section section.info-pins {
+        width: calc(100% - 16px);
+        position: relative;
+        left: 8px;
+    }
+
     div.section section.info-pins section.pin {
         border-bottom: 1px solid var(--color-section-border);
     }
