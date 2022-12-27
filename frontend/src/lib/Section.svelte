@@ -100,9 +100,11 @@
 
     <div class="actions">
         <div class="row color">
-            <!-- TODO: Add color (rgbw) inputs -->
-            <b>@ToDo:</b> <i>Color Picker:</i> &#x3c;R&#x3e; &#x3c;G&#x3e; &#x3c;B&#x3e;
-            &#x3c;W&#x3e;
+            <!-- TODO: Adding current rgbw color values -->
+            <input type="number" placeholder="R" />
+            <input type="number" placeholder="G" />
+            <input type="number" placeholder="G" />
+            <input type="number" placeholder="W" />
         </div>
 
         <div class="row pulse">
