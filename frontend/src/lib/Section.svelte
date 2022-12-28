@@ -28,13 +28,13 @@
 
     /* Color values */
     /** @type {number} */
-    export let cR = 255;
+    export let cR = color[0] || 0;
     /** @type {number} */
-    export let cG = 255;
+    export let cG = color[1] || 0;
     /** @type {number} */
-    export let cB = 255;
+    export let cB = color[2] || 0;
     /** @type {number} */
-    export let cW = 255;
+    export let cW = color[3] || 0;
 
     /** @type {number} */
     let inputPulse = pulse || lastPulse || 100;
@@ -47,6 +47,7 @@
             },
             body: JSON.stringify({
                 pulse: inputPulse || pulse || lastPulse || 100,
+                color: { r: cR, g: cG, b: cB, w: cW },
             }),
         });
 
@@ -108,27 +109,27 @@
         {/each}
     </section>
 
-    <div class="actions">
-        <div class="row color">
+    <section class="actions">
+        <section class="row color">
             <input type="number" bind:value={cR} min={0} max={255} placeholder="R" />
             <input type="number" bind:value={cG} min={0} max={255} placeholder="G" />
             <input type="number" bind:value={cB} min={0} max={255} placeholder="B" />
             <input type="number" bind:value={cW} min={0} max={255} placeholder="W" />
-        </div>
+        </section>
 
-        <div class="row pulse">
+        <section class="row pulse">
             <button class="off" on:click={toggleOff} disabled={!online}
                 >OFF</button
             >
             <button class="on" on:click={toggleOn} disabled={!online}>ON</button
             >
             <input type="number" bind:value={inputPulse} />
-        </div>
-    </div>
+        </section>
+    </section>
 </div>
 
 <style>
-    div.section {
+    .section {
         --color-section-border: var(--color-border);
         position: relative;
         width: 100%;
@@ -139,32 +140,32 @@
         text-align: center;
     }
 
-    div.section h3 {
+    .section h3 {
         text-decoration: underline;
     }
 
     /* info section */
 
-    div.section section.info-pins {
+    .section .info-pins {
         width: calc(100% - 16px);
         position: relative;
         left: 8px;
     }
 
-    div.section section.info-pins section.pin {
+    .section .info-pins section.pin {
         border-bottom: 1px solid var(--color-section-border);
     }
 
-    div.section section.info-pins section.pin:first-child {
+    .section .info-pins section.pin:first-child {
         border-top: 1px solid var(--color-section-border);
     }
 
-    div.section section.info-pins section.pin code {
+    .section .info-pins section.pin code {
         font-size: 0.85rem;
         font-style: italic;
     }
 
-    div.section div.actions {
+    .section .actions {
         padding: 4px 0;
         display: flex;
         flex-direction: column;
@@ -172,22 +173,22 @@
     }
 
     /* actions section */
-    div.section div.actions .row.pulse button.on,
-    div.section div.actions .row.pulse button.off {
+    .section .actions .row.pulse button.on,
+    .section .actions .row.pulse button.off {
         width: 10ch;
         height: 4ch;
         margin: 4px 8px;
     }
 
-    div.section div.actions .row.pulse button.off {
+    .section .actions .row.pulse button.off {
         background: rgba(255, 0, 0, 0.9);
     }
 
-    div.section div.actions .row.pulse button.on {
+    .section .actions .row.pulse button.on {
         background: rgba(0, 255, 0, 0.9);
     }
 
-    div.section div.actions .row input {
+    .section .actions .row input {
         width: 8ch;
         height: 4ch;
         margin: 4px 8px;
