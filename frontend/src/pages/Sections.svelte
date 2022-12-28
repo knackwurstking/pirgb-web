@@ -154,7 +154,7 @@
                     pulse={section.pulse}
                     lastPulse={section.lastPulse}
                     pins={section.pins}
-                    online={!!device.online}
+                    online={!!device.online && open}
                     {open}
                 />
             {/each}
