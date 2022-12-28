@@ -95,7 +95,7 @@
         <pre>Color: <span
         style={`color: rgb(${color.slice(0, 3).join(",")}); font-weight: bolder;`}
         >{color}</span></pre>
-        <pre>Pulse: {pulse || 0}</pre>
+        <pre>Pulse: <span style="font-weight: bolder;">{pulse || 0}</span></pre>
     </section>
 
     <section class="info-pins">
