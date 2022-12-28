@@ -101,7 +101,7 @@
     <section class="info-pins">
         {#each pins || [] as pin}
             <section class="pin">
-                <code><span>Pin:</span> <span>{pin.pin}</span></code>
+                <code><span>pin:</span> <span>{pin.pin}</span></code>
                 <code><span>colorPulse:</span> <span>{pin.colorPulse}</span></code>
                 <code><span>isRunning:</span> <span>{pin.isRunning}</span></code>
             </section>
