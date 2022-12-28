@@ -7,7 +7,7 @@ import (
 	"regexp"
 
 	"github.com/knackwurstking/pirgb-web/frontend"
-	"github.com/knackwurstking/pirgb-web/pkg/router"
+	"github.com/knackwurstking/pirgb-web/internal/router"
 )
 
 var FS = frontend.GetFS()

@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/knackwurstking/pirgb-web/pkg/router"
+	"github.com/knackwurstking/pirgb-web/internal/router"
 )
 
 var DistDir = filepath.Join("frontend", "dist")

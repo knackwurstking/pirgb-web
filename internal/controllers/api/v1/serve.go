@@ -4,7 +4,7 @@ import (
 	"regexp"
 
 	"github.com/knackwurstking/pirgb-web/internal/controllers/api/v1/handler"
-	"github.com/knackwurstking/pirgb-web/pkg/router"
+	"github.com/knackwurstking/pirgb-web/internal/router"
 )
 
 func ServeApi(pattern string, mux *router.RegexRouter) *router.RegexRouter {

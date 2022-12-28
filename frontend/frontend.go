@@ -11,6 +11,6 @@ import (
 var dist embed.FS
 
 func GetFS() http.FileSystem {
-	fs, _ := fs.Sub(dist, "dist")
-	return http.FS(fs)
+	_fs, _ := fs.Sub(dist, "dist")
+	return http.FS(_fs)
 }

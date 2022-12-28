@@ -6,11 +6,11 @@ import (
 	"net/http"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
-	"github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
+	v1 "github.com/knackwurstking/pirgb-web/internal/controllers/api/v1"
 	"github.com/knackwurstking/pirgb-web/internal/controllers/fileserver"
 	"github.com/knackwurstking/pirgb-web/internal/events"
+	"github.com/knackwurstking/pirgb-web/internal/router"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
-	"github.com/knackwurstking/pirgb-web/pkg/router"
 
 	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )

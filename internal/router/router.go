@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/knackwurstking/pirgb-web/pkg/middleware"
+	"github.com/knackwurstking/pirgb-web/internal/middleware"
 )
 
 type Route struct {
@@ -102,6 +102,11 @@ func (h *RegexRouter) handleRegexRoute(route *Route, w http.ResponseWriter, r *h
 	if !route.IsRegex() {
 		return
 	}
+
+	// NOTE: just testing
+	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/sections")
+	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/groups")
+	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/settings")
 
 	if match = route.RegexPattern.MatchString(r.URL.Path); match {
 		route.Handler.ServeHTTP(w, r)
