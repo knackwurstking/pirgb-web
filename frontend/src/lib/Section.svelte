@@ -101,12 +101,9 @@
     <section class="info-pins">
         {#each pins || [] as pin}
             <section class="pin">
-                <code>Pin:{pin.pin}</code>
-                <code>Pulse:{pin.pulse}</code>
-                <code>Range:{pin.range}</code>
-                <code>isRunning:{pin.isRunning}</code>
-                <code>colorPulse:{pin.colorPulse}</code>
-                <code>colorValue:{pin.colorValue}</code>
+                <code><span>Pin:</span> <span>{pin.pin}</span></code>
+                <code><span>colorPulse:</span> <span>{pin.colorPulse}</span></code>
+                <code><span>isRunning:</span> <span>{pin.isRunning}</span></code>
             </section>
         {/each}
     </section>
@@ -191,6 +188,31 @@
     .section .info-pins section.pin code {
         font-size: 0.85rem;
         font-style: italic;
+        display: inline-block;
+        width: 10ch;
+        text-align: left;
+        margin: 4px 0.25ch;
+    }
+
+    .section .info-pins section.pin code:nth-child(1) {
+        width: 9ch;
+    }
+
+    .section .info-pins section.pin code:nth-child(2) {
+        width: 17ch;
+    }
+
+    .section .info-pins section.pin code:nth-child(3) {
+        width: 18ch;
+    }
+
+    .section .info-pins section.pin code span:first-child {
+        text-decoration: underline;
+        font-style: italic;
+    }
+
+    .section .info-pins section.pin code span:last-child {
+        font-weight: bolder;
     }
 
     .section .actions {
