@@ -20,6 +20,8 @@ func Logger(h http.HandlerFunc) http.HandlerFunc {
 		ww := GetCachedResponse(w)
 		defer logger(ww, r, time.Now())
 
-		h.ServeHTTP(ww, r)
+		if ww.Status != http.StatusUnauthorized {
+			h.ServeHTTP(ww, r)
+		}
 	}
 }

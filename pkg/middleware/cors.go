@@ -8,6 +8,9 @@ import (
 func CORS(h http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ww := GetCachedResponse(w)
+		if ww.Status == http.StatusUnauthorized {
+			return
+		}
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
