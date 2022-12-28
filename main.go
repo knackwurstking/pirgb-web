@@ -17,7 +17,7 @@ import (
 
 func init() {
 	// load config
-	constants.LoadConfig()
+	_ = constants.LoadConfig()
 
 	flag.StringVar(&constants.Config.Host, "host", constants.Config.Host, "whatever ...")
 	flag.IntVar(&constants.Config.Port, "port", constants.Config.Port, "port to bind the server to")
