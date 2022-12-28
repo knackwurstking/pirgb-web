@@ -12,7 +12,7 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      "wss://localhost:5173/api/v1/events": {
+      "wss://localhost:50831/api/v1/events": {
         target: "wss://localhost:50831",
         ws: true,
       },
