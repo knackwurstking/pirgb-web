@@ -54,6 +54,7 @@ func onChangeEventHandler(event pirgb.Section, device *pirgb.Device, section *pi
 	}
 	section.Pulse = pulse
 	section.Color = color
+	section.Pins = event.Pins
 
 	go Global.Dispatch(EventNameChange, pirgb.ChangeEvent{
 		DeviceEvent: pirgb.DeviceEvent{
