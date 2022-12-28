@@ -141,14 +141,9 @@
         </section>
 
         <section class="row pulse">
-            <button class="off" on:click={toggleOff} disabled={!online}
-                >OFF</button
-            >
-
+            <button class="off" on:click={toggleOff}>OFF</button>
             <input type="number" bind:value={inputPulse} />
-
-            <button class="on" on:click={toggleOn} disabled={!online}>ON</button
-            >
+            <button class="on" on:click={toggleOn}>ON</button>
         </section>
     </section>
 </div>
