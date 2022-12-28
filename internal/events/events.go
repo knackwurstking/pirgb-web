@@ -1,14 +1,7 @@
 package events
 
 import (
-	"context"
-	"time"
-
-	"nhooyr.io/websocket"
-	"nhooyr.io/websocket/wsjson"
-
 	"github.com/knackwurstking/pirgb-web/internal/constants"
-	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
 
@@ -16,6 +9,7 @@ var (
 	Global global
 )
 
+// Start is the entry point (will take data from `constants.Config.Devices`)
 func Start() {
 	var changeEvents []*EventHandler[pirgb.Section]
 
@@ -81,27 +75,4 @@ func changeEventHandler(
 	})
 
 	return changeEvent
-}
-
-func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
-	dispatch := func(client *Client) {
-		ctx, cancel := context.WithTimeout(client.Context,
-			time.Duration(time.Second*5))
-		defer cancel()
-
-		err := wsjson.Write(ctx, client.Conn, data)
-		if err == nil {
-			return
-		}
-
-		// wsjson write error handling
-		defer client.Conn.Close(websocket.StatusAbnormalClosure,
-			websocket.StatusAbnormalClosure.String())
-		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
-		Global.RemoveClientAddr(client.Addr)
-	}
-
-	for _, client := range Global.Register {
-		go dispatch(client)
-	}
 }

@@ -2,11 +2,13 @@ package events
 
 import (
 	"context"
+	"time"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 	"nhooyr.io/websocket"
+	"nhooyr.io/websocket/wsjson"
 )
 
 type Client struct {
@@ -68,5 +70,28 @@ func (g *global) Dispatch(eventName string, data any) {
 		})
 	default:
 		log.Error.Fatalf("Unknown event name \"%s\"", eventName)
+	}
+}
+
+func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
+	dispatch := func(client *Client) {
+		ctx, cancel := context.WithTimeout(client.Context,
+			time.Duration(time.Second*5))
+		defer cancel()
+
+		err := wsjson.Write(ctx, client.Conn, data)
+		if err == nil {
+			return
+		}
+
+		// wsjson write error handling
+		defer client.Conn.Close(websocket.StatusAbnormalClosure,
+			websocket.StatusAbnormalClosure.String())
+		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
+		Global.RemoveClientAddr(client.Addr)
+	}
+
+	for _, client := range Global.Register {
+		go dispatch(client)
 	}
 }
