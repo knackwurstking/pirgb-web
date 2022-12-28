@@ -11,8 +11,6 @@ import (
 	"github.com/knackwurstking/pirgb-web/internal/events"
 	"github.com/knackwurstking/pirgb-web/internal/router"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
-
-	aliceConfig "github.com/knackwurstking/alice/pkg/config"
 )
 
 func init() {
@@ -24,10 +22,6 @@ func init() {
 
 	flag.Parse()
 
-	// Add server to the alice config.json
-	aliceConfig.SetServer(
-		&aliceConfig.Server{Name: constants.ApplicationName, Port: constants.Config.Port},
-	)
 	go startDeviceScan()
 }
 
