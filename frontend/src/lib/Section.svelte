@@ -159,7 +159,7 @@
         position: relative;
         width: 100%;
         height: fit-content;
-        margin: 8px 0;
+        margin: 10px 0;
         border: 1px solid var(--color-section-border);
         width: 100%;
         text-align: center;

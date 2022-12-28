@@ -168,15 +168,17 @@
         display: flex;
         flex-direction: column;
         place-items: center;
-        overflow-x: hidden;
-        overflow-y: auto;
-        scroll-behavior: smooth;
     }
 
     div.device {
         position: relative;
         width: calc(100% - 16px);
         margin: 0 8px;
+        padding: 8px;
         border-bottom: 1px solid var(--color-border);
+    }
+
+    div.device:last-child {
+        border-bottom: none;
     }
 </style>

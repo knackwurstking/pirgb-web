@@ -59,6 +59,10 @@
 </main>
 
 <style>
+    :global(body) {
+        scroll-behavior: smooth;
+    }
+
     nav {
         height: calc(1rem + 25px);
         display: flex;
