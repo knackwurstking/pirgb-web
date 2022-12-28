@@ -1,22 +1,41 @@
 :root {
-    --color-background: rgba(0, 0, 0, 1);
-    --color-primary: rgba(255, 255, 255, 0.85);
-    --color-accent: rgba(0, 255, 0, 0.85);
+  --color-background: rgba(0, 0, 0, 1);
+  --color-primary: rgba(255, 255, 255, 0.85);
+  --color-accent: rgba(0, 255, 0, 0.85);
 
-    --color-link: rgba(255, 255, 255, 0.85);
-    --color-link--active: var(--color-accent);
+  --color-link: rgba(255, 255, 255, 0.85);
+  --color-link--active: var(--color-accent);
 
-    --color-border: rgba(255, 255, 255, 0.35);
+  --color-border: rgba(255, 255, 255, 0.35);
 
-    background-color: var(--color-background);
-    color: var(--color-primary);
-    font-size: 100%;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  font-size: 100%;
 }
 
 body {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input {
+  padding: 8px;
+  text-align: center;
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  display: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

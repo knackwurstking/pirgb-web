@@ -216,20 +216,9 @@
         background: rgba(0, 255, 0, 0.9);
     }
 
-    .section .actions .row input {
+    .section .actions .row input[type="number"] {
         width: 6ch;
         height: 4ch;
         margin: 4px 8px;
-        background: transparent;
-        color: var(--color-primary);
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        display: none;
-    }
-
-    input[type="number"] {
-        -moz-appearance: textfield;
     }
 </style>
