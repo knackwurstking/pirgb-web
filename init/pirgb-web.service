@@ -3,8 +3,8 @@ Description=Web server (with ui) for control the pirgb-server
 After=network.target
 
 [Service]
-WorkingDirectory=%h/pirgb-web/
-ExecStart=%h/pirgb-web/pirgb-web
+WorkingDirectory=%h/src/pirgb-web/
+ExecStart=%h/src/pirgb-web/pirgb-web
 
 [Install]
 WantedBy=multi-user.target
