@@ -47,7 +47,7 @@
             },
             body: JSON.stringify({
                 pulse: inputPulse || pulse || lastPulse || 100,
-                color: { r: cR, g: cG, b: cB, w: cW },
+                color: [cR, cG, cB, cW],
             }),
         });
 
@@ -92,7 +92,9 @@
     </h3>
 
     <section class="info">
-        <pre>Color: {color}</pre>
+        <pre>Color: <span
+        style={`color: rgb(${color.slice(0, 3).join(",")}); font-weight: bolder;`}
+        >{color}</span></pre>
         <pre>Pulse: {pulse || 0}</pre>
     </section>
 
@@ -111,19 +113,45 @@
 
     <section class="actions">
         <section class="row color">
-            <input type="number" bind:value={cR} min={0} max={255} placeholder="R" />
-            <input type="number" bind:value={cG} min={0} max={255} placeholder="G" />
-            <input type="number" bind:value={cB} min={0} max={255} placeholder="B" />
-            <input type="number" bind:value={cW} min={0} max={255} placeholder="W" />
+            <input
+                type="number"
+                bind:value={cR}
+                min={0}
+                max={255}
+                placeholder="R"
+            />
+            <input
+                type="number"
+                bind:value={cG}
+                min={0}
+                max={255}
+                placeholder="G"
+            />
+            <input
+                type="number"
+                bind:value={cB}
+                min={0}
+                max={255}
+                placeholder="B"
+            />
+            <input
+                type="number"
+                bind:value={cW}
+                min={0}
+                max={255}
+                placeholder="W"
+            />
         </section>
 
         <section class="row pulse">
             <button class="off" on:click={toggleOff} disabled={!online}
                 >OFF</button
             >
+
+            <input type="number" bind:value={inputPulse} />
+
             <button class="on" on:click={toggleOn} disabled={!online}>ON</button
             >
-            <input type="number" bind:value={inputPulse} />
         </section>
     </section>
 </div>
@@ -189,10 +217,19 @@
     }
 
     .section .actions .row input {
-        width: 8ch;
+        width: 6ch;
         height: 4ch;
         margin: 4px 8px;
         background: transparent;
         color: var(--color-primary);
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        display: none;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
     }
 </style>
