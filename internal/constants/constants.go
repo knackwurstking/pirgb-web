@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/knackwurstking/pirgb-web/internal/middleware"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 )
 
@@ -16,9 +17,13 @@ const (
 )
 
 var (
-	ApplicationName = "pirgb-web"
-	VendorName      = "knackwurstking"
+	ApplicationName string = "pirgb-web"
+	VendorName      string = "knackwurstking"
 	Config          *config
+	User            *middleware.User = &middleware.User{
+		Name:     os.Getenv("AUTH_USERNAME"),
+		Password: os.Getenv("AUTH_PASSWORD"),
+	}
 )
 
 func LoadConfig() error {

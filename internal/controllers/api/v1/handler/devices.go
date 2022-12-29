@@ -59,19 +59,19 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// "/api/v1/devices/"
 	case path == "" || path == "/":
-		middleware.Authorization(h.handler)(w, r)
+		middleware.Authorization(h.handler, constants.User)(w, r)
 
 	// "/api/v1/devices/:device/:section/pwm"
 	case h.RegexDeviceSectionPWM.MatchString(path):
-		middleware.Authorization(h.handlerDeviceSectionPWM)(w, r)
+		middleware.Authorization(h.handlerDeviceSectionPWM, constants.User)(w, r)
 
 	// "/api/v1/devices/:device/:section"
 	case h.RegexDeviceSection.MatchString(path):
-		middleware.Authorization(h.handlerDeviceSection)(w, r)
+		middleware.Authorization(h.handlerDeviceSection, constants.User)(w, r)
 
 	// "/api/v1/devices/:device"
 	case h.RegexDevice.MatchString(path):
-		middleware.Authorization(h.handlerDevice)(w, r)
+		middleware.Authorization(h.handlerDevice, constants.User)(w, r)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
