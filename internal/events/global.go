@@ -53,7 +53,7 @@ func (g *global) RemoveClientAddr(addr string) {
 
 // Dispatch event with data ("change"|"online"|"offline")
 func (g *global) Dispatch(eventName string, data any) {
-	log.Debug.Printf("dispatch \"%s\" event (%#v)", eventName, data)
+	log.Debug.Printf("dispatch \"%s\" event %T", eventName, data)
 
 	switch eventName {
 	case EventNameChange:
@@ -87,7 +87,7 @@ func dispatchEvent[T pirgb.Events](name string, data pirgb.BaseEvent[T]) {
 		// wsjson write error handling
 		defer client.Conn.Close(websocket.StatusAbnormalClosure,
 			websocket.StatusAbnormalClosure.String())
-		log.Warn.Printf("%s: %s [%+v]", name, err, client.Conn)
+		log.Warn.Printf("%s: %s [%#v]", name, err, client.Conn)
 		Global.RemoveClientAddr(client.Addr)
 	}
 

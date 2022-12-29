@@ -24,17 +24,17 @@ func init() {
 
 	RegexDevice, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/?$`)
 	if err != nil {
-		log.Error.Panicln(err)
+		log.Error.Panicln(err.Error())
 	}
 
 	RegexDeviceSection, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/([0-9]{1})/?$`)
 	if err != nil {
-		log.Error.Panicln(err)
+		log.Error.Panicln(err.Error())
 	}
 
 	RegexDeviceSectionPWM, err = regexp.Compile(`.*/([a-zA-z0-9-_]{1,})/([0-9]{1})/pwm/?$`)
 	if err != nil {
-		log.Error.Panicln(err)
+		log.Error.Panicln(err.Error())
 	}
 }
 

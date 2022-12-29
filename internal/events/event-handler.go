@@ -57,7 +57,7 @@ func NewChangeEventHandler(
 }
 
 func (ev *EventHandler[T]) Connect() error {
-	log.Debug.Printf("connect (%+v)", ev)
+	log.Debug.Printf("connect to %s:%d", ev.Host, ev.Port)
 
 	conn, _, err := websocket.Dial(
 		context.Background(),
@@ -76,7 +76,7 @@ func (ev *EventHandler[T]) Connect() error {
 }
 
 func (ev *EventHandler[T]) reconnect() {
-	log.Debug.Printf("reconnect invoked (%+v)", ev)
+	log.Debug.Printf("reconnect invoked %s:%d", ev.Host, ev.Port)
 
 	var err error
 
@@ -98,7 +98,7 @@ func (ev *EventHandler[T]) Start() {
 		return
 	}
 
-	log.Debug.Printf("starting event handler (%+v)", ev)
+	log.Debug.Printf("starting event handler %s:%d", ev.Host, ev.Port)
 	_ = ev.Connect()
 
 	ev.WaitGroup.Add(1)
@@ -106,7 +106,7 @@ func (ev *EventHandler[T]) Start() {
 }
 
 func (ev *EventHandler[T]) Stop() {
-	log.Debug.Printf("stopping event handler (%+v)", ev)
+	log.Debug.Printf("stopping event handler %s:%d", ev.Host, ev.Port)
 	ev.Done <- struct{}{}
 	ev.WaitGroup.Wait()
 }
@@ -124,7 +124,7 @@ func (ev *EventHandler[T]) Handler() {
 	go ev.readHandler()
 
 	<-ev.Done
-	log.Debug.Printf("EXIT Handler (%+v)", ev)
+	log.Debug.Printf("EXIT Handler %s:%d", ev.Host, ev.Port)
 }
 
 func (ev *EventHandler[T]) readHandler() {
@@ -148,12 +148,11 @@ func (ev *EventHandler[T]) readHandler() {
 	var err error
 	var data T
 	for {
-		log.Debug.Printf("wait for (JSON) data (%+v)", ev)
+		log.Debug.Printf("wait for (JSON) data %s:%d", ev.Host, ev.Port)
 
 		err = wsjson.Read(context.Background(), ev.Conn, &data)
 		if err != nil {
 			log.Warn.Printf("trouble while reading from device: %s", err.Error())
-			log.Debug.Printf("error type: %T", err)
 			break
 		}
 
@@ -163,7 +162,7 @@ func (ev *EventHandler[T]) readHandler() {
 }
 
 func (ev *EventHandler[T]) Dispatch(data T) {
-	log.Debug.Printf("dispatch event (%+v)", ev)
+	log.Debug.Printf("dispatch event %s:%d", ev.Host, ev.Port)
 
 	for _, handler := range ev.OnEvent {
 		go handler(data)

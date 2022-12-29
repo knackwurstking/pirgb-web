@@ -25,7 +25,7 @@ func Events(w http.ResponseWriter, r *http.Request) {
 	for {
 		msgType, msg, err := conn.Read(r.Context())
 		if err != nil {
-			log.Warn.Printf("Connection read error: \"%s\", %T", err.Error(), err)
+			log.Warn.Printf("Connection read error: \"%s\"", err.Error())
 			return
 		}
 
