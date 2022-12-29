@@ -1,4 +1,6 @@
-# pirgb-web (v0.1.0) - Out of Date
+> This README is out-of-date
+
+# pirgb-web
 
 Client side web server, controls the [pirgb-server](http://gitlab.com/knackwurstking/pirgb-server.git).
 
