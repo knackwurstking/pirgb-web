@@ -1,2 +1,3 @@
 /pirgb-web
-/cert.*
+/cert.pem
+/cert-key.pem
