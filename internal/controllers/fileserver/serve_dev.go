@@ -10,11 +10,18 @@ import (
 	"github.com/knackwurstking/pirgb-web/internal/router"
 )
 
-var DistDir = filepath.Join("frontend", "dist")
+var (
+	DistDir          = filepath.Join("frontend", "dist")
+	Routes  []string = []string{
+		"/sections",
+		"/groups",
+		"/settings",
+	}
+)
 
 func ServeFiles(pattern string, mux *router.RegexRouter) *router.RegexRouter {
 	rePattern, _ := regexp.Compile(pattern + "(.*)")
-	mux.HandleRegEx(rePattern, http.FileServer(http.Dir(DistDir)))
+	mux.HandleRegEx(rePattern, http.FileServer(http.Dir(DistDir)), Routes...)
 
 	return mux
 }

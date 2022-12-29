@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/knackwurstking/pirgb-web/internal/constants"
+	"github.com/knackwurstking/pirgb-web/internal/middleware"
 	"github.com/knackwurstking/pirgb-web/pkg/log"
 	"github.com/knackwurstking/pirgb-web/pkg/pirgb"
 )
@@ -58,19 +59,19 @@ func (h *DeviceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// "/api/v1/devices/"
 	case path == "" || path == "/":
-		h.handler(w, r)
+		middleware.Authorization(h.handler)(w, r)
 
 	// "/api/v1/devices/:device/:section/pwm"
 	case h.RegexDeviceSectionPWM.MatchString(path):
-		h.handlerDeviceSectionPWM(w, r)
+		middleware.Authorization(h.handlerDeviceSectionPWM)(w, r)
 
 	// "/api/v1/devices/:device/:section"
 	case h.RegexDeviceSection.MatchString(path):
-		h.handlerDeviceSection(w, r)
+		middleware.Authorization(h.handlerDeviceSection)(w, r)
 
 	// "/api/v1/devices/:device"
 	case h.RegexDevice.MatchString(path):
-		h.handlerDevice(w, r)
+		middleware.Authorization(h.handlerDevice)(w, r)
 
 	default:
 		w.WriteHeader(http.StatusNotFound)
