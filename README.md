@@ -6,7 +6,7 @@ and serving a simple ui for control.
 
 ## Getting Started
 
-> @todo how to install all this shit (including the [pirgb-server](https://github.com/knackwurstking/pirgb-server.git) projectg)
+> @todo how to install all this shit (including the [pirgb-server](https://github.com/knackwurstking/pirgb-server.git) project)
 
 ## Endpoints
 
