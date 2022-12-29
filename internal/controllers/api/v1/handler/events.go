@@ -9,6 +9,7 @@ import (
 )
 
 func Events(w http.ResponseWriter, r *http.Request) {
+	// TODO: don't use websockets any more - use something where the `r.BasicAuth` will work
 	conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
 		InsecureSkipVerify: true,
 	})
