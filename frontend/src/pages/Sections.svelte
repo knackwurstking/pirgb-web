@@ -67,7 +67,7 @@
     };
 
     async function fetchDevices() {
-        const resp = await fetch("/api/v1/devices");
+        const resp = await fetch("/api/v1/devices", { credentials: "include" });
 
         if (!resp.ok) {
             console.warn(
