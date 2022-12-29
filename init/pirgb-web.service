@@ -4,6 +4,8 @@ After=network.target
 
 [Service]
 WorkingDirectory=%h/src/pirgb-web/
+Environment=AUTH_USERNAME=
+Environment=AUTH_PASSWORD=
 ExecStart=%h/src/pirgb-web/pirgb-web
 
 [Install]
